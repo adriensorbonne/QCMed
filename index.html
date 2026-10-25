@@ -131,9 +131,6 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 .sec:hover{border-color:var(--accent)}
 .sec b{display:block;font-size:1.1rem;color:var(--accent);margin-bottom:4px}
 .sec span{color:var(--muted);font-size:.95rem}
-.pbar{height:12px;background:var(--soft);border-radius:999px;overflow:hidden;border:1px solid var(--line);margin:14px 0 8px}
-.pbar i{display:block;height:100%;width:0;background:var(--accent);transition:width .4s}
-.lk{font-size:.85em}
 @media (prefers-reduced-motion:no-preference){.view{animation:in .25s ease}@keyframes in{from{opacity:0}to{opacity:1}}}
 </style>
 </head>
@@ -151,7 +148,7 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <header><div class="bar">
 <div class="logo">QCM <span>B</span> · Maths</div>
 <nav aria-label="Navigation principale">
-<button data-tab="cours">Cours</button><button data-tab="exercices">Exercices</button><button data-tab="calculatrice"><span class="nl">Calculatrice</span><span class="ns">Calcul</span></button><button data-tab="programme">Programme</button><button data-tab="pdfs" id="navPdf">PDFs<span class="lk" aria-hidden="true"> 🔒</span></button>
+<button data-tab="cours">Cours</button><button data-tab="exercices">Exercices</button><button data-tab="calculatrice"><span class="nl">Calculatrice</span><span class="ns">Calcul</span></button><button data-tab="programme">Programme</button><button data-tab="pdfs" id="navPdf" class="hide">PDFs</button>
 </nav>
 <button class="theme" id="theme" aria-label="Changer de thème">Mode sombre</button>
 <button class="theme hide" id="logout"></button>
@@ -216,12 +213,6 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <section id="pdfs" class="view hide">
 <h1>Cours en PDF</h1>
 <p class="lead">Un PDF par chapitre, à télécharger pour réviser hors connexion ou à imprimer. Le fichier est généré à la demande, en quelques secondes.</p>
-<div class="card" id="pdfLock">
-<h2>Onglet verrouillé</h2>
-<p>Les PDF se débloquent après <b>15 minutes de présence</b> sur le site. Le temps est cumulé sur les trois sites (QCM B, Spé Maths B et Spé Maths A) : passer de l’un à l’autre ne remet pas le compteur à zéro. Il repart de zéro quand vous vous déconnectez des trois.</p>
-<div class="pbar" id="pbar" role="progressbar" aria-label="Temps de présence" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="pbarFill"></i></div>
-<p id="pdfLeft" style="margin:0;color:var(--muted)" role="timer">Temps restant : 15:00</p>
-</div>
 <div class="grid hide" id="pdfList"></div>
 </section>
 
@@ -618,7 +609,7 @@ var EXOS=[
 var $=function(s){return document.querySelector(s)};
 var curTab="",pos={};
 function setTab(t,push){
- if(["cours","exercices","programme","calculatrice","pdfs"].indexOf(t)<0)t="cours";if(t===curTab)return;pos[curTab]=window.scrollY;
+ if(["cours","exercices","programme","calculatrice","pdfs"].indexOf(t)<0)t="cours";if(t==="pdfs"&&!PDFOK)t="cours";if(t===curTab)return;pos[curTab]=window.scrollY;
  document.querySelectorAll(".view").forEach(function(v){v.classList.toggle("hide",v.id!==t)});
  document.querySelectorAll("nav button").forEach(function(b){if(b.dataset.tab===t)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
  if(push&&location.hash!=="#"+t)location.hash=t;
@@ -765,34 +756,34 @@ KEYS.forEach(function(k){var b=document.createElement("button");b.type="button";
  $("#keys").appendChild(b)});
 ci.addEventListener("keydown",function(e){if(e.key==="Enter")run()});
 /*PRES*/
-var KP="qcmed-presence",KS="qcmed-sessions",NEED=900000,GAP=30000,ACT=180000,SK=["qcmb-user","spema-user","spemb-user"],ptimer=null,TID,P0={ms:0,last:0,open:false};
+var KP="qcmed-presence",KS="qcmed-sessions",NEED=900000,GAP=30000,ACT=180000,SK=["qcmb-user","spema-user","spemb-user"],ptimer=null,TID,P0={ms:0,last:0,open:false},ADM=false,PDFOK=false;
 try{TID=sessionStorage.getItem("qcmed-tab");if(!TID){TID=Math.random().toString(36).slice(2);sessionStorage.setItem("qcmed-tab",TID)}}catch(e){TID="t"+Date.now()}
 function lg(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function ls(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
-function mmss(ms){var s=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
-function pupdate(S){var lk=!S.open;$("#pdfLock").classList.toggle("hide",!lk);$("#pdfList").classList.toggle("hide",lk);
- var l=document.querySelector("#navPdf .lk");if(l)l.classList.toggle("hide",!lk);$("#navPdf").setAttribute("aria-label",lk?"PDFs (verrouillé)":"PDFs");
- if(lk){var pc=Math.min(100,S.ms/NEED*100);$("#pbarFill").style.width=pc+"%";$("#pbar").setAttribute("aria-valuenow",Math.round(pc));$("#pdfLeft").textContent="Temps restant : "+mmss(NEED-S.ms)}}
+function pupdate(S){var ok=!!(S.open||ADM);PDFOK=ok;var n=$("#navPdf");if(n)n.classList.toggle("hide",!ok);$("#pdfList").classList.toggle("hide",!ok);
+ if(!ok&&curTab==="pdfs")setTab("cours",true)}
 function ptick(){var now=Date.now(),S=lg(KP,P0),ss=lg(KS,{});
  ss[TID]=now;for(var k in ss)if(now-ss[k]>ACT*4)delete ss[k];
  if(document.visibilityState==="visible"){if(S.last&&now>=S.last&&now-S.last<=GAP)S.ms+=now-S.last;S.last=now}
  if(S.ms>=NEED)S.open=true;
  ls(KS,ss);ls(KP,S);pupdate(S)}
-function pstart(){var now=Date.now(),ss=lg(KS,{}),S=lg(KP,P0),act=Object.keys(ss).some(function(k){return now-ss[k]<ACT});
+function pstart(){if(ADM){pupdate(P0);return}
+ var now=Date.now(),ss=lg(KS,{}),S=lg(KP,P0),act=Object.keys(ss).some(function(k){return now-ss[k]<ACT});
  if(!act&&S.last&&now-S.last>ACT)ls(KP,{ms:0,last:0,open:false});
  if(!ptimer)ptimer=setInterval(ptick,1000);ptick()}
-function pstop(){clearInterval(ptimer);ptimer=null;var other=false;try{other=SK.some(function(k){return sessionStorage.getItem(k)})}catch(e){}
+function pstop(){if(ADM)return;clearInterval(ptimer);ptimer=null;var other=false;try{other=SK.some(function(k){return sessionStorage.getItem(k)})}catch(e){}
  if(other)return;var now=Date.now(),ss=lg(KS,{});delete ss[TID];ls(KS,ss);
- if(!Object.keys(ss).some(function(k){return now-ss[k]<ACT})){var S={ms:0,last:0,open:false};ls(KP,S);pupdate(S)}}
+ if(!Object.keys(ss).some(function(k){return now-ss[k]<ACT})){ls(KP,{ms:0,last:0,open:false})}}
 window.addEventListener("storage",function(e){if(e.key===KP)pupdate(lg(KP,P0))});
 pupdate(lg(KP,P0));
 /*END*/
-var PH="00a9289487c52eb0367e7978bdeb0e3480d898a20e76320dff8390cd4cce4790",ALLOWED=[];
+var AH="c67e20d5be6d171d7b7fb94024191731fd87f5066a708612e7b5cabb6137a4dc",PH="00a9289487c52eb0367e7978bdeb0e3480d898a20e76320dff8390cd4cce4790",ALLOWED=[];
 async function sha(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("")}
 function norm(n){return n.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ")}
-function unlock(n){pstart();document.body.classList.remove("locked");var l=$("#logout");l.classList.remove("hide");l.textContent="Déconnexion";var sp=document.createElement("span");sp.className="nm";sp.textContent=" ("+n+")";l.appendChild(sp);window.scrollTo(0,0)}
-function lock(){pstop();document.body.classList.add("locked");$("#logout").classList.add("hide");$("#lu").value="";$("#lp").value="";$("#lu").focus()}
+function unlock(n,adm){ADM=!!adm;pstart();document.body.classList.remove("locked");var l=$("#logout");l.classList.remove("hide");l.textContent="Déconnexion";var sp=document.createElement("span");sp.className="nm";sp.textContent=" ("+n+")";l.appendChild(sp);window.scrollTo(0,0)}
+function lock(){pstop();ADM=false;pupdate(lg(KP,P0));document.body.classList.add("locked");$("#logout").classList.add("hide");$("#lu").value="";$("#lp").value="";$("#lu").focus()}
 async function login(){var u=$("#lu").value.trim(),p=$("#lp").value,e=$("#le");
+ try{if((await sha("qcmed-admin|"+p))===AH){e.textContent="";$("#lp").value="";try{sessionStorage.setItem("qcmb-user","Administrateur");sessionStorage.setItem("qcmb-user-adm","1")}catch(x){}unlock("Administrateur",true);return}}catch(x){}
  if(!/^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,40}$/.test(u)){e.textContent="Entrez votre prénom comme identifiant.";return}
  try{var ok=(await sha("qcmb|"+p))===PH;
   if(ok&&ALLOWED.length){ok=ALLOWED.indexOf(await sha("qcmb-id|"+norm(u)))>=0}
@@ -803,8 +794,8 @@ async function login(){var u=$("#lu").value.trim(),p=$("#lp").value,e=$("#le");
  unlock(u)}
 $("#lb").onclick=login;
 ["#lu","#lp"].forEach(function(s){$(s).addEventListener("keydown",function(e){if(e.key==="Enter")login()})});
-$("#logout").onclick=function(){try{sessionStorage.removeItem("qcmb-user")}catch(x){}lock()};
-try{var su=sessionStorage.getItem("qcmb-user");if(su)unlock(su);else $("#lu").focus()}catch(x){$("#lu").focus()}
+$("#logout").onclick=function(){try{sessionStorage.removeItem("qcmb-user");sessionStorage.removeItem("qcmb-user-adm")}catch(x){}lock()};
+try{var su=sessionStorage.getItem("qcmb-user");if(su)unlock(su,sessionStorage.getItem("qcmb-user-adm")==="1");else $("#lu").focus()}catch(x){$("#lu").focus()}
 var root=document.documentElement,tb=$("#theme");
 function dark(){var t=root.dataset.theme;return t?t==="dark":matchMedia("(prefers-color-scheme:dark)").matches}
 function label(){tb.textContent=dark()?"Mode clair":"Mode sombre"}

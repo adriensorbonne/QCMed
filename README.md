@@ -43,16 +43,6 @@ Rappel de la structure de l'épreuve et détail du programme de mathématiques, 
 
 L'onglet Cours propose deux liens vers des sections séparées, chacune dans son propre fichier : **Réviser la spé maths du B** (`SpeMathsB.html`) et **Réviser la spé maths du A** (`SpeMathsA.html`). Elles reprennent les mêmes onglets (Cours, Exercices, Calculatrice, Programme, PDFs). Chacune propose un lien « Retour au site QCM B ». Les trois fichiers doivent se trouver dans le même dossier.
 
-## Accès à l'onglet PDFs
-
-L'onglet **PDFs** est verrouillé tant que vous n'avez pas passé **15 minutes de présence** sur le site.
-
-- Le compteur est **partagé** entre les trois fichiers (`index.html`, `SpeMathsB.html`, `SpeMathsA.html`) : passer de l'un à l'autre ne le remet pas à zéro, et l'onglet se débloque sur les trois en même temps.
-- Il ne compte que lorsque vous êtes connecté et que l'onglet du navigateur est visible.
-- Il repart de zéro quand vous vous déconnectez de tous les sites, ou après quelques minutes sans aucune page ouverte.
-- Le partage repose sur le stockage local du navigateur : les trois fichiers doivent être servis depuis le **même domaine** (par exemple le même repository GitHub Pages).
-- Comme le reste du site, ce verrou fonctionne dans le navigateur et peut être contourné par un utilisateur averti.
-
 ## Confort d'utilisation
 
 - Mode clair et mode sombre (le choix est mémorisé).
