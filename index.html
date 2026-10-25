@@ -126,6 +126,11 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 .pdfdoc{position:fixed;left:-10000px;top:0;width:794px;padding:48px 56px 8px;background:#fff;color:#0b1e3d;--bg:#f5f9ff;--surface:#fff;--ink:#0b1e3d;--muted:#4a5f82;--line:#cfe0f7;--accent:#1456d6;--accent-ink:#fff;--soft:#e4eeff;--ok:#0d7a4a;--ko:#b3261e;font:17px/1.65 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
 .pdfdoc .sets div{background:#f1f6ff}
 .pdfdoc .pbrand{font-size:.8rem;color:#4a5f82;border-bottom:2px solid #1456d6;padding-bottom:8px;margin-bottom:18px;letter-spacing:.02em}
+.sections{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));margin:0 0 32px}
+.sec{display:block;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:18px 20px;min-height:44px}
+.sec:hover{border-color:var(--accent)}
+.sec b{display:block;font-size:1.1rem;color:var(--accent);margin-bottom:4px}
+.sec span{color:var(--muted);font-size:.95rem}
 @media (prefers-reduced-motion:no-preference){.view{animation:in .25s ease}@keyframes in{from{opacity:0}to{opacity:1}}}
 </style>
 </head>
@@ -165,6 +170,10 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <input id="mx" type="range" min="0" max="5" value="1">
 <small style="color:var(--muted)">Glissez pour voir la machine doubler les baguettes.</small>
 </div>
+</div>
+<div class="sections">
+<a class="sec" href="SpeMathsB.html"><b>Réviser la spé maths du B →</b><span>Programme de spécialité, cours, exercices et PDF.</span></a>
+<a class="sec" href="SpeMathsA.html"><b>Réviser la spé maths du A →</b><span>Programme de spécialité, cours, exercices et PDF.</span></a>
 </div>
 <div class="layout">
 <button type="button" class="tocbtn" id="tocBtn" aria-expanded="false" aria-controls="toc"><span id="tocLbl"></span><span aria-hidden="true">▾</span></button>
