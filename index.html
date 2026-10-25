@@ -131,6 +131,9 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 .sec:hover{border-color:var(--accent)}
 .sec b{display:block;font-size:1.1rem;color:var(--accent);margin-bottom:4px}
 .sec span{color:var(--muted);font-size:.95rem}
+.pbar{height:12px;background:var(--soft);border-radius:999px;overflow:hidden;border:1px solid var(--line);margin:14px 0 8px}
+.pbar i{display:block;height:100%;width:0;background:var(--accent);transition:width .4s}
+.lk{font-size:.85em}
 @media (prefers-reduced-motion:no-preference){.view{animation:in .25s ease}@keyframes in{from{opacity:0}to{opacity:1}}}
 </style>
 </head>
@@ -148,7 +151,7 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <header><div class="bar">
 <div class="logo">QCM <span>B</span> · Maths</div>
 <nav aria-label="Navigation principale">
-<button data-tab="cours">Cours</button><button data-tab="exercices">Exercices</button><button data-tab="calculatrice"><span class="nl">Calculatrice</span><span class="ns">Calcul</span></button><button data-tab="programme">Programme</button><button data-tab="pdfs">PDFs</button>
+<button data-tab="cours">Cours</button><button data-tab="exercices">Exercices</button><button data-tab="calculatrice"><span class="nl">Calculatrice</span><span class="ns">Calcul</span></button><button data-tab="programme">Programme</button><button data-tab="pdfs" id="navPdf">PDFs<span class="lk" aria-hidden="true"> 🔒</span></button>
 </nav>
 <button class="theme" id="theme" aria-label="Changer de thème">Mode sombre</button>
 <button class="theme hide" id="logout"></button>
@@ -213,7 +216,13 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <section id="pdfs" class="view hide">
 <h1>Cours en PDF</h1>
 <p class="lead">Un PDF par chapitre, à télécharger pour réviser hors connexion ou à imprimer. Le fichier est généré à la demande, en quelques secondes.</p>
-<div class="grid" id="pdfList"></div>
+<div class="card" id="pdfLock">
+<h2>Onglet verrouillé</h2>
+<p>Les PDF se débloquent après <b>15 minutes de présence</b> sur le site. Le temps est cumulé sur les trois sites (QCM B, Spé Maths B et Spé Maths A) : passer de l’un à l’autre ne remet pas le compteur à zéro. Il repart de zéro quand vous vous déconnectez des trois.</p>
+<div class="pbar" id="pbar" role="progressbar" aria-label="Temps de présence" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="pbarFill"></i></div>
+<p id="pdfLeft" style="margin:0;color:var(--muted)" role="timer">Temps restant : 15:00</p>
+</div>
+<div class="grid hide" id="pdfList"></div>
 </section>
 
 <section id="programme" class="view hide">
@@ -755,11 +764,34 @@ KEYS.forEach(function(k){var b=document.createElement("button");b.type="button";
   ci.setRangeText(c,st,en,"end")};
  $("#keys").appendChild(b)});
 ci.addEventListener("keydown",function(e){if(e.key==="Enter")run()});
+/*PRES*/
+var KP="qcmed-presence",KS="qcmed-sessions",NEED=900000,GAP=30000,ACT=180000,SK=["qcmb-user","spema-user","spemb-user"],ptimer=null,TID,P0={ms:0,last:0,open:false};
+try{TID=sessionStorage.getItem("qcmed-tab");if(!TID){TID=Math.random().toString(36).slice(2);sessionStorage.setItem("qcmed-tab",TID)}}catch(e){TID="t"+Date.now()}
+function lg(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function ls(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function mmss(ms){var s=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+function pupdate(S){var lk=!S.open;$("#pdfLock").classList.toggle("hide",!lk);$("#pdfList").classList.toggle("hide",lk);
+ var l=document.querySelector("#navPdf .lk");if(l)l.classList.toggle("hide",!lk);$("#navPdf").setAttribute("aria-label",lk?"PDFs (verrouillé)":"PDFs");
+ if(lk){var pc=Math.min(100,S.ms/NEED*100);$("#pbarFill").style.width=pc+"%";$("#pbar").setAttribute("aria-valuenow",Math.round(pc));$("#pdfLeft").textContent="Temps restant : "+mmss(NEED-S.ms)}}
+function ptick(){var now=Date.now(),S=lg(KP,P0),ss=lg(KS,{});
+ ss[TID]=now;for(var k in ss)if(now-ss[k]>ACT*4)delete ss[k];
+ if(document.visibilityState==="visible"){if(S.last&&now>=S.last&&now-S.last<=GAP)S.ms+=now-S.last;S.last=now}
+ if(S.ms>=NEED)S.open=true;
+ ls(KS,ss);ls(KP,S);pupdate(S)}
+function pstart(){var now=Date.now(),ss=lg(KS,{}),S=lg(KP,P0),act=Object.keys(ss).some(function(k){return now-ss[k]<ACT});
+ if(!act&&S.last&&now-S.last>ACT)ls(KP,{ms:0,last:0,open:false});
+ if(!ptimer)ptimer=setInterval(ptick,1000);ptick()}
+function pstop(){clearInterval(ptimer);ptimer=null;var other=false;try{other=SK.some(function(k){return sessionStorage.getItem(k)})}catch(e){}
+ if(other)return;var now=Date.now(),ss=lg(KS,{});delete ss[TID];ls(KS,ss);
+ if(!Object.keys(ss).some(function(k){return now-ss[k]<ACT})){var S={ms:0,last:0,open:false};ls(KP,S);pupdate(S)}}
+window.addEventListener("storage",function(e){if(e.key===KP)pupdate(lg(KP,P0))});
+pupdate(lg(KP,P0));
+/*END*/
 var PH="00a9289487c52eb0367e7978bdeb0e3480d898a20e76320dff8390cd4cce4790",ALLOWED=[];
 async function sha(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("")}
 function norm(n){return n.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ")}
-function unlock(n){document.body.classList.remove("locked");var l=$("#logout");l.classList.remove("hide");l.textContent="Déconnexion";var sp=document.createElement("span");sp.className="nm";sp.textContent=" ("+n+")";l.appendChild(sp);window.scrollTo(0,0)}
-function lock(){document.body.classList.add("locked");$("#logout").classList.add("hide");$("#lu").value="";$("#lp").value="";$("#lu").focus()}
+function unlock(n){pstart();document.body.classList.remove("locked");var l=$("#logout");l.classList.remove("hide");l.textContent="Déconnexion";var sp=document.createElement("span");sp.className="nm";sp.textContent=" ("+n+")";l.appendChild(sp);window.scrollTo(0,0)}
+function lock(){pstop();document.body.classList.add("locked");$("#logout").classList.add("hide");$("#lu").value="";$("#lp").value="";$("#lu").focus()}
 async function login(){var u=$("#lu").value.trim(),p=$("#lp").value,e=$("#le");
  if(!/^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,40}$/.test(u)){e.textContent="Entrez votre prénom comme identifiant.";return}
  try{var ok=(await sha("qcmb|"+p))===PH;
