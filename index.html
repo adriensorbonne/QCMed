@@ -756,7 +756,7 @@ KEYS.forEach(function(k){var b=document.createElement("button");b.type="button";
  $("#keys").appendChild(b)});
 ci.addEventListener("keydown",function(e){if(e.key==="Enter")run()});
 /*PRES*/
-var KP="qcmed-presence",KS="qcmed-sessions",NEED=900000,GAP=30000,ACT=180000,SK=["qcmb-user","spema-user","spemb-user"],ptimer=null,TID,P0={ms:0,last:0,open:false},ADM=false,PDFOK=false;
+var KP="qcmed-presence",KS="qcmed-sessions",NEED=600000,GAP=30000,ACT=180000,SK=["qcmb-user","spema-user","spemb-user"],ptimer=null,TID,P0={ms:0,last:0,open:false},ADM=false,PDFOK=false;
 try{TID=sessionStorage.getItem("qcmed-tab");if(!TID){TID=Math.random().toString(36).slice(2);sessionStorage.setItem("qcmed-tab",TID)}}catch(e){TID="t"+Date.now()}
 function lg(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function ls(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}

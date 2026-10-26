@@ -212,9 +212,19 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 
 <section id="programme" class="view hide">
 <h1>Programme : Spé Maths A</h1>
-<p class="lead">Cette section regroupe les révisions de mathématiques de spécialité (A). Le programme détaillé sera complété au fur et à mesure.</p>
-<p>Aucun cours n’est encore disponible dans cette section.</p>
-<p style="margin-top:20px;color:var(--muted)">Les chapitres sont ajoutés au fur et à mesure.</p>
+<p class="lead">Programme de mathématiques, statistiques et probabilités de la spécialité (catégorie A) du concours. Les cours seront ajoutés au fur et à mesure.</p>
+<h2>IV. Mathématiques, Statistiques et Probabilités</h2>
+<h2 style="font-size:1.25rem">A. Mathématiques</h2>
+<h3>1° Séries numériques, séries entières, suite et séries de fonctions</h3><ul><li>Séries numériques (nature, critères de convergence, séries alternées, séries à termes positifs, types de convergence) ;</li><li>Séries entières (rayon de convergence, sommes) ;</li><li>Développement en séries entières ;</li><li>Suite et séries de fonctions.</li></ul>
+<h3>2° Fonctions et calcul différentiel</h3><ul><li>Fonctions d’une variable, études et théorèmes simples (convexité, valeurs intermédiaires, Rolle, accroissements finis) ;</li><li>Fonctions de plusieurs variables ;</li><li>Limites, continuité, dérivabilité ;</li><li>Intégration ;</li><li>Développements limités ;</li><li>Dérivées partielles.</li></ul>
+<h3>3° Structures algébriques, polynômes et fractions rationnelles</h3><ul><li>Groupes, anneaux et corps ;</li><li>Espaces vectoriels, bases, dimensions, familles libres, familles génératrices, familles liées, opérations sur les sous-espaces vectoriels ;</li><li>Divisibilité dans K[X] avec K = ℝ ou ℂ ;</li><li>Arithmétique dans K[X] avec K = ℝ ou ℂ ;</li><li>Factorisation des polynômes ;</li><li>Fractions rationnelles, degré, racines, pôles, décomposition en éléments simples.</li></ul>
+<h3>4° Calcul matriciel – Algèbre linéaire et bilinéaire en dimension finie</h3><ul><li>Applications linéaires, réduction des endomorphismes ;</li><li>Diagonalisation et trigonalisation, calculs matriciels, déterminants ;</li><li>Réduction des matrices, théorème de Cayley-Hamilton, décomposition de Jordan ;</li><li>Produit scalaire dans les espaces euclidiens ;</li><li>Matrice des projections orthogonales et isométries usuelles ;</li><li>Procédé d’orthogonalisation de Gram-Schmidt.</li></ul>
+<h3>5° Géométries</h3><ul><li>Géométries affine et euclidienne dans le plan et dans l’espace ;</li><li>Propriété des figures, classification des isométries ;</li><li>Géométrie et nombres complexes ;</li><li>Géométrie sphérique, repérage sur une sphère.</li></ul>
+<h2 style="font-size:1.25rem;margin-top:28px">B. Probabilités et statistiques</h2>
+<h3>1° Probabilités</h3><ul><li>Dénombrement (permutation, arrangements, combinaison) ;</li><li>Espace de probabilités ;</li><li>Lois discrètes usuelles (Bernoulli, binomiale, géométrique, binomiale négative, hypergéométrique, Poisson…) ;</li><li>Lois continues usuelles (uniforme, exponentielle, normale centrée réduite, loi du khi-deux, Student…) ;</li><li>Indépendance en probabilité, probabilités conditionnelles, formule de Bayes, formule des probabilités totales ;</li><li>Variables aléatoires, fonction de répartition, densité, espérance, variance, écart type, covariance, convergence en probabilité, convergence en loi, loi des grands nombres, théorème central limite ;</li><li>Propriétés de la variance et de l’espérance ;</li><li>Couples et vecteurs aléatoires.</li></ul>
+<h3>2° Statistiques descriptives</h3><ul><li>Notion de population, d’individus, d’échantillon observé ;</li><li>Caractère, caractère qualitatif ou quantitatif ;</li><li>Série statistique associée à un échantillon ;</li><li>Description (effectif, fréquence, fréquences cumulées) ;</li><li>Caractéristiques de position (mode, moyenne, médiale, quartiles, déciles, quantiles, classe modale, classe moyenne, classe médiane) ;</li><li>Caractéristiques de dispersion (étendue, variance, écart type, distances interquantiles) ;</li><li>Corrélation (définition, mesure et limite du coefficient de corrélation).</li></ul>
+<h3>3° Statistiques inductives</h3><ul><li>Estimateurs d’une suite (Xₙ) de variables aléatoires indépendantes et de même loi dépendant d’un paramètre (estimateurs simples, estimateur du maximum de vraisemblance, vraisemblance / estimation de l’espérance / biais d’un estimateur) ;</li><li>Estimation par intervalles de confiance, niveau de confiance et de risque ;</li><li>Tests d’hypothèses (procédure de décision, région de rejet, p-valeur, erreur de type I et II).</li></ul>
+<p style="margin-top:20px;color:var(--muted)">Aucun cours n’est encore disponible dans cette section.</p>
 </section>
 </main>
 
@@ -375,7 +385,7 @@ KEYS.forEach(function(k){var b=document.createElement("button");b.type="button";
  $("#keys").appendChild(b)});
 ci.addEventListener("keydown",function(e){if(e.key==="Enter")run()});
 /*PRES*/
-var KP="qcmed-presence",KS="qcmed-sessions",NEED=900000,GAP=30000,ACT=180000,SK=["qcmb-user","spema-user","spemb-user"],ptimer=null,TID,P0={ms:0,last:0,open:false},ADM=false,PDFOK=false;
+var KP="qcmed-presence",KS="qcmed-sessions",NEED=600000,GAP=30000,ACT=180000,SK=["qcmb-user","spema-user","spemb-user"],ptimer=null,TID,P0={ms:0,last:0,open:false},ADM=false,PDFOK=false;
 try{TID=sessionStorage.getItem("qcmed-tab");if(!TID){TID=Math.random().toString(36).slice(2);sessionStorage.setItem("qcmed-tab",TID)}}catch(e){TID="t"+Date.now()}
 function lg(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function ls(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
