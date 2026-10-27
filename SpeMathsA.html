@@ -411,20 +411,23 @@ async function sha(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder
 function norm(n){return n.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ")}
 function unlock(n,adm){ADM=!!adm;pstart();document.body.classList.remove("locked");var l=$("#logout");l.classList.remove("hide");l.textContent="Déconnexion";var sp=document.createElement("span");sp.className="nm";sp.textContent=" ("+n+")";l.appendChild(sp);window.scrollTo(0,0)}
 function lock(){pstop();ADM=false;pupdate(lg(KP,P0));document.body.classList.add("locked");$("#logout").classList.add("hide");$("#lu").value="";$("#lp").value="";$("#lu").focus()}
+function SKset(u,a){SK.forEach(function(k){try{sessionStorage.setItem(k,u);if(a)sessionStorage.setItem(k+"-adm","1");else sessionStorage.removeItem(k+"-adm")}catch(x){}})}
+function SKclr(){SK.forEach(function(k){try{sessionStorage.removeItem(k);sessionStorage.removeItem(k+"-adm")}catch(x){}})}
+function SKget(){var r=null;SK.forEach(function(k){try{var v=sessionStorage.getItem(k);if(v){var a=sessionStorage.getItem(k+"-adm")==="1";if(!r||a)r={u:v,a:a}}}catch(x){}});return r}
 async function login(){var u=$("#lu").value.trim(),p=$("#lp").value,e=$("#le");
- try{if((await sha("qcmed-admin|"+p))===AH){e.textContent="";$("#lp").value="";try{sessionStorage.setItem("spema-user","Administrateur");sessionStorage.setItem("spema-user-adm","1")}catch(x){}unlock("Administrateur",true);return}}catch(x){}
+ try{if((await sha("qcmed-admin|"+p))===AH){e.textContent="";$("#lp").value="";try{SKset("Administrateur",true)}catch(x){}unlock("Administrateur",true);return}}catch(x){}
  if(!/^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,40}$/.test(u)){e.textContent="Entrez votre prénom comme identifiant.";return}
  try{var ok=(await sha("qcmb|"+p))===PH;
   if(ok&&ALLOWED.length){ok=ALLOWED.indexOf(await sha("qcmb-id|"+norm(u)))>=0}
   if(!ok){e.textContent="Identifiant ou mot de passe incorrect.";$("#lp").value="";return}
  }catch(x){e.textContent="Connexion impossible sur ce navigateur.";return}
  e.textContent="";$("#lp").value="";
- try{sessionStorage.setItem("spema-user",u)}catch(x){}
+ try{SKset(u,false)}catch(x){}
  unlock(u)}
 $("#lb").onclick=login;
 ["#lu","#lp"].forEach(function(s){$(s).addEventListener("keydown",function(e){if(e.key==="Enter")login()})});
-$("#logout").onclick=function(){try{sessionStorage.removeItem("spema-user");sessionStorage.removeItem("spema-user-adm")}catch(x){}lock()};
-try{var su=sessionStorage.getItem("spema-user");if(su)unlock(su,sessionStorage.getItem("spema-user-adm")==="1");else $("#lu").focus()}catch(x){$("#lu").focus()}
+$("#logout").onclick=function(){try{SKclr()}catch(x){}lock()};
+try{var su=SKget();if(su){SKset(su.u,su.a);unlock(su.u,su.a)}else $("#lu").focus()}catch(x){$("#lu").focus()}
 var root=document.documentElement,tb=$("#theme");
 function dark(){var t=root.dataset.theme;return t?t==="dark":matchMedia("(prefers-color-scheme:dark)").matches}
 function label(){tb.textContent=dark()?"Mode clair":"Mode sombre"}
