@@ -129,7 +129,38 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 .back{display:inline-flex;align-items:center;min-height:44px;margin:-8px 0 8px;color:var(--accent);font-weight:600;text-decoration:none}
 .back:hover{text-decoration:underline}
 @media (prefers-reduced-motion:no-preference){.view{animation:in .25s ease}@keyframes in{from{opacity:0}to{opacity:1}}}
-</style>
+
+.gz .gzin{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.gzin label{font-weight:600}
+.gzin input{flex:1 1 220px;min-width:0;font:inherit;font-size:1.05rem;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.gzin .cta{margin:0}
+.gzerr{color:var(--ko);min-height:1.3em;font-size:.92rem;margin:6px 0 2px}
+#gzc{width:100%;height:min(56vh,440px);display:block;touch-action:none;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);cursor:grab;margin:8px 0 4px}
+.gztr{min-height:1.4em;color:var(--muted);font-size:.9rem}
+#gzcur{font-size:1.02rem;margin:8px 0 0}
+.gzbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.gzbar button{font:inherit;font-size:.9rem;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);cursor:pointer}
+.gzbar button:hover{background:var(--soft)}
+.gzwin{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.gzwin label{font-size:.8rem;color:var(--muted);display:grid;gap:2px}
+.gzwin input,.gzsub input{font:inherit;width:100%;min-width:0;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.gzopt{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.gzt{position:relative;display:inline-block}
+.gzt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.gzt span{display:inline-block;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:.9rem}
+.gzt input:checked+span{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.gzt input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.gzsub{display:none;align-items:center;gap:6px;font-size:.88rem;color:var(--muted)}
+.gzsub input{width:76px}
+.gzinfo{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:14px}
+.gzcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;line-height:1.55}
+.gzcard h4{margin:0 0 6px;font-size:.95rem;color:var(--accent)}
+.gzcard code{background:var(--soft);border-radius:6px;padding:1px 6px;font-size:.92em;word-break:break-word}
+.gzp{color:var(--ok);font-weight:600}.gzm{color:var(--ko);font-weight:600}
+.gzn{display:block;color:var(--muted);font-size:.8rem;margin-top:6px}
+.gzhelp{margin-top:16px}.gzhelp summary{cursor:pointer;font-weight:600}
+@media (max-width:600px){.gzwin{grid-template-columns:repeat(2,1fr)}}
+/*d6fix*/.layout>*,#lesson,main{min-width:0}</style>
 </head>
 <body class="locked">
 <div id="login"><div class="card lg">
@@ -145,7 +176,7 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <header><div class="bar">
 <div class="logo">Spé Maths <span>B</span></div>
 <nav aria-label="Navigation principale">
-<button data-tab="cours">Cours</button><button data-tab="exercices">Exercices</button><button data-tab="calculatrice"><span class="nl">Calculatrice</span><span class="ns">Calcul</span></button><button data-tab="programme">Programme</button><button data-tab="pdfs" id="navPdf" class="hide">PDFs</button>
+<button data-tab="cours">Cours</button><button data-tab="exercices">Exercices</button><button data-tab="calculatrice"><span class="nl">Calculatrice</span><span class="ns">Calcul</span></button><button data-tab="fonctions">Fonctions</button><button data-tab="programme">Programme</button><button data-tab="pdfs" id="navPdf" class="hide">PDFs</button>
 </nav>
 <button class="theme" id="theme" aria-label="Changer de thème">Mode sombre</button>
 <button class="theme hide" id="logout"></button>
@@ -204,6 +235,32 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <ul id="hist"></ul>
 </section>
 
+<section id="fonctions" class="view hide">
+<h1>Fonctions : tracer et étudier</h1>
+<p class="lead">Saisissez une fonction de x : le site trace sa courbe. Activez ensuite, parmi les boutons sous le graphique, les informations que vous voulez voir : zéros, dérivée, variations, asymptotes, tangente…</p>
+<div class="card gz">
+<div class="gzin"><label for="gzf">f(x) =</label><input id="gzf" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" placeholder="Ex. : (x-1)(x-3)  ou  x*exp(x)"><button class="cta" id="gzgo" type="button">Tracer</button></div>
+<div id="gzerr" class="gzerr" role="alert"></div>
+<div class="chips" id="gzex" aria-label="Exemples de fonctions"></div>
+<div id="gzcur"></div>
+<canvas id="gzc" tabindex="0" role="img" aria-label="Graphe de la fonction"></canvas>
+<div id="gztr" class="gztr" aria-live="polite"></div>
+<div class="gzbar"><button type="button" id="gzzi">Zoom +</button><button type="button" id="gzzo">Zoom −</button><button type="button" id="gzor">Repère orthonormé</button><button type="button" id="gzay">Ajuster y</button><button type="button" id="gzrs">Réinitialiser</button></div>
+<div class="gzwin"><label>x min<input id="gzx0" inputmode="decimal"></label><label>x max<input id="gzx1" inputmode="decimal"></label><label>y min<input id="gzy0" inputmode="decimal"></label><label>y max<input id="gzy1" inputmode="decimal"></label></div>
+<div class="gzopt" id="gzopt" role="group" aria-label="Informations à afficher">
+<label class="gzt"><input type="checkbox" data-o="dom"><span>Ensemble de définition</span></label><label class="gzt"><input type="checkbox" data-o="zeros"><span>Zéros et signe</span></label><label class="gzt"><input type="checkbox" data-o="y0"><span>Ordonnée à l’origine</span></label><label class="gzt"><input type="checkbox" data-o="par"><span>Parité</span></label><label class="gzt"><input type="checkbox" data-o="der"><span>Dérivée f′</span></label><label class="gzt"><input type="checkbox" data-o="dcv"><span>Courbe de f′</span></label><label class="gzt"><input type="checkbox" data-o="vr"><span>Variations et extremums</span></label><label class="gzt"><input type="checkbox" data-o="asy"><span>Asymptotes</span></label><label class="gzt"><input type="checkbox" data-o="tan"><span>Tangente</span></label><span class="gzsub" data-for="tan">en a = <input id="gza" inputmode="decimal" aria-label="Abscisse a de la tangente"></span><label class="gzt"><input type="checkbox" data-o="val"><span>Valeur</span></label><span class="gzsub" data-for="val">en x₀ = <input id="gzx" inputmode="decimal" aria-label="Abscisse x0"></span><label class="gzt"><input type="checkbox" data-o="int"><span>Intégrale</span></label><span class="gzsub" data-for="int">de <input id="gzia" inputmode="decimal" aria-label="Borne inférieure"> à <input id="gzib" inputmode="decimal" aria-label="Borne supérieure"></span><label class="gzt"><input type="checkbox" data-o="grid"><span>Quadrillage</span></label>
+</div>
+</div>
+<div id="gzinfo" class="gzinfo"></div>
+<details class="gzhelp"><summary>Comment saisir une fonction ?</summary>
+<ul>
+<li>Puissance : <code>x^2</code>, <code>x^3</code> ; produit : <code>2x</code>, <code>x(x-3)</code>, <code>(x-1)*(x-3)</code> ; quotient : <code>(4x-5)/(2x+1)</code>.</li>
+<li>Fonctions usuelles : <code>sqrt(x)</code> (racine carrée), <code>exp(x)</code> ou <code>e^x</code>, <code>ln(x)</code>, <code>abs(x)</code>, <code>sin(x)</code>, <code>cos(x)</code>, <code>tan(x)</code>. Constantes : <code>e</code> et <code>pi</code>.</li>
+<li>Les décimaux s’écrivent avec une virgule ou un point. Les parenthèses sont obligatoires pour les arguments (<code>ln(x+1)</code>).</li>
+<li>Sur le graphique : faites glisser pour déplacer le repère, molette ou pincement pour zoomer ; flèches du clavier et touches + / − quand le graphique est sélectionné.</li>
+<li>Les informations (zéros, extremums, asymptotes, domaine) sont calculées numériquement sur l’intervalle [−60 ; 60] au minimum ; la dérivée est calculée formellement.</li>
+</ul></details>
+</section>
 <section id="pdfs" class="view hide">
 <h1>Cours en PDF</h1>
 <p class="lead">Un PDF par chapitre, à télécharger pour réviser hors connexion ou à imprimer. Le fichier est généré à la demande, en quelques secondes.</p>
@@ -217,9 +274,9 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <h3>A. Arithmétiques</h3><ul><li>Les 4 opérations (addition, soustraction, multiplication, division) ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Opérations usuelles et priorités.</small></li><li>Priorités des opérations ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Opérations usuelles et priorités.</small></li><li>Notions de multiple, de diviseur, de nombre pair, de nombre impair, nombre premier ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Pair, impair, fractions et puissances ; Multiples et diviseurs ; Critères de divisibilité (3 cours) ; Les nombres premiers ; Nombres premiers entre eux ; et la division euclidienne en complément.</small></li><li>Fractions, valeur décimale d’une fraction, opération sur les fractions, comparaison ; <span class="tag">cours partiel</span> <small style="color:var(--muted)">Cours : Valeur décimale et valeur approchée ; Pair, impair, fractions et puissances (opérations sur les fractions). Comparaison de fractions : pas encore.</small></li><li>Puissances, opérations sur les puissances, comparaison ; <span class="tag">cours partiel</span> <small style="color:var(--muted)">Cours : Pair, impair, fractions et puissances (règles sur les puissances) ; Puissances, racines et notation scientifique (puissances de 10). Comparaison de puissances : pas encore.</small></li><li>Conversion :<ul><li>Unité de mesure ; <span class="tag">cours partiel</span> <small style="color:var(--muted)">Le produit en croix sert aux conversions proportionnelles ; pas de cours dédié aux unités.</small></li><li>Échelle d’une carte ; <span class="tag">cours partiel</span> <small style="color:var(--muted)">Cours : Le produit en croix, pour passer de la carte à la réalité.</small></li><li>Passer d’une écriture d’un nombre à une autre (décimale, fractionnaire, scientifique). <span class="tag">cours partiel</span> <small style="color:var(--muted)">Cours : Valeur décimale et valeur approchée, Puissances, racines et notation scientifique.</small></li></ul></li></ul>
 <h3>B. Algèbre</h3><ul><li>Les différents ensembles (entiers naturels, entiers relatifs, nombres décimaux et nombres rationnels) ; <span class="tag">cours partiel</span> <small style="color:var(--muted)">Cours : Manipulation des nombres (ℕ, ℤ, ℚ, ℝ). Les nombres décimaux ne sont pas détaillés.</small></li><li>Opérations et comparaison dans ces ensembles ;</li><li>Expression algébrique simple (factoriser, développer, réduire, réaliser des calculs) ; <span class="tag">cours partiel</span> <small style="color:var(--muted)">Cours : Développement et factorisation. « Réduire » et les calculs plus poussés : pas encore.</small></li><li>Règles de calcul sur les puissances entières relatives, sur les racines carrées ; <span class="tag">cours partiel</span> <small style="color:var(--muted)">Cours : Pair, impair, fractions et puissances (puissances entières relatives) ; Puissances, racines et notation scientifique (racine carrée d’un produit ou d’un quotient). Autres règles sur les racines : pas encore.</small></li><li>Identités remarquables : a² − b² = (a − b)(a + b) ; (a + b)² = a² + 2ab + b² et (a − b)² = a² − 2ab + b² ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Les identités remarquables.</small></li><li>Somme d’inégalités ;</li><li>Produit d’une inégalité par un réel positif, négatif, en liaison avec le sens de variation d’une fonction affine ; <span class="tag">cours partiel</span> <small style="color:var(--muted)">Cours : Équations et inéquations du 1er degré (le sens s’inverse quand on multiplie par un négatif). Lien avec la fonction affine : pas encore.</small></li><li>Résolution d’équations et d’inéquations du premier degré ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Équations et inéquations du 1er degré, Inéquations du 1er degré (suite).</small></li><li>Résolution d’une expression factorisée du second degré. <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Fonctions usuelles (2/4) : polynômes factorisés de degré 2 et 3 (produit nul, signe, équation et inéquation).</small></li></ul>
 <h3>C. Fonctions numériques</h3><ul><li>Généralités des fonctions usuelles (ensemble de définition, représentation graphique, parité, comportement, variation, tableau de variation et extremum) ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Les fonctions : la notion et la représentation graphique ; Fonctions : définition, parité, extremums ; Tableau de variations (2 cours).</small></li><li>Se repérer sur un repère orthonormé (point, droite, courbe, position relative et caractériser les éléments du plan) ; <span class="tag">cours partiel</span> <small style="color:var(--muted)">Cours : Les fonctions : représentation graphique (points et droite dans un repère).</small></li><li>Fonctions dérivées (fonction affine, polynôme de degrés deux et trois, fonction inverse) : <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : La dérivée (3 chapitres) ; Tableau de variations : méthode et exemples (fonction inverse, somme, différence, polynômes de degré deux et trois).</small><ul><li>Dérivabilité de la somme, de la différence, lien de la dérivé et de la tangente (équation de la tangente) ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : La dérivée (lien avec la tangente) ; Tableau de variations : méthode et exemples (somme et différence) ; Tangente, produit, quotient et composée (équation de la tangente).</small></li><li>Sens de variation d’une fonction à partir de l’étude de sa dérivée ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Fonctions : définition, parité, extremums ; Tableau de variations (2 cours).</small></li></ul></li><li>Fonctions usuelles (fonction affine, carré, inverse, racine carré, cube, polynôme de degré deux et trois factorisés, exponentielle). <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Fonctions usuelles (4 chapitres : affine, cube et racine carrée ; polynômes factorisés de degré deux et trois ; exponentielle ; logarithme en complément) ; carré et inverse dans les cours précédents.</small></li></ul>
-<h3>D. Statistiques et probabilités</h3><ul><li>Description statistique d’une population ou d’un échantillon (taux d’évolutions, moyenne pondérée, linéarité de la moyenne, nuage de point associé à une série statistique à deux variables numériques) ; <span class="tag">cours partiel</span> <small style="color:var(--muted)">Cours : TVA (du prix HT au prix TTC) pour les taux d’évolution. Le reste des statistiques : pas encore.</small></li><li>Ajustement affine ;</li><li>Dénombrement (arrangements, permutations, combinaisons) ;</li><li>Modélisation d’expériences indépendantes (dés, pièces, urnes…) ;</li><li>Conditionnement et indépendance (tableaux, arbres pondérés, diagramme) ;</li><li>Conditionnement par un évènement de probabilité non nulle puis indépendance de deux évènements ;</li><li>Formule des probabilités totales ;</li><li>Lois de probabilités discrètes ;</li><li>Cas particuliers : loi de Bernoulli, loi binomiale ;</li><li>Espérance.</li></ul>
-<h3>E. Suites numériques</h3><ul><li>Suites arithmétiques, suites géométriques à terme positif (sens de variation, relation de récurrence) ;</li><li>Somme des n premiers termes ;</li><li>Expression en fonction de n du rang n ;</li><li>Représentation graphique ;</li><li>Calculer un terme de rang donnée d’une suite définie explicitement par une relation de récurrence ou par une relation fonctionnelle.</li></ul>
-<p style="margin-top:20px;color:var(--muted)">Les intégrales, la proportionnalité (produit en croix, TVA) et la division euclidienne sont proposées à titre de complément. Les suites, les probabilités et la plupart des statistiques n’ont pas encore de cours.</p>
+<h3>D. Statistiques et probabilités</h3><ul><li>Description statistique d’une population ou d’un échantillon (taux d’évolutions, moyenne pondérée, linéarité de la moyenne, nuage de point associé à une série statistique à deux variables numériques) ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Statistiques : taux d’évolution, moyenne pondérée, linéarité ; Statistiques : nuage de points et ajustement affine ; TVA.</small></li><li>Ajustement affine ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Statistiques : nuage de points et ajustement affine.</small></li><li>Dénombrement (arrangements, permutations, combinaisons) ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Dénombrement : arrangements, permutations, combinaisons.</small></li><li>Modélisation d’expériences indépendantes (dés, pièces, urnes…) ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Probabilités : expériences indépendantes (dés, pièces, urnes).</small></li><li>Conditionnement et indépendance (tableaux, arbres pondérés, diagramme) ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Probabilités : tableaux, arbres pondérés et diagrammes.</small></li><li>Conditionnement par un évènement de probabilité non nulle puis indépendance de deux évènements ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Probabilités conditionnelles et indépendance de deux évènements.</small></li><li>Formule des probabilités totales ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Formule des probabilités totales.</small></li><li>Lois de probabilités discrètes ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Lois de probabilité discrètes.</small></li><li>Cas particuliers : loi de Bernoulli, loi binomiale ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Loi de Bernoulli et loi binomiale.</small></li><li>Espérance. <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Espérance d’une loi de probabilité.</small></li></ul>
+<h3>E. Suites numériques</h3><ul><li>Suites arithmétiques, suites géométriques à terme positif (sens de variation, relation de récurrence) ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Suites arithmétiques ; Suites géométriques à terme positif.</small></li><li>Somme des n premiers termes ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Somme des n premiers termes.</small></li><li>Expression en fonction de n du rang n ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Suites arithmétiques ; Suites géométriques à terme positif.</small></li><li>Représentation graphique ; <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Suites numériques : définitions et représentation graphique.</small></li><li>Calculer un terme de rang donnée d’une suite définie explicitement par une relation de récurrence ou par une relation fonctionnelle. <span class="tag">cours disponible</span> <small style="color:var(--muted)">Cours : Suites numériques : définitions et représentation graphique.</small></li></ul>
+<p style="margin-top:20px;color:var(--muted)">Les intégrales, la proportionnalité (produit en croix, TVA) et la division euclidienne sont proposées à titre de complément.</p>
 </section>
 </main>
 
@@ -469,6 +526,20 @@ var COURSES=[
 "<li>∫<sub>1</sub><sup>6</sup> 4 dx : F(x) = 4x, donc 24 − 4 = <b>20</b>. C’est l’aire d’un rectangle de 5 sur 4.</li>"+
 "<li>∫<sub>1</sub><sup>2</sup> x² dx : F(x) = x³ / 3, donc 8/3 − 1/3 = <b>7/3</b>.</li></ul>"+
 "<h3>À quoi ça sert ?</h3><p>La position d’une voiture est une primitive de sa vitesse : en intégrant la vitesse entre deux instants, on obtient la distance parcourue.</p>"},
+{t:"Statistiques : taux d’évolution, moyenne pondérée, linéarité",s:"Statistiques et probabilités (D)",h:"<h2>Taux d’évolution</h2><p>Quand une quantité passe d’une valeur de départ V<sub>d</sub> à une valeur d’arrivée V<sub>a</sub>, son <b>taux d’évolution</b> mesure la variation <i>relative</i>, c’est-à-dire rapportée à la valeur de départ.</p><div class=\"formula\">t = (V<sub>a</sub> − V<sub>d</sub>) / V<sub>d</sub><br>Coefficient multiplicateur : CM = 1 + t = V<sub>a</sub> / V<sub>d</sub></div><ul><li>Une hausse de 15 % correspond à t = 0,15 et CM = 1,15.</li><li>Une baisse de 20 % correspond à t = −0,20 et CM = 0,80.</li><li>Passer de 80 à 92 : t = (92 − 80)/80 = 12/80 = 0,15, soit <b>+ 15 %</b>. On retrouve 92 = 80 × 1,15.</li></ul><p>Retenir : <b>pour appliquer une évolution, on multiplie par le coefficient multiplicateur.</b> C’est exactement ce qu’on fait avec la TVA : un prix TTC avec 20 % de TVA s’obtient en multipliant le prix HT par 1,2 (voir le cours sur la TVA).</p><h3>Évolutions successives</h3><p>Les coefficients multiplicateurs <b>se multiplient</b>, les taux ne s’additionnent pas.</p><svg class=\"graph\" viewBox=\"0 0 380 132\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:440px\" role=\"img\" aria-label=\"Deux évolutions successives de plus 20 pour cent puis moins 10 pour cent : 100 devient 120 puis 108\"><defs><marker id=\"ce\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto\"><path d=\"M0 0L10 5L0 10z\" fill=\"currentColor\"/></marker></defs><rect x=\"10\" y=\"24\" width=\"70\" height=\"36\" rx=\"9\" fill=\"var(--accent)\" fill-opacity=\"0.15\" stroke=\"var(--accent)\" stroke-width=\"1.5\"/><text x=\"45\" y=\"47\" text-anchor=\"middle\" font-size=\"15\" fill=\"currentColor\" font-weight=\"700\">100</text><rect x=\"155\" y=\"24\" width=\"70\" height=\"36\" rx=\"9\" fill=\"var(--accent)\" fill-opacity=\"0.15\" stroke=\"var(--accent)\" stroke-width=\"1.5\"/><text x=\"190\" y=\"47\" text-anchor=\"middle\" font-size=\"15\" fill=\"currentColor\" font-weight=\"700\">120</text><rect x=\"300\" y=\"24\" width=\"70\" height=\"36\" rx=\"9\" fill=\"var(--accent)\" fill-opacity=\"0.15\" stroke=\"var(--accent)\" stroke-width=\"1.5\"/><text x=\"335\" y=\"47\" text-anchor=\"middle\" font-size=\"15\" fill=\"currentColor\" font-weight=\"700\">108</text><line x1=\"82\" y1=\"42\" x2=\"152\" y2=\"42\" stroke=\"currentColor\" stroke-width=\"1.5\" marker-end=\"url(#ce)\" /><line x1=\"227\" y1=\"42\" x2=\"297\" y2=\"42\" stroke=\"currentColor\" stroke-width=\"1.5\" marker-end=\"url(#ce)\" /><text x=\"117\" y=\"18\" text-anchor=\"middle\" font-size=\"13\" fill=\"var(--ok)\" font-weight=\"700\">× 1,2</text><text x=\"117\" y=\"62\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--ok)\">+ 20 %</text><text x=\"262\" y=\"18\" text-anchor=\"middle\" font-size=\"13\" fill=\"var(--ko)\" font-weight=\"700\">× 0,9</text><text x=\"262\" y=\"62\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--ko)\">− 10 %</text><path d=\"M45 66 L45 100 L335 100 L335 66\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" marker-end=\"url(#ce)\"/><text x=\"190\" y=\"122\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"600\">1,2 × 0,9 = 1,08 : au total + 8 % (et non + 10 %)</text></svg><p>Une hausse de 20 % suivie d’une baisse de 10 % donne CM = 1,2 × 0,9 = 1,08, donc une hausse de 8 % seulement. Le deuxième pourcentage s’applique à une valeur plus grande (120) que la valeur de départ.</p><h3>Évolution réciproque</h3><p>Pour revenir à la valeur de départ après un coefficient CM, il faut multiplier par 1/CM.</p><p>Après une hausse de 25 % (CM = 1,25), le retour demande CM′ = 1/1,25 = 0,8, soit une baisse de <b>20 %</b> (et non 25 %).</p><h2>Moyenne pondérée</h2><p>Quand les valeurs n’ont pas la même importance (coefficients, effectifs), on utilise une moyenne <b>pondérée</b>.</p><div class=\"formula\">m = (c<sub>1</sub>x<sub>1</sub> + c<sub>2</sub>x<sub>2</sub> + … + c<sub>k</sub>x<sub>k</sub>) / (c<sub>1</sub> + c<sub>2</sub> + … + c<sub>k</sub>)</div><p><b>Exemple.</b> Trois notes : 8 (coefficient 1), 12 (coefficient 2) et 15 (coefficient 3). La somme des coefficients est 6.<br>m = (1×8 + 2×12 + 3×15) / 6 = (8 + 24 + 45) / 6 = 77/6 ≈ <b>12,83</b>. Une moyenne simple donnerait (8 + 12 + 15)/3 ≈ 11,67 : elle ne tient pas compte du poids des notes.</p><svg class=\"graph\" viewBox=\"0 0 330 220\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:370px\" role=\"img\" aria-label=\"Moyenne pondérée de trois notes 8, 12 et 15 de coefficients 1, 2 et 3\"><line x1=\"30\" y1=\"190\" x2=\"310\" y2=\"190\" stroke=\"currentColor\" stroke-width=\"1.5\" /><line x1=\"30\" y1=\"190\" x2=\"30\" y2=\"14\" stroke=\"currentColor\" stroke-width=\"1.5\" /><rect x=\"30\" y=\"111.8\" width=\"44.4\" height=\"78.2\" fill=\"var(--ko)\" fill-opacity=\".22\" stroke=\"var(--ko)\" stroke-width=\"1.5\"/><text x=\"52.2\" y=\"129.8\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"600\">note 8</text><text x=\"52.2\" y=\"182\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\">coef. 1</text><rect x=\"74.4\" y=\"72.7\" width=\"88.9\" height=\"117.3\" fill=\"var(--accent)\" fill-opacity=\".22\" stroke=\"var(--accent)\" stroke-width=\"1.5\"/><text x=\"118.9\" y=\"90.7\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"600\">note 12</text><text x=\"118.9\" y=\"182\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\">coef. 2</text><rect x=\"163.3\" y=\"43.3\" width=\"133.3\" height=\"146.7\" fill=\"var(--ok)\" fill-opacity=\".22\" stroke=\"var(--ok)\" stroke-width=\"1.5\"/><text x=\"230\" y=\"61.3\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"600\">note 15</text><text x=\"230\" y=\"182\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\">coef. 3</text><line x1=\"30\" y1=\"64.5\" x2=\"310\" y2=\"64.5\" stroke=\"var(--ko)\" stroke-width=\"2\" stroke-dasharray=\"6 4\" /><text x=\"308\" y=\"57.5\" text-anchor=\"end\" font-size=\"12\" fill=\"var(--ko)\" font-weight=\"700\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">moyenne pondérée ≈ 12,83</text><text x=\"170\" y=\"211\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--muted)\">la largeur de chaque barre est le coefficient</text></svg><p>Cette formule sert aussi pour une série avec effectifs : chaque valeur est « pondérée » par son effectif. Elle sert enfin à regrouper des moyennes : si un groupe de 20 élèves a une moyenne de 11 et un groupe de 30 élèves une moyenne de 14, la moyenne des 50 élèves est (20×11 + 30×14)/50 = 640/50 = <b>12,8</b>.</p><h2>Linéarité de la moyenne</h2><p>La moyenne se comporte bien avec les opérations simples. Soit une série de valeurs x<sub>i</sub> de moyenne x̄ (lire « x barre »).</p><div class=\"formula\">Si y<sub>i</sub> = a·x<sub>i</sub> + b pour tout i, alors ȳ = a·x̄ + b.<br>La moyenne de la série des sommes x<sub>i</sub> + y<sub>i</sub> est x̄ + ȳ.</div><ul><li><b>On ajoute 50 € à chaque salaire</b> : la moyenne augmente de 50 €.</li><li><b>On augmente chaque salaire de 3 %</b> : la moyenne est multipliée par 1,03.</li><li><b>Changement d’unité.</b> Les températures d’une semaine ont pour moyenne 20 °C. En degrés Fahrenheit, F = 1,8·C + 32, donc la moyenne vaut 1,8 × 20 + 32 = <b>68 °F</b>. Il suffit de transformer la moyenne, pas chaque valeur.</li></ul><p>Pourquoi ? ȳ = (Σ(a·x<sub>i</sub> + b))/n = (a·Σx<sub>i</sub> + n·b)/n = a·x̄ + b. Attention : cette propriété est valable pour la moyenne, mais <b>pas</b> pour la médiane ni pour les écarts à la moyenne au carré.</p>"},
+{t:"Statistiques : nuage de points et ajustement affine",s:"Statistiques et probabilités (D)",h:"<h2>Série statistique à deux variables</h2><p>On étudie souvent <b>deux grandeurs</b> mesurées sur les mêmes individus : taille et poids, année et chiffre d’affaires, publicité et ventes… Chaque individu donne un couple (x<sub>i</sub> ; y<sub>i</sub>). Le <b>nuage de points</b> est l’ensemble des points M<sub>i</sub>(x<sub>i</sub> ; y<sub>i</sub>) dans un repère.</p><p>Le nuage permet de voir s’il existe un lien :</p><ul><li>les points montent de gauche à droite : lien <b>croissant</b> (plus x est grand, plus y est grand) ;</li><li>les points descendent : lien <b>décroissant</b> ;</li><li>les points sont dispersés sans direction : pas de lien visible.</li></ul><h3>Le point moyen</h3><p>On appelle <b>point moyen</b> le point G(x̄ ; ȳ) dont les coordonnées sont les moyennes des x<sub>i</sub> et des y<sub>i</sub>. C’est le « centre » du nuage.</p><h2>Ajustement affine</h2><p>Quand le nuage est à peu près allongé, on le résume par une <b>droite d’ajustement</b> d’équation y = ax + b, la plus proche possible des points. La droite des <b>moindres carrés</b> (ou droite de régression) est celle qui rend minimale la somme des carrés des écarts verticaux entre les points et la droite. Ses coefficients sont donnés par :</p><div class=\"formula\">a = Σ(x<sub>i</sub> − x̄)(y<sub>i</sub> − ȳ) / Σ(x<sub>i</sub> − x̄)²&nbsp;&nbsp;&nbsp; et &nbsp;&nbsp;&nbsp;b = ȳ − a·x̄</div><p>La droite passe toujours par le point moyen G, puisque b = ȳ − a·x̄ signifie ȳ = a·x̄ + b. Dans les épreuves, la calculatrice (mode statistiques) donne a et b directement ; il faut cependant savoir les interpréter.</p><h3>Exemple complet</h3><p>Cinq mesures : x = 1, 2, 3, 4, 5 et y = 2, 3, 5, 4, 6. Alors x̄ = 15/5 = 3 et ȳ = 20/5 = 4.</p><div style='overflow-x:auto;margin:14px 0'><table style='border-collapse:collapse;width:100%'><thead><tr><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>x<sub>i</sub></th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>y<sub>i</sub></th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>x<sub>i</sub> − x̄</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>y<sub>i</sub> − ȳ</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>(x<sub>i</sub> − x̄)(y<sub>i</sub> − ȳ)</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>(x<sub>i</sub> − x̄)²</th></tr></thead><tbody><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>1</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>2</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>−2</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>−2</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>4</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>4</td></tr><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>2</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>3</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>−1</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>−1</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>1</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>1</td></tr><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>3</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>5</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>0</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>1</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>0</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>0</td></tr><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>4</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>4</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>1</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>0</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>0</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>1</td></tr><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>5</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>6</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>2</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>2</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>4</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>4</td></tr><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'><b>Somme</b></td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'></td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'></td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'></td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'><b>9</b></td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'><b>10</b></td></tr></tbody></table></div><p>a = 9/10 = <b>0,9</b> et b = 4 − 0,9 × 3 = <b>1,3</b>. La droite d’ajustement a pour équation <b>y = 0,9x + 1,3</b>.</p><svg class=\"graph\" viewBox=\"0 0 330 218\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:370px\" role=\"img\" aria-label=\"Nuage de cinq points, point moyen G(3 ; 4) et droite d'ajustement y = 0,9x + 1,3\"><line x1=\"30\" y1=\"193.1\" x2=\"288\" y2=\"193.1\" stroke=\"currentColor\" stroke-width=\"1.5\" /><line x1=\"40.3\" y1=\"204\" x2=\"40.3\" y2=\"14\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"284\" y=\"208.1\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\">x</text><text x=\"49.3\" y=\"22\" text-anchor=\"start\" font-size=\"12\" fill=\"currentColor\">y</text><text x=\"74.7\" y=\"208.1\" text-anchor=\"middle\" font-size=\"11\" fill=\"var(--muted)\">1</text><text x=\"109.1\" y=\"208.1\" text-anchor=\"middle\" font-size=\"11\" fill=\"var(--muted)\">2</text><text x=\"143.5\" y=\"208.1\" text-anchor=\"middle\" font-size=\"11\" fill=\"var(--muted)\">3</text><text x=\"177.9\" y=\"208.1\" text-anchor=\"middle\" font-size=\"11\" fill=\"var(--muted)\">4</text><text x=\"212.3\" y=\"208.1\" text-anchor=\"middle\" font-size=\"11\" fill=\"var(--muted)\">5</text><text x=\"246.7\" y=\"208.1\" text-anchor=\"middle\" font-size=\"11\" fill=\"var(--muted)\">6</text><text x=\"35.3\" y=\"153.4\" text-anchor=\"end\" font-size=\"11\" fill=\"var(--muted)\">2</text><text x=\"35.3\" y=\"109.7\" text-anchor=\"end\" font-size=\"11\" fill=\"var(--muted)\">4</text><text x=\"35.3\" y=\"66\" text-anchor=\"end\" font-size=\"11\" fill=\"var(--muted)\">6</text><text x=\"35.3\" y=\"22.4\" text-anchor=\"end\" font-size=\"11\" fill=\"var(--muted)\">8</text><line x1=\"50.6\" y1=\"158.8\" x2=\"270.8\" y2=\"33\" stroke=\"var(--ko)\" stroke-width=\"2.2\" /><circle cx=\"74.7\" cy=\"149.4\" r=\"5\" fill=\"var(--accent)\"/><circle cx=\"109.1\" cy=\"127.6\" r=\"5\" fill=\"var(--accent)\"/><circle cx=\"143.5\" cy=\"83.9\" r=\"5\" fill=\"var(--accent)\"/><circle cx=\"177.9\" cy=\"105.7\" r=\"5\" fill=\"var(--accent)\"/><circle cx=\"212.3\" cy=\"62\" r=\"5\" fill=\"var(--accent)\"/><circle cx=\"143.5\" cy=\"105.7\" r=\"8\" fill=\"none\" stroke=\"var(--ok)\" stroke-width=\"2\"/><text x=\"154.5\" y=\"125.7\" text-anchor=\"start\" font-size=\"12\" fill=\"var(--ok)\" font-weight=\"700\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">G(3 ; 4)</text><circle cx=\"246.7\" cy=\"46.8\" r=\"5.5\" fill=\"var(--surface)\" stroke=\"var(--ko)\" stroke-width=\"2\"/><text x=\"238.7\" y=\"36.8\" text-anchor=\"end\" font-size=\"11.5\" fill=\"var(--ko)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">prévision (6 ; 6,7)</text><text x=\"164.2\" y=\"136.3\" text-anchor=\"start\" font-size=\"12\" fill=\"var(--ko)\" font-weight=\"700\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">y = 0,9x + 1,3</text></svg><h3>Utiliser la droite : prévoir</h3><ul><li><b>Interpolation</b> : estimer y pour une valeur de x à l’intérieur des données. Pour x = 2,5 : y ≈ 0,9 × 2,5 + 1,3 = 3,55.</li><li><b>Extrapolation</b> : estimer y hors des données. Pour x = 6 : y ≈ 6,7. Plus on s’éloigne des données, moins la prévision est fiable (la réalité peut changer de tendance).</li><li>Pour savoir quand y atteindra 10 : 0,9x + 1,3 = 10 ⇔ x = 8,7/0,9 ≈ 9,67.</li></ul><p><b>Interpréter a :</b> a = 0,9 signifie que, quand x augmente de 1, y augmente en moyenne de 0,9. Corrélation n’est pas causalité : un bon ajustement n’explique pas à lui seul <i>pourquoi</i> les deux grandeurs évoluent ensemble.</p>"},
+{t:"Dénombrement : arrangements, permutations, combinaisons",s:"Statistiques et probabilités (D)",h:"<h2>Compter sans tout lister</h2><p>Dénombrer, c’est compter le nombre de cas possibles. Pour de petits cas, un arbre ou un tableau suffit ; pour de grands cas, on utilise des formules.</p><h3>Le principe multiplicatif</h3><p>Si on fait <b>plusieurs choix successifs</b>, chacun possible de façon indépendante des précédents, le nombre total de possibilités est le <b>produit</b> des nombres de choix.</p><svg class=\"graph\" viewBox=\"0 0 330 234\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:370px\" role=\"img\" aria-label=\"Arbre des choix : deux entrées puis trois plats donnent six menus\"><circle cx=\"18\" cy=\"108\" r=\"5\" fill=\"var(--accent)\"/><line x1=\"18\" y1=\"108\" x2=\"128\" y2=\"54\" stroke=\"var(--accent)\" stroke-width=\"1.8\" /><line x1=\"18\" y1=\"108\" x2=\"128\" y2=\"162\" stroke=\"var(--accent)\" stroke-width=\"1.8\" /><rect x=\"102\" y=\"41\" width=\"76\" height=\"26\" rx=\"8\" fill=\"var(--accent)\" fill-opacity=\".16\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"140\" y=\"59\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"700\">Entrée A</text><line x1=\"178\" y1=\"54\" x2=\"222\" y2=\"22\" stroke=\"var(--muted)\" stroke-width=\"1.4\" /><rect x=\"224\" y=\"11\" width=\"84\" height=\"22\" rx=\"7\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"26\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\">Plat 1</text><line x1=\"178\" y1=\"54\" x2=\"222\" y2=\"54\" stroke=\"var(--muted)\" stroke-width=\"1.4\" /><rect x=\"224\" y=\"43\" width=\"84\" height=\"22\" rx=\"7\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"58\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\">Plat 2</text><line x1=\"178\" y1=\"54\" x2=\"222\" y2=\"86\" stroke=\"var(--muted)\" stroke-width=\"1.4\" /><rect x=\"224\" y=\"75\" width=\"84\" height=\"22\" rx=\"7\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"90\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\">Plat 3</text><rect x=\"102\" y=\"149\" width=\"76\" height=\"26\" rx=\"8\" fill=\"var(--accent)\" fill-opacity=\".16\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"140\" y=\"167\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"700\">Entrée B</text><line x1=\"178\" y1=\"162\" x2=\"222\" y2=\"130\" stroke=\"var(--muted)\" stroke-width=\"1.4\" /><rect x=\"224\" y=\"119\" width=\"84\" height=\"22\" rx=\"7\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"134\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\">Plat 1</text><line x1=\"178\" y1=\"162\" x2=\"222\" y2=\"162\" stroke=\"var(--muted)\" stroke-width=\"1.4\" /><rect x=\"224\" y=\"151\" width=\"84\" height=\"22\" rx=\"7\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"166\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\">Plat 2</text><line x1=\"178\" y1=\"162\" x2=\"222\" y2=\"194\" stroke=\"var(--muted)\" stroke-width=\"1.4\" /><rect x=\"224\" y=\"183\" width=\"84\" height=\"22\" rx=\"7\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"198\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\">Plat 3</text><text x=\"170\" y=\"224\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"700\">2 entrées × 3 plats = 6 menus</text></svg><p>Un menu = 1 entrée (2 choix) et 1 plat (3 choix) : 2 × 3 = 6 menus. Avec en plus 4 desserts : 2 × 3 × 4 = 24 menus.</p><p>Cas particulier : choisir p fois parmi n éléments <b>avec répétition possible</b>, en tenant compte de l’ordre, donne <b>n<sup>p</sup></b> listes. Un code à 4 chiffres : 10<sup>4</sup> = 10 000 codes.</p><h2>Factorielle et permutations</h2><div class=\"formula\">n! = n × (n − 1) × (n − 2) × … × 2 × 1&nbsp;&nbsp;&nbsp; avec 0! = 1 et 1! = 1</div><p>Valeurs : 3! = 6, 4! = 24, 5! = 120, 6! = 720, 10! = 3 628 800. Elle grandit très vite.</p><p>Une <b>permutation</b> de n éléments distincts est une façon de les ranger dans un ordre. Il y en a <b>n!</b> : n choix pour la première place, n − 1 pour la deuxième, etc.</p><p>Exemple : ranger 5 livres différents côte à côte : 5! = 120 façons. Les anagrammes d’un mot de 4 lettres toutes différentes : 4! = 24.</p><h2>Arrangements</h2><p>Un <b>arrangement</b> de p éléments parmi n (p ≤ n) est une liste <b>ordonnée</b> de p éléments distincts pris parmi n.</p><div class=\"formula\">A<sub>n</sub><sup>p</sup> = n × (n − 1) × … × (n − p + 1) = n! / (n − p)!</div><p>Le podium d’une course à 8 coureurs : A<sub>8</sub><sup>3</sup> = 8 × 7 × 6 = <b>336</b> podiums (le premier, le deuxième et le troisième comptent différemment).</p><h2>Combinaisons</h2><p>Une <b>combinaison</b> de p éléments parmi n est une <b>partie</b> de p éléments : l’ordre ne compte pas. On note C(n ; p) (ou « p parmi n », ou <i>n choisir p</i>).</p><div class=\"formula\">C(n ; p) = n! / ( p! × (n − p)! ) = A<sub>n</sub><sup>p</sup> / p!</div><p>Pourquoi diviser par p! ? Chaque groupe de p éléments apparaît p! fois dans les arrangements (une fois par ordre possible). Un comité de 3 personnes parmi 8 : C(8 ; 3) = 336/6 = <b>56</b>. Les mains de 5 cartes dans un jeu de 32 cartes : C(32 ; 5) = 201 376.</p><h3>Propriétés et triangle de Pascal</h3><ul><li>C(n ; 0) = C(n ; n) = 1 et C(n ; 1) = n ;</li><li><b>symétrie</b> : C(n ; p) = C(n ; n − p) (choisir les p éléments retenus revient à choisir les n − p éliminés) ;</li><li><b>relation de Pascal</b> : C(n ; p) = C(n − 1 ; p − 1) + C(n − 1 ; p).</li></ul><p>La relation de Pascal permet de construire le triangle des C(n ; p) : chaque nombre est la somme des deux nombres au-dessus.</p><svg class=\"graph\" viewBox=\"0 0 380 234\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:420px\" role=\"img\" aria-label=\"Triangle de Pascal jusqu'à la ligne 6 ; chaque nombre est la somme des deux nombres au-dessus\"><text x=\"14\" y=\"26\" text-anchor=\"start\" font-size=\"11\" fill=\"var(--muted)\">n = 0</text><text x=\"190\" y=\"26.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">1</text><text x=\"14\" y=\"54\" text-anchor=\"start\" font-size=\"11\" fill=\"var(--muted)\">n = 1</text><text x=\"170\" y=\"54.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">1</text><text x=\"210\" y=\"54.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">1</text><text x=\"14\" y=\"82\" text-anchor=\"start\" font-size=\"11\" fill=\"var(--muted)\">n = 2</text><text x=\"150\" y=\"82.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">1</text><text x=\"190\" y=\"82.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">2</text><text x=\"230\" y=\"82.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">1</text><text x=\"14\" y=\"110\" text-anchor=\"start\" font-size=\"11\" fill=\"var(--muted)\">n = 3</text><text x=\"130\" y=\"110.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">1</text><text x=\"170\" y=\"110.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">3</text><text x=\"210\" y=\"110.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">3</text><text x=\"250\" y=\"110.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">1</text><text x=\"14\" y=\"138\" text-anchor=\"start\" font-size=\"11\" fill=\"var(--muted)\">n = 4</text><text x=\"110\" y=\"138.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">1</text><circle cx=\"150\" cy=\"134\" r=\"14\" fill=\"var(--ok)\"/><text x=\"150\" y=\"138.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"var(--surface)\" font-weight=\"700\">4</text><circle cx=\"190\" cy=\"134\" r=\"14\" fill=\"var(--ok)\"/><text x=\"190\" y=\"138.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"var(--surface)\" font-weight=\"700\">6</text><text x=\"230\" y=\"138.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">4</text><text x=\"270\" y=\"138.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">1</text><text x=\"14\" y=\"166\" text-anchor=\"start\" font-size=\"11\" fill=\"var(--muted)\">n = 5</text><text x=\"90\" y=\"166.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">1</text><text x=\"130\" y=\"166.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">5</text><circle cx=\"170\" cy=\"162\" r=\"14\" fill=\"var(--ko)\"/><text x=\"170\" y=\"166.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"var(--surface)\" font-weight=\"700\">10</text><text x=\"210\" y=\"166.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">10</text><text x=\"250\" y=\"166.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">5</text><text x=\"290\" y=\"166.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">1</text><text x=\"14\" y=\"194\" text-anchor=\"start\" font-size=\"11\" fill=\"var(--muted)\">n = 6</text><text x=\"70\" y=\"194.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">1</text><text x=\"110\" y=\"194.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">6</text><text x=\"150\" y=\"194.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">15</text><text x=\"190\" y=\"194.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">20</text><text x=\"230\" y=\"194.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">15</text><text x=\"270\" y=\"194.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">6</text><text x=\"310\" y=\"194.5\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">1</text><text x=\"190\" y=\"222\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"600\">C(5 ; 2) = C(4 ; 1) + C(4 ; 2) : 10 = 4 + 6</text></svg><h3>Comment choisir la bonne formule ?</h3><p>Se poser deux questions : l’<b>ordre</b> compte-t-il ? Peut-on <b>répéter</b> un élément ?</p><div style='overflow-x:auto;margin:14px 0'><table style='border-collapse:collapse;width:100%'><thead><tr><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>Situation</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>Ordre important ?</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>Répétition possible ?</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>Nombre de possibilités</th></tr></thead><tbody><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>Code à 4 chiffres</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>oui</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>oui</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>10<sup>4</sup> = 10 000</td></tr><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>Ranger 5 livres sur une étagère</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>oui</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>non (tous utilisés)</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>5! = 120</td></tr><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>Podium de 3 coureurs parmi 8</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>oui</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>non</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>A<sub>8</sub><sup>3</sup> = 8×7×6 = 336</td></tr><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>Comité de 3 personnes parmi 8</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>non</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>non</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>C(8 ; 3) = 56</td></tr></tbody></table></div><p>Les calculs se font avec la calculatrice (touche factorielle ou calcul direct du produit). Pour C(n ; p), simplifier avant de multiplier : C(8 ; 3) = (8×7×6)/(3×2×1) = 56.</p>"},
+{t:"Probabilités : expériences indépendantes (dés, pièces, urnes)",s:"Statistiques et probabilités (D)",h:"<h2>Modéliser une expérience aléatoire</h2><p>Une <b>expérience aléatoire</b> a plusieurs résultats possibles, appelés <b>issues</b>, et on ne peut pas prévoir lequel arrivera. L’ensemble de toutes les issues est l’<b>univers</b> Ω. Un <b>évènement</b> est un ensemble d’issues.</p><p>Lancer un dé : Ω = {1 ; 2 ; 3 ; 4 ; 5 ; 6}. L’évènement « obtenir un nombre pair » est A = {2 ; 4 ; 6}.</p><h3>Équiprobabilité</h3><p>Quand toutes les issues ont la même probabilité (dé non truqué, pièce équilibrée, boules indiscernables au toucher), on a :</p><div class=\"formula\">P(A) = nombre d’issues favorables / nombre d’issues possibles</div><p>Pour le dé : P(pair) = 3/6 = 1/2. Rappels : 0 ≤ P(A) ≤ 1, P(Ω) = 1 et</p><ul><li><b>évènement contraire</b> : P(Ā) = 1 − P(A) (utile pour « au moins un ») ;</li><li><b>réunion</b> : P(A ∪ B) = P(A) + P(B) − P(A ∩ B). Si A et B sont incompatibles (A ∩ B vide), P(A ∪ B) = P(A) + P(B).</li></ul><h2>Expériences indépendantes</h2><p>Deux expériences sont <b>indépendantes</b> quand le résultat de l’une n’influence pas celui de l’autre : deux lancers de dés, des lancers successifs d’une pièce, des tirages <b>avec remise</b> dans une urne. Dans ce cas :</p><div class=\"formula\">la probabilité d’une succession de résultats est le produit des probabilités de chaque résultat.</div><h3>Deux dés : le tableau des 36 issues</h3><p>On lance deux dés équilibrés. Il y a 6 × 6 = 36 issues équiprobables (principe multiplicatif), de probabilité 1/36 chacune.</p><svg class=\"graph\" viewBox=\"0 0 270 278\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:300px\" role=\"img\" aria-label=\"Tableau des 36 résultats de deux dés ; la somme vaut 7 dans 6 cases\"><text x=\"20\" y=\"20\" text-anchor=\"start\" font-size=\"11\" fill=\"var(--muted)\">2ᵉ dé</text><text x=\"14\" y=\"136\" text-anchor=\"start\" font-size=\"10.5\" fill=\"var(--muted)\">1ᵉʳ</text><text x=\"57\" y=\"24\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\" font-weight=\"700\">1</text><text x=\"30\" y=\"51\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\" font-weight=\"700\">1</text><rect x=\"40\" y=\"30\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"57\" y=\"51.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">2</text><rect x=\"74\" y=\"30\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"91\" y=\"51.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">3</text><rect x=\"108\" y=\"30\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"125\" y=\"51.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">4</text><rect x=\"142\" y=\"30\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"159\" y=\"51.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">5</text><rect x=\"176\" y=\"30\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"193\" y=\"51.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">6</text><rect x=\"210\" y=\"30\" width=\"34\" height=\"34\" fill=\"var(--accent)\" fill-opacity=\".4\" stroke=\"var(--line)\"/><text x=\"227\" y=\"51.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"700\">7</text><text x=\"91\" y=\"24\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\" font-weight=\"700\">2</text><text x=\"30\" y=\"85\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\" font-weight=\"700\">2</text><rect x=\"40\" y=\"64\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"57\" y=\"85.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">3</text><rect x=\"74\" y=\"64\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"91\" y=\"85.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">4</text><rect x=\"108\" y=\"64\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"125\" y=\"85.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">5</text><rect x=\"142\" y=\"64\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"159\" y=\"85.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">6</text><rect x=\"176\" y=\"64\" width=\"34\" height=\"34\" fill=\"var(--accent)\" fill-opacity=\".4\" stroke=\"var(--line)\"/><text x=\"193\" y=\"85.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"700\">7</text><rect x=\"210\" y=\"64\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"227\" y=\"85.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">8</text><text x=\"125\" y=\"24\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\" font-weight=\"700\">3</text><text x=\"30\" y=\"119\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\" font-weight=\"700\">3</text><rect x=\"40\" y=\"98\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"57\" y=\"119.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">4</text><rect x=\"74\" y=\"98\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"91\" y=\"119.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">5</text><rect x=\"108\" y=\"98\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"125\" y=\"119.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">6</text><rect x=\"142\" y=\"98\" width=\"34\" height=\"34\" fill=\"var(--accent)\" fill-opacity=\".4\" stroke=\"var(--line)\"/><text x=\"159\" y=\"119.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"700\">7</text><rect x=\"176\" y=\"98\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"193\" y=\"119.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">8</text><rect x=\"210\" y=\"98\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"227\" y=\"119.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">9</text><text x=\"159\" y=\"24\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\" font-weight=\"700\">4</text><text x=\"30\" y=\"153\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\" font-weight=\"700\">4</text><rect x=\"40\" y=\"132\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"57\" y=\"153.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">5</text><rect x=\"74\" y=\"132\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"91\" y=\"153.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">6</text><rect x=\"108\" y=\"132\" width=\"34\" height=\"34\" fill=\"var(--accent)\" fill-opacity=\".4\" stroke=\"var(--line)\"/><text x=\"125\" y=\"153.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"700\">7</text><rect x=\"142\" y=\"132\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"159\" y=\"153.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">8</text><rect x=\"176\" y=\"132\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"193\" y=\"153.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">9</text><rect x=\"210\" y=\"132\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"227\" y=\"153.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">10</text><text x=\"193\" y=\"24\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\" font-weight=\"700\">5</text><text x=\"30\" y=\"187\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\" font-weight=\"700\">5</text><rect x=\"40\" y=\"166\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"57\" y=\"187.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">6</text><rect x=\"74\" y=\"166\" width=\"34\" height=\"34\" fill=\"var(--accent)\" fill-opacity=\".4\" stroke=\"var(--line)\"/><text x=\"91\" y=\"187.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"700\">7</text><rect x=\"108\" y=\"166\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"125\" y=\"187.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">8</text><rect x=\"142\" y=\"166\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"159\" y=\"187.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">9</text><rect x=\"176\" y=\"166\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"193\" y=\"187.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">10</text><rect x=\"210\" y=\"166\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"227\" y=\"187.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">11</text><text x=\"227\" y=\"24\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\" font-weight=\"700\">6</text><text x=\"30\" y=\"221\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\" font-weight=\"700\">6</text><rect x=\"40\" y=\"200\" width=\"34\" height=\"34\" fill=\"var(--accent)\" fill-opacity=\".4\" stroke=\"var(--line)\"/><text x=\"57\" y=\"221.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"700\">7</text><rect x=\"74\" y=\"200\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"91\" y=\"221.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">8</text><rect x=\"108\" y=\"200\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"125\" y=\"221.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">9</text><rect x=\"142\" y=\"200\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"159\" y=\"221.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">10</text><rect x=\"176\" y=\"200\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"193\" y=\"221.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">11</text><rect x=\"210\" y=\"200\" width=\"34\" height=\"34\" fill=\"var(--soft)\" fill-opacity=\"1\" stroke=\"var(--line)\"/><text x=\"227\" y=\"221.5\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"400\">12</text><text x=\"142\" y=\"256\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"600\">6 cases sur 36 donnent une somme de 7</text></svg><ul><li>P(somme = 7) = 6/36 = <b>1/6</b> (la diagonale colorée) ;</li><li>P(double) = 6/36 = 1/6 (1-1, 2-2, …) ;</li><li>P(obtenir au moins un 6) = 1 − P(aucun 6) = 1 − (5/6)² = 1 − 25/36 = <b>11/36</b> ;</li><li>P(deux 6) = 1/6 × 1/6 = 1/36 (indépendance).</li></ul><h3>Trois lancers d’une pièce</h3><p>Il y a 2 × 2 × 2 = 8 issues équiprobables (PPP, PPF, …). P(exactement 2 piles) = 3/8, car les issues PPF, PFP et FPP conviennent (C(3 ; 2) = 3). P(au moins un pile) = 1 − P(FFF) = 1 − 1/8 = 7/8.</p><h3>Les urnes : avec ou sans remise</h3><p>Une urne contient 3 boules rouges et 2 boules bleues. On tire deux boules.</p><ul><li><b>Avec remise</b> (on remet la boule avant le second tirage) : les tirages sont indépendants. P(deux rouges) = 3/5 × 3/5 = <b>9/25</b>.</li><li><b>Sans remise</b> : le second tirage dépend du premier. P(deux rouges) = 3/5 × 2/4 = <b>3/10</b>. Ce n’est plus de l’indépendance, mais du conditionnement (voir les cours suivants).</li></ul><p>On peut aussi compter par combinaisons : sans remise, P(deux rouges) = C(3 ; 2)/C(5 ; 2) = 3/10. On retrouve le même résultat.</p>"},
+{t:"Probabilités : tableaux, arbres pondérés et diagrammes",s:"Statistiques et probabilités (D)",h:"<h2>Trois façons de représenter une situation</h2><p>Quand deux caractères se croisent, on peut organiser l’information dans un <b>tableau à double entrée</b>, un <b>diagramme de Venn</b> ou un <b>arbre pondéré</b>. Les trois disent la même chose ; on choisit celui qui rend le calcul le plus simple.</p><p><b>Situation.</b> Un magasin a 200 clients. Parmi eux, 120 sont des femmes (F) et 80 des hommes (H). Au total, 130 clients ont acheté (A) : 90 femmes et 40 hommes.</p><h2>Le tableau à double entrée</h2><div style='overflow-x:auto;margin:14px 0'><table style='border-collapse:collapse;width:100%'><thead><tr><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'></th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>A (a acheté)</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>Ā (n’a pas acheté)</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>Total</th></tr></thead><tbody><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>F (femme)</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>90</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>30</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>120</td></tr><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>H (homme)</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>40</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>40</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>80</td></tr><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>Total</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>130</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>70</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>200</td></tr></tbody></table></div><p>Les cases intérieures sont les croisements (« et ») ; les totaux sont les marges. On remplit le tableau en complétant par soustraction : 120 − 90 = 30, etc.</p><ul><li>P(F) = 120/200 = <b>0,6</b> ; P(A) = 130/200 = <b>0,65</b> ;</li><li>P(F ∩ A) = 90/200 = <b>0,45</b> (femme <i>et</i> ayant acheté).</li></ul><p>Dire « parmi les femmes, quelle proportion a acheté ? » se lit sur la ligne F : 90/120 = <b>0,75</b>. On a <i>restreint</i> la population aux femmes : c’est une probabilité conditionnelle, notée P<sub>F</sub>(A) (voir le cours suivant).</p><h2>Le diagramme de Venn</h2><p>On dessine deux ensembles qui se recouvrent. La zone commune est « F et A » (F ∩ A). Les effectifs dans chaque zone :</p><svg class=\"graph\" viewBox=\"0 0 300 190\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:340px\" role=\"img\" aria-label=\"Diagramme de Venn de deux évènements avec les effectifs de chaque zone\"><rect x=\"2\" y=\"2\" width=\"296\" height=\"186\" rx=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/><circle cx=\"118\" cy=\"96\" r=\"62\" fill=\"var(--accent)\" fill-opacity=\".2\" stroke=\"var(--accent)\" stroke-width=\"1.8\"/><circle cx=\"184\" cy=\"96\" r=\"62\" fill=\"var(--ok)\" fill-opacity=\".2\" stroke=\"var(--ok)\" stroke-width=\"1.8\"/><text x=\"92\" y=\"100\" text-anchor=\"middle\" font-size=\"15\" fill=\"currentColor\" font-weight=\"700\">30</text><text x=\"151\" y=\"100\" text-anchor=\"middle\" font-size=\"15\" fill=\"currentColor\" font-weight=\"700\">90</text><text x=\"210\" y=\"100\" text-anchor=\"middle\" font-size=\"15\" fill=\"currentColor\" font-weight=\"700\">40</text><text x=\"86\" y=\"26\" text-anchor=\"middle\" font-size=\"13\" fill=\"var(--accent)\" font-weight=\"700\">F</text><text x=\"216\" y=\"26\" text-anchor=\"middle\" font-size=\"13\" fill=\"var(--ok)\" font-weight=\"700\">A</text><text x=\"292\" y=\"174\" text-anchor=\"end\" font-size=\"14\" fill=\"var(--muted)\" font-weight=\"700\">40</text><text x=\"292\" y=\"156\" text-anchor=\"end\" font-size=\"10\" fill=\"var(--muted)\">ni l’un ni l’autre</text></svg><p>Femmes qui n’ont pas acheté : 30 (zone F seule). Femmes qui ont acheté : 90 (zone commune). Hommes qui ont acheté : 40 (zone A seule). Ni femme ni acheteur : 40 (en dehors des deux cercles, ce sont les hommes qui n’ont pas acheté). Total : 30 + 90 + 40 + 40 = 200.</p><p>« F ou A » (F ∪ A) est la réunion des deux cercles : 30 + 90 + 40 = 160, soit P(F ∪ A) = 0,8. On retrouve la formule P(F ∪ A) = P(F) + P(A) − P(F ∩ A) = 0,6 + 0,65 − 0,45 = 0,8.</p><h2>L’arbre pondéré</h2><p>On écrit les étapes dans l’ordre : d’abord F ou H, puis A ou Ā. Sur chaque branche, on place la probabilité de cette étape <b>sachant</b> le chemin déjà parcouru.</p><svg class=\"graph\" viewBox=\"0 0 380 164\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:420px\" role=\"img\" aria-label=\"Arbre pondéré de probabilités\"><circle cx=\"16\" cy=\"82\" r=\"5\" fill=\"var(--accent)\"/><line x1=\"16\" y1=\"82\" x2=\"118\" y2=\"46\" stroke=\"var(--accent)\" stroke-width=\"1.8\" /><text x=\"60\" y=\"57\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,6</text><rect x=\"120\" y=\"34\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--accent)\" fill-opacity=\".16\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"146\" y=\"51\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"700\">F</text><line x1=\"172\" y1=\"46\" x2=\"238\" y2=\"29\" stroke=\"var(--muted)\" stroke-width=\"1.5\" /><text x=\"210\" y=\"28.8\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,75</text><rect x=\"240\" y=\"17\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"34\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"600\">A</text><text x=\"300\" y=\"34\" text-anchor=\"start\" font-size=\"12\" fill=\"currentColor\" font-weight=\"600\">0,45</text><line x1=\"172\" y1=\"46\" x2=\"238\" y2=\"63\" stroke=\"var(--muted)\" stroke-width=\"1.5\" /><text x=\"210\" y=\"71.2\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,25</text><rect x=\"240\" y=\"51\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"68\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"600\">Ā</text><text x=\"300\" y=\"68\" text-anchor=\"start\" font-size=\"12\" fill=\"currentColor\" font-weight=\"600\">0,15</text><line x1=\"16\" y1=\"82\" x2=\"118\" y2=\"114\" stroke=\"var(--accent)\" stroke-width=\"1.8\" /><text x=\"60\" y=\"113\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,4</text><rect x=\"120\" y=\"102\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--accent)\" fill-opacity=\".16\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"146\" y=\"119\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"700\">H</text><line x1=\"172\" y1=\"114\" x2=\"238\" y2=\"97\" stroke=\"var(--muted)\" stroke-width=\"1.5\" /><text x=\"210\" y=\"96.8\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,5</text><rect x=\"240\" y=\"85\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"102\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"600\">A</text><text x=\"300\" y=\"102\" text-anchor=\"start\" font-size=\"12\" fill=\"currentColor\" font-weight=\"600\">0,20</text><line x1=\"172\" y1=\"114\" x2=\"238\" y2=\"131\" stroke=\"var(--muted)\" stroke-width=\"1.5\" /><text x=\"210\" y=\"139.2\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,5</text><rect x=\"240\" y=\"119\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"136\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"600\">Ā</text><text x=\"300\" y=\"136\" text-anchor=\"start\" font-size=\"12\" fill=\"currentColor\" font-weight=\"600\">0,20</text></svg><ul><li><b>Règle 1</b> : la somme des probabilités des branches qui partent d’un même nœud vaut 1 (0,6 + 0,4 = 1 ; 0,75 + 0,25 = 1 ; 0,5 + 0,5 = 1).</li><li><b>Règle 2</b> : la probabilité d’un chemin est le <b>produit</b> des probabilités le long du chemin. F puis A : 0,6 × 0,75 = 0,45.</li><li><b>Règle 3</b> : la probabilité d’un évènement est la <b>somme</b> des probabilités des chemins qui le réalisent. Acheter : 0,45 + 0,20 = 0,65.</li></ul><p>On retrouve les résultats du tableau : P(A) = 0,65, P(F ∩ A) = 0,45, P(H ∩ A) = 0,20.</p>"},
+{t:"Probabilités conditionnelles et indépendance de deux évènements",s:"Statistiques et probabilités (D)",h:"<h2>Probabilité conditionnelle</h2><p>Quand on sait qu’un évènement s’est produit, la probabilité des autres évènements change : on ne regarde plus toute la population, mais seulement le sous-groupe concerné.</p><div class=\"formula\">Soit A un évènement de probabilité non nulle. La probabilité de B sachant A est<br>P<sub>A</sub>(B) = P(A ∩ B) / P(A)</div><p>Elle se lit « probabilité de B sachant A » et se note aussi P(B | A). Dans le diagramme de Venn, on ne garde que le cercle A et on regarde quelle part de ce cercle appartient aussi à B.</p><p><b>Reprise de l’exemple des clients</b> (200 clients, 120 femmes, 90 femmes acheteuses) : P(F) = 0,6 et P(F ∩ A) = 0,45, donc</p><p>P<sub>F</sub>(A) = 0,45/0,6 = <b>0,75</b>, ce qu’on lisait déjà dans le tableau (90/120).</p><p><b>Attention à l’ordre :</b> P<sub>A</sub>(F) = P(A ∩ F)/P(A) = 0,45/0,65 ≈ 0,69 n’est pas P<sub>F</sub>(A) = 0,75. « Parmi les acheteurs, la part de femmes » n’est pas « parmi les femmes, la part d’acheteuses ».</p><h3>La formule des probabilités composées</h3><p>En multipliant la définition par P(A), on obtient la règle du produit qui justifie l’arbre pondéré :</p><div class=\"formula\">P(A ∩ B) = P(A) × P<sub>A</sub>(B)</div><p>Exemple : on tire deux cartes sans remise dans un jeu de 32. P(deux rois) = P(1ᵉʳ roi) × P<sub>1ᵉʳ roi</sub>(2ᵉ roi) = 4/32 × 3/31 = 12/992 = 3/248.</p><h2>Indépendance de deux évènements</h2><p>Deux évènements sont <b>indépendants</b> quand savoir que l’un est réalisé ne change pas la probabilité de l’autre.</p><div class=\"formula\">A et B (de probabilités non nulles) sont indépendants ⇔ P(A ∩ B) = P(A) × P(B)<br>⇔ P<sub>A</sub>(B) = P(B)</div><h3>Exemple 1 : des évènements indépendants</h3><p>On tire une carte dans un jeu de 32. R = « roi », C = « cœur ».<br>P(R) = 4/32 = 1/8, P(C) = 8/32 = 1/4 et P(R ∩ C) = P(roi de cœur) = 1/32.<br>Comme P(R) × P(C) = 1/8 × 1/4 = 1/32 = P(R ∩ C), les évènements sont <b>indépendants</b> : connaître la couleur ne dit rien sur le fait d’avoir un roi.</p><h3>Exemple 2 : des évènements non indépendants</h3><p>Pour les clients du magasin, P(F) × P(A) = 0,6 × 0,65 = 0,39, alors que P(F ∩ A) = 0,45. Les deux valeurs sont différentes : <b>être une femme et avoir acheté ne sont pas indépendants</b> (les femmes achètent plus souvent dans cet échantillon).</p><h3>Ne pas confondre « incompatibles » et « indépendants »</h3><ul><li><b>Incompatibles</b> : A ∩ B est vide, ils ne peuvent pas arriver ensemble. P(A ∩ B) = 0.</li><li><b>Indépendants</b> : P(A ∩ B) = P(A)P(B).</li><li>Si A et B sont incompatibles et de probabilités non nulles, ils ne sont <b>jamais</b> indépendants : P(A ∩ B) = 0 alors que P(A)P(B) &gt; 0. Savoir que A est réalisé apprend que B ne l’est pas.</li></ul><p>Pour les expériences répétées (dés, pièces, tirages avec remise), l’indépendance est donnée par l’énoncé : c’est elle qui permet de multiplier les probabilités le long des branches.</p>"},
+{t:"Formule des probabilités totales",s:"Statistiques et probabilités (D)",h:"<h2>Partition de l’univers</h2><p>Des évènements A<sub>1</sub>, A<sub>2</sub>, …, A<sub>k</sub> forment une <b>partition</b> de l’univers quand ils sont <b>deux à deux incompatibles</b>, de probabilités non nulles, et que leur réunion est l’univers tout entier : toute issue appartient à un seul d’entre eux. Exemples : {A, Ā}, ou « la machine qui a fabriqué la pièce » quand il y a trois machines.</p><h2>La formule</h2><div class=\"formula\">Si A<sub>1</sub>, …, A<sub>k</sub> forment une partition de l’univers, alors pour tout évènement B :<br>P(B) = P(A<sub>1</sub>)·P<sub>A<sub>1</sub></sub>(B) + P(A<sub>2</sub>)·P<sub>A<sub>2</sub></sub>(B) + … + P(A<sub>k</sub>)·P<sub>A<sub>k</sub></sub>(B)</div><p>Pourquoi ? B se décompose selon les morceaux de la partition : B = (B ∩ A<sub>1</sub>) ∪ … ∪ (B ∩ A<sub>k</sub>), ces morceaux étant incompatibles, donc P(B) = Σ P(B ∩ A<sub>i</sub>) = Σ P(A<sub>i</sub>)P<sub>A<sub>i</sub></sub>(B). Sur un arbre, c’est la règle 3 : on <b>additionne les probabilités des chemins</b> qui aboutissent à B. Le cas le plus simple est la partition {A, Ā} : P(B) = P(A)P<sub>A</sub>(B) + P(Ā)P<sub>Ā</sub>(B).</p><h2>Exemple : trois machines</h2><p>Une usine fabrique des pièces avec trois machines : M<sub>1</sub> fait 50 % de la production, M<sub>2</sub> 30 % et M<sub>3</sub> 20 %. Les pièces sont défectueuses (D) dans 2 % des cas pour M<sub>1</sub>, 5 % pour M<sub>2</sub> et 10 % pour M<sub>3</sub>. Quelle est la probabilité qu’une pièce prise au hasard soit défectueuse ?</p><svg class=\"graph\" viewBox=\"0 0 380 232\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:420px\" role=\"img\" aria-label=\"Arbre pondéré de probabilités\"><circle cx=\"16\" cy=\"116\" r=\"5\" fill=\"var(--accent)\"/><line x1=\"16\" y1=\"116\" x2=\"118\" y2=\"46\" stroke=\"var(--accent)\" stroke-width=\"1.8\" /><text x=\"60\" y=\"74\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,5</text><rect x=\"120\" y=\"34\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--accent)\" fill-opacity=\".16\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"146\" y=\"51\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"700\">M₁</text><line x1=\"172\" y1=\"46\" x2=\"238\" y2=\"29\" stroke=\"var(--muted)\" stroke-width=\"1.5\" /><text x=\"210\" y=\"28.8\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,02</text><rect x=\"240\" y=\"17\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"34\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"600\">D</text><text x=\"300\" y=\"34\" text-anchor=\"start\" font-size=\"12\" fill=\"currentColor\" font-weight=\"600\">0,010</text><line x1=\"172\" y1=\"46\" x2=\"238\" y2=\"63\" stroke=\"var(--muted)\" stroke-width=\"1.5\" /><text x=\"210\" y=\"71.2\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,98</text><rect x=\"240\" y=\"51\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"68\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"600\">D̄</text><text x=\"300\" y=\"68\" text-anchor=\"start\" font-size=\"12\" fill=\"currentColor\" font-weight=\"600\">0,490</text><line x1=\"16\" y1=\"116\" x2=\"118\" y2=\"114\" stroke=\"var(--accent)\" stroke-width=\"1.8\" /><text x=\"60\" y=\"108\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,3</text><rect x=\"120\" y=\"102\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--accent)\" fill-opacity=\".16\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"146\" y=\"119\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"700\">M₂</text><line x1=\"172\" y1=\"114\" x2=\"238\" y2=\"97\" stroke=\"var(--muted)\" stroke-width=\"1.5\" /><text x=\"210\" y=\"96.8\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,05</text><rect x=\"240\" y=\"85\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"102\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"600\">D</text><text x=\"300\" y=\"102\" text-anchor=\"start\" font-size=\"12\" fill=\"currentColor\" font-weight=\"600\">0,015</text><line x1=\"172\" y1=\"114\" x2=\"238\" y2=\"131\" stroke=\"var(--muted)\" stroke-width=\"1.5\" /><text x=\"210\" y=\"139.2\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,95</text><rect x=\"240\" y=\"119\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"136\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"600\">D̄</text><text x=\"300\" y=\"136\" text-anchor=\"start\" font-size=\"12\" fill=\"currentColor\" font-weight=\"600\">0,285</text><line x1=\"16\" y1=\"116\" x2=\"118\" y2=\"182\" stroke=\"var(--accent)\" stroke-width=\"1.8\" /><text x=\"60\" y=\"164\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,2</text><rect x=\"120\" y=\"170\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--accent)\" fill-opacity=\".16\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"146\" y=\"187\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"700\">M₃</text><line x1=\"172\" y1=\"182\" x2=\"238\" y2=\"165\" stroke=\"var(--muted)\" stroke-width=\"1.5\" /><text x=\"210\" y=\"164.8\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,10</text><rect x=\"240\" y=\"153\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"170\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"600\">D</text><text x=\"300\" y=\"170\" text-anchor=\"start\" font-size=\"12\" fill=\"currentColor\" font-weight=\"600\">0,020</text><line x1=\"172\" y1=\"182\" x2=\"238\" y2=\"199\" stroke=\"var(--muted)\" stroke-width=\"1.5\" /><text x=\"210\" y=\"207.2\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,90</text><rect x=\"240\" y=\"187\" width=\"52\" height=\"24\" rx=\"8\" fill=\"var(--ok)\" fill-opacity=\".16\" stroke=\"var(--ok)\" stroke-width=\"1.2\"/><text x=\"266\" y=\"204\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\" font-weight=\"600\">D̄</text><text x=\"300\" y=\"204\" text-anchor=\"start\" font-size=\"12\" fill=\"currentColor\" font-weight=\"600\">0,180</text></svg><p>Les trois chemins qui mènent à D sont M<sub>1</sub> puis D, M<sub>2</sub> puis D et M<sub>3</sub> puis D :</p><p>P(D) = 0,5 × 0,02 + 0,3 × 0,05 + 0,2 × 0,10 = 0,010 + 0,015 + 0,020 = <b>0,045</b>, soit 4,5 % de pièces défectueuses.</p><p>Vérification : les six chemins ont des probabilités qui s’additionnent à 1 (0,010 + 0,490 + 0,015 + 0,285 + 0,020 + 0,180 = 1).</p><h3>Pour aller plus loin : remonter l’arbre</h3><p>Sachant qu’une pièce est défectueuse, quelle est la probabilité qu’elle vienne de M<sub>3</sub> ? On utilise la définition de la probabilité conditionnelle et le résultat précédent :</p><p>P<sub>D</sub>(M<sub>3</sub>) = P(M<sub>3</sub> ∩ D)/P(D) = 0,020/0,045 ≈ <b>0,444</b>. Alors que M<sub>3</sub> ne produit que 20 % des pièces, elle est responsable de près de 44 % des défauts.</p>"},
+{t:"Lois de probabilité discrètes",s:"Statistiques et probabilités (D)",h:"<h2>Variable aléatoire</h2><p>Une <b>variable aléatoire</b> X associe un nombre à chaque issue d’une expérience aléatoire : le nombre de piles, la somme de deux dés, le gain d’un jeu… Elle est <b>discrète</b> lorsqu’elle ne prend qu’un nombre fini (ou dénombrable) de valeurs x<sub>1</sub>, x<sub>2</sub>, …, x<sub>k</sub>.</p><p>L’évènement « X = x<sub>i</sub> » est l’ensemble des issues pour lesquelles X vaut x<sub>i</sub>. On note p<sub>i</sub> = P(X = x<sub>i</sub>).</p><h2>Loi de probabilité</h2><p>La <b>loi de probabilité</b> de X est la donnée des valeurs x<sub>i</sub> et des probabilités p<sub>i</sub>, souvent dans un tableau.</p><div class=\"formula\">0 ≤ p<sub>i</sub> ≤ 1 pour tout i&nbsp;&nbsp;&nbsp; et &nbsp;&nbsp;&nbsp;p<sub>1</sub> + p<sub>2</sub> + … + p<sub>k</sub> = 1</div><h3>Exemple 1 : deux pièces</h3><p>On lance deux pièces équilibrées. Soit X le nombre de piles. Les quatre issues PP, PF, FP, FF sont équiprobables.</p><div style='overflow-x:auto;margin:14px 0'><table style='border-collapse:collapse;width:100%'><thead><tr><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>x<sub>i</sub></th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>0</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>1</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>2</th></tr></thead><tbody><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>P(X = x<sub>i</sub>)</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>1/4</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>1/2</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>1/4</td></tr></tbody></table></div><p>La somme vaut 1/4 + 1/2 + 1/4 = 1 ✓. On calcule ensuite des probabilités d’évènements en additionnant : P(X ≥ 1) = 1/2 + 1/4 = 3/4 (ou 1 − P(X = 0) = 3/4).</p><h3>Exemple 2 : la somme de deux dés</h3><p>Soit X la somme des deux faces. D’après le tableau des 36 issues, P(X = 2) = 1/36, P(X = 3) = 2/36, …, P(X = 7) = 6/36, …, P(X = 12) = 1/36.</p><svg class=\"graph\" viewBox=\"0 0 360 200\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:400px\" role=\"img\" aria-label=\"Diagramme en bâtons d'une loi de probabilité\"><line x1=\"36\" y1=\"160\" x2=\"350\" y2=\"160\" stroke=\"currentColor\" stroke-width=\"1.5\" /><line x1=\"36\" y1=\"16\" x2=\"36\" y2=\"160\" stroke=\"currentColor\" stroke-width=\"1.5\" /><line x1=\"33\" y1=\"160\" x2=\"36\" y2=\"160\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"164\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,00</text><line x1=\"33\" y1=\"124\" x2=\"36\" y2=\"124\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"128\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,05</text><line x1=\"33\" y1=\"88\" x2=\"36\" y2=\"88\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"92\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,10</text><line x1=\"33\" y1=\"52\" x2=\"36\" y2=\"52\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"56\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,15</text><line x1=\"33\" y1=\"16\" x2=\"36\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"20\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,20</text><rect x=\"41.4\" y=\"140\" width=\"17.7\" height=\"20\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"50.3\" y=\"135\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,03</text><text x=\"50.3\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">2</text><rect x=\"70\" y=\"120\" width=\"17.7\" height=\"40\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"78.8\" y=\"115\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,06</text><text x=\"78.8\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">3</text><rect x=\"98.5\" y=\"100\" width=\"17.7\" height=\"60\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"107.4\" y=\"95\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,08</text><text x=\"107.4\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">4</text><rect x=\"127.1\" y=\"80\" width=\"17.7\" height=\"80\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"135.9\" y=\"75\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,11</text><text x=\"135.9\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">5</text><rect x=\"155.6\" y=\"60\" width=\"17.7\" height=\"100\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"164.5\" y=\"55\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,14</text><text x=\"164.5\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">6</text><rect x=\"184.2\" y=\"40\" width=\"17.7\" height=\"120\" fill=\"var(--ok)\" fill-opacity=\".35\" stroke=\"var(--ok)\" stroke-width=\"1.4\"/><text x=\"193\" y=\"35\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,17</text><text x=\"193\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">7</text><rect x=\"212.7\" y=\"60\" width=\"17.7\" height=\"100\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"221.5\" y=\"55\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,14</text><text x=\"221.5\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">8</text><rect x=\"241.2\" y=\"80\" width=\"17.7\" height=\"80\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"250.1\" y=\"75\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,11</text><text x=\"250.1\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">9</text><rect x=\"269.8\" y=\"100\" width=\"17.7\" height=\"60\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"278.6\" y=\"95\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,08</text><text x=\"278.6\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">10</text><rect x=\"298.3\" y=\"120\" width=\"17.7\" height=\"40\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"307.2\" y=\"115\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,06</text><text x=\"307.2\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">11</text><rect x=\"326.9\" y=\"140\" width=\"17.7\" height=\"20\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"335.7\" y=\"135\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,03</text><text x=\"335.7\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">12</text><text x=\"190\" y=\"195\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\">somme X des deux dés</text></svg><ul><li>P(X ≥ 10) = (3 + 2 + 1)/36 = 6/36 = 1/6 ;</li><li>P(X est pair) = (1 + 3 + 5 + 5 + 3 + 1)/36 = 18/36 = 1/2.</li></ul><p>Le diagramme en bâtons représente la loi : la hauteur de chaque bâton est p<sub>i</sub>. La somme des hauteurs vaut 1.</p><h3>Méthode pour établir une loi</h3><ol><li>Lister les valeurs possibles de X.</li><li>Pour chacune, trouver l’ensemble des issues correspondantes et sa probabilité (tableau, arbre, dénombrement).</li><li>Vérifier que la somme des probabilités vaut 1.</li></ol>"},
+{t:"Loi de Bernoulli et loi binomiale",s:"Statistiques et probabilités (D)",h:"<h2>Épreuve de Bernoulli et loi de Bernoulli</h2><p>Une <b>épreuve de Bernoulli</b> est une expérience qui n’a que <b>deux issues</b> : le <b>succès</b> (de probabilité p) et l’<b>échec</b> (de probabilité 1 − p). Exemples : un lancer de pièce (succès = pile), une pièce tirée est défectueuse ou non, une réponse de QCM est juste ou fausse.</p><div class=\"formula\">La variable X qui vaut 1 en cas de succès et 0 en cas d’échec suit la <b>loi de Bernoulli de paramètre p</b> :<br>P(X = 1) = p&nbsp;&nbsp; et &nbsp;&nbsp;P(X = 0) = 1 − p</div><h2>Loi binomiale</h2><p>On répète n fois la <b>même</b> épreuve de Bernoulli, de façon <b>indépendante</b>. Soit X le <b>nombre de succès</b> obtenus. On dit que X suit la <b>loi binomiale de paramètres n et p</b>, notée B(n ; p). X peut prendre les valeurs 0, 1, …, n.</p><div class=\"formula\">P(X = k) = C(n ; k) × p<sup>k</sup> × (1 − p)<sup>n − k</sup>&nbsp;&nbsp;&nbsp; pour k = 0, 1, …, n</div><p><b>D’où vient cette formule ?</b> Sur l’arbre des n épreuves, un chemin qui contient k succès et n − k échecs a pour probabilité p<sup>k</sup>(1 − p)<sup>n − k</sup> (on multiplie le long du chemin). Il y a C(n ; k) façons de choisir à quels rangs se trouvent les k succès. On additionne ces C(n ; k) chemins de même probabilité.</p><h3>Exemple 1 : trois lancers d’une pièce</h3><p>X = nombre de piles, X ∼ B(3 ; 1/2).</p><div style='overflow-x:auto;margin:14px 0'><table style='border-collapse:collapse;width:100%'><thead><tr><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>k</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>0</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>1</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>2</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>3</th></tr></thead><tbody><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>P(X = k)</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>C(3;0)(1/2)³ = 1/8</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>C(3;1)(1/2)³ = 3/8</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>C(3;2)(1/2)³ = 3/8</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>C(3;3)(1/2)³ = 1/8</td></tr></tbody></table></div><p>On retrouve l’analyse du cours sur les expériences indépendantes : P(X = 2) = 3/8.</p><h3>Exemple 2 : un QCM répondu au hasard</h3><p>Un QCM a 10 questions avec 4 réponses possibles dont une seule juste. On répond au hasard : chaque question est un succès avec p = 1/4. Soit X le nombre de bonnes réponses : X ∼ B(10 ; 0,25).</p><ul><li>P(X = 3) = C(10 ; 3) × 0,25³ × 0,75⁷ = 120 × 0,015625 × 0,13348 ≈ <b>0,250</b>.</li><li>P(X = 0) = 0,75¹⁰ ≈ 0,056.</li><li>P(au moins une bonne réponse) = 1 − P(X = 0) ≈ <b>0,944</b>. L’astuce de l’évènement contraire évite de calculer onze probabilités.</li></ul><h3>L’allure de la loi</h3><p>Voici la loi B(10 ; 0,3) : la valeur la plus probable est 3 (le plus haut bâton), c’est-à-dire n × p, et la loi est étalée autour d’elle.</p><svg class=\"graph\" viewBox=\"0 0 360 200\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:400px\" role=\"img\" aria-label=\"Diagramme en bâtons d'une loi de probabilité\"><line x1=\"36\" y1=\"160\" x2=\"350\" y2=\"160\" stroke=\"currentColor\" stroke-width=\"1.5\" /><line x1=\"36\" y1=\"16\" x2=\"36\" y2=\"160\" stroke=\"currentColor\" stroke-width=\"1.5\" /><line x1=\"33\" y1=\"160\" x2=\"36\" y2=\"160\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"164\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,00</text><line x1=\"33\" y1=\"124\" x2=\"36\" y2=\"124\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"128\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,10</text><line x1=\"33\" y1=\"88\" x2=\"36\" y2=\"88\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"92\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,20</text><line x1=\"33\" y1=\"52\" x2=\"36\" y2=\"52\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"56\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,30</text><line x1=\"33\" y1=\"16\" x2=\"36\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"20\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,40</text><line x1=\"135.9\" y1=\"12\" x2=\"135.9\" y2=\"163\" stroke=\"var(--ko)\" stroke-width=\"2\" stroke-dasharray=\"5 3\" /><path d=\"M135.9 163 l-9 15 h18 z\" fill=\"var(--ko)\"/><text x=\"141.9\" y=\"24\" text-anchor=\"start\" font-size=\"12\" fill=\"var(--ko)\" font-weight=\"700\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\"></text><rect x=\"41.4\" y=\"149.8\" width=\"17.7\" height=\"10.2\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"50.3\" y=\"144.8\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,03</text><text x=\"50.3\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">0</text><rect x=\"70\" y=\"116.4\" width=\"17.7\" height=\"43.6\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"78.8\" y=\"111.4\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,12</text><text x=\"78.8\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">1</text><rect x=\"98.5\" y=\"75.9\" width=\"17.7\" height=\"84.1\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"107.4\" y=\"70.9\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,23</text><text x=\"107.4\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">2</text><rect x=\"127.1\" y=\"63.9\" width=\"17.7\" height=\"96.1\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"135.9\" y=\"58.9\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,27</text><text x=\"135.9\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">3</text><rect x=\"155.6\" y=\"88\" width=\"17.7\" height=\"72\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"164.5\" y=\"83\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,20</text><text x=\"164.5\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">4</text><rect x=\"184.2\" y=\"122.9\" width=\"17.7\" height=\"37.1\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"193\" y=\"117.9\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,10</text><text x=\"193\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">5</text><rect x=\"212.7\" y=\"146.8\" width=\"17.7\" height=\"13.2\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"221.5\" y=\"141.8\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,04</text><text x=\"221.5\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">6</text><rect x=\"241.2\" y=\"156.8\" width=\"17.7\" height=\"3.2\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"250.1\" y=\"151.8\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,01</text><text x=\"250.1\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">7</text><rect x=\"269.8\" y=\"159.5\" width=\"17.7\" height=\"0.5\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"278.6\" y=\"154.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,00</text><text x=\"278.6\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">8</text><rect x=\"298.3\" y=\"160\" width=\"17.7\" height=\"0\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"307.2\" y=\"155\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,00</text><text x=\"307.2\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">9</text><rect x=\"326.9\" y=\"160\" width=\"17.7\" height=\"0\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"335.7\" y=\"155\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,00</text><text x=\"335.7\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">10</text><text x=\"190\" y=\"195\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\">k = nombre de succès</text></svg><p><b>Conditions à vérifier</b> avant d’écrire « X suit une loi binomiale » : (1) la même épreuve est répétée ; (2) chaque épreuve n’a que deux issues ; (3) les épreuves sont indépendantes (tirages avec remise, pièces, dés…) ; (4) X compte le nombre de succès. Un tirage sans remise dans une petite urne n’est pas binomial.</p>"},
+{t:"Espérance d’une loi de probabilité",s:"Statistiques et probabilités (D)",h:"<h2>L’espérance : la valeur moyenne attendue</h2><p>L’<b>espérance</b> d’une variable aléatoire X est la valeur moyenne que prend X quand on répète l’expérience un très grand nombre de fois.</p><div class=\"formula\">E(X) = x<sub>1</sub>p<sub>1</sub> + x<sub>2</sub>p<sub>2</sub> + … + x<sub>k</sub>p<sub>k</sub> = Σ x<sub>i</sub> · P(X = x<sub>i</sub>)</div><p>C’est une moyenne <b>pondérée</b> des valeurs par leurs probabilités (la somme des « coefficients » p<sub>i</sub> valant 1, il n’y a pas de division).</p><h3>Exemple 1 : un dé</h3><p>X = résultat du dé. E(X) = 1×1/6 + 2×1/6 + … + 6×1/6 = 21/6 = <b>3,5</b>. Personne n’obtient jamais 3,5 : c’est la moyenne sur un grand nombre de lancers.</p><h3>Exemple 2 : un jeu de hasard</h3><p>On lance un dé. Si on obtient 6, on gagne 5 € ; sinon on perd 1 €. Soit G le gain algébrique (en euros).</p><div style='overflow-x:auto;margin:14px 0'><table style='border-collapse:collapse;width:100%'><thead><tr><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>g<sub>i</sub></th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>5</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>−1</th></tr></thead><tbody><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>P(G = g<sub>i</sub>)</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>1/6</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>5/6</td></tr></tbody></table></div><p>E(G) = 5 × 1/6 + (−1) × 5/6 = 5/6 − 5/6 = <b>0</b>. Le jeu est <b>équitable</b> : à long terme, ni gain ni perte moyens. Si le gain pour un 6 était de 4 €, E(G) = 4/6 − 5/6 = −1/6 ≈ −0,17 € par partie : défavorable au joueur.</p><h2>Propriétés (linéarité)</h2><ul><li><b>E(aX + b) = a·E(X) + b</b> : si on multiplie les gains par a et qu’on ajoute b, l’espérance subit la même transformation. Exemple : si un joueur double ses gains et reçoit 3 € de plus, E devient 2E(G) + 3.</li><li><b>E(X + Y) = E(X) + E(Y)</b> pour deux variables aléatoires X et Y (même non indépendantes).</li></ul><h2>Espérance de la loi de Bernoulli et de la loi binomiale</h2><div class=\"formula\">Si X suit la loi de Bernoulli de paramètre p : E(X) = p.<br>Si X suit la loi binomiale B(n ; p) : E(X) = n × p.</div><p>Pour la loi de Bernoulli : E(X) = 1 × p + 0 × (1 − p) = p. Pour la loi binomiale, X est la somme de n variables de Bernoulli de même paramètre, donc, par additivité, E(X) = p + p + … + p = n·p.</p><ul><li>Pile ou face, 100 lancers : en moyenne 100 × 1/2 = 50 piles.</li><li>QCM de 10 questions répondu au hasard (p = 0,25) : en moyenne 10 × 0,25 = <b>2,5</b> bonnes réponses.</li><li>Pour X ∼ B(10 ; 0,3) : E(X) = 3.</li></ul><svg class=\"graph\" viewBox=\"0 0 360 200\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:400px\" role=\"img\" aria-label=\"Diagramme en bâtons d'une loi de probabilité\"><line x1=\"36\" y1=\"160\" x2=\"350\" y2=\"160\" stroke=\"currentColor\" stroke-width=\"1.5\" /><line x1=\"36\" y1=\"16\" x2=\"36\" y2=\"160\" stroke=\"currentColor\" stroke-width=\"1.5\" /><line x1=\"33\" y1=\"160\" x2=\"36\" y2=\"160\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"164\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,00</text><line x1=\"33\" y1=\"124\" x2=\"36\" y2=\"124\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"128\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,10</text><line x1=\"33\" y1=\"88\" x2=\"36\" y2=\"88\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"92\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,20</text><line x1=\"33\" y1=\"52\" x2=\"36\" y2=\"52\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"56\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,30</text><line x1=\"33\" y1=\"16\" x2=\"36\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"30\" y=\"20\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0,40</text><line x1=\"135.9\" y1=\"12\" x2=\"135.9\" y2=\"163\" stroke=\"var(--ko)\" stroke-width=\"2\" stroke-dasharray=\"5 3\" /><path d=\"M135.9 163 l-9 15 h18 z\" fill=\"var(--ko)\"/><text x=\"141.9\" y=\"24\" text-anchor=\"start\" font-size=\"12\" fill=\"var(--ko)\" font-weight=\"700\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">E(X) = 3</text><rect x=\"41.4\" y=\"149.8\" width=\"17.7\" height=\"10.2\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"50.3\" y=\"144.8\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,03</text><text x=\"50.3\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">0</text><rect x=\"70\" y=\"116.4\" width=\"17.7\" height=\"43.6\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"78.8\" y=\"111.4\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,12</text><text x=\"78.8\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">1</text><rect x=\"98.5\" y=\"75.9\" width=\"17.7\" height=\"84.1\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"107.4\" y=\"70.9\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,23</text><text x=\"107.4\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">2</text><rect x=\"127.1\" y=\"63.9\" width=\"17.7\" height=\"96.1\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"135.9\" y=\"58.9\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,27</text><text x=\"135.9\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">3</text><rect x=\"155.6\" y=\"88\" width=\"17.7\" height=\"72\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"164.5\" y=\"83\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,20</text><text x=\"164.5\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">4</text><rect x=\"184.2\" y=\"122.9\" width=\"17.7\" height=\"37.1\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"193\" y=\"117.9\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,10</text><text x=\"193\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">5</text><rect x=\"212.7\" y=\"146.8\" width=\"17.7\" height=\"13.2\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"221.5\" y=\"141.8\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,04</text><text x=\"221.5\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">6</text><rect x=\"241.2\" y=\"156.8\" width=\"17.7\" height=\"3.2\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"250.1\" y=\"151.8\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,01</text><text x=\"250.1\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">7</text><rect x=\"269.8\" y=\"159.5\" width=\"17.7\" height=\"0.5\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"278.6\" y=\"154.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,00</text><text x=\"278.6\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">8</text><rect x=\"298.3\" y=\"160\" width=\"17.7\" height=\"0\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"307.2\" y=\"155\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,00</text><text x=\"307.2\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">9</text><rect x=\"326.9\" y=\"160\" width=\"17.7\" height=\"0\" fill=\"var(--accent)\" fill-opacity=\".35\" stroke=\"var(--accent)\" stroke-width=\"1.4\"/><text x=\"335.7\" y=\"155\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,00</text><text x=\"335.7\" y=\"175\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"currentColor\">10</text><text x=\"190\" y=\"195\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--muted)\">k = nombre de succès</text></svg><p>La flèche rouge indique l’espérance : c’est le « point d’équilibre » de la loi, comme le point où l’on pose un fléau de balance pour que les bâtons (les « masses » p<sub>i</sub>) s’équilibrent.</p>"},
+{t:"Suites numériques : définitions et représentation graphique",s:"Suites numériques (E)",h:"<h2>Qu’est-ce qu’une suite ?</h2><p>Une <b>suite numérique</b> est une liste de nombres numérotés par les entiers naturels : u<sub>0</sub>, u<sub>1</sub>, u<sub>2</sub>, u<sub>3</sub>, … On la note (u<sub>n</sub>). Le nombre u<sub>n</sub> est le <b>terme de rang n</b> ; u<sub>n+1</sub> est le terme suivant, et u<sub>n−1</sub> le terme précédent.</p><p><b>Attention aux écritures :</b> u<sub>n+1</sub> est le terme de rang n + 1 ; ce n’est pas u<sub>n</sub> + 1. Par exemple, si u<sub>n</sub> = 2n, alors u<sub>n+1</sub> = 2(n + 1) = 2n + 2, alors que u<sub>n</sub> + 1 = 2n + 1.</p><p>Une suite est une <b>fonction définie sur les entiers</b> : à chaque n on associe u<sub>n</sub>. La numérotation commence souvent à 0, parfois à 1 ; l’énoncé le précise.</p><h2>Trois façons de définir une suite</h2><h3>1. Explicitement : u<sub>n</sub> = f(n)</h3><p>Une formule donne directement u<sub>n</sub> en fonction de n. C’est le cas le plus pratique : on peut calculer n’importe quel terme sans connaître les précédents.</p><p>Exemple : u<sub>n</sub> = 2n + 3. Alors u<sub>0</sub> = 3, u<sub>1</sub> = 5, u<sub>5</sub> = 13 et u<sub>100</sub> = 203. Autre exemple : v<sub>n</sub> = n² − 4n donne v<sub>0</sub> = 0, v<sub>1</sub> = −3, v<sub>2</sub> = −4, v<sub>3</sub> = −3, v<sub>4</sub> = 0, v<sub>5</sub> = 5.</p><h3>2. Par une relation de récurrence</h3><p>On donne le <b>premier terme</b> et une règle qui permet de passer d’un terme au suivant. Exemple : u<sub>0</sub> = 5 et u<sub>n+1</sub> = u<sub>n</sub> + 3 (on ajoute 3 à chaque étape) : 5, 8, 11, 14, … Autre exemple : u<sub>0</sub> = 2 et u<sub>n+1</sub> = 2·u<sub>n</sub> (on double à chaque étape) : 2, 4, 8, 16, …</p><h3>3. Par une relation fonctionnelle</h3><p>La règle de passage est donnée par une <b>fonction</b> f : u<sub>n+1</sub> = f(u<sub>n</sub>). Exemple : f(x) = 2x − 1 et u<sub>0</sub> = 3. On calcule de proche en proche :</p><p>u<sub>1</sub> = f(3) = 2×3 − 1 = 5 ; u<sub>2</sub> = f(5) = 9 ; u<sub>3</sub> = f(9) = 17 ; u<sub>4</sub> = f(17) = 33 ; u<sub>5</sub> = f(33) = 65.</p><div style='overflow-x:auto;margin:14px 0'><table style='border-collapse:collapse;width:100%'><thead><tr><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>n</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>0</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>1</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>2</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>3</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>4</th><th style='background:var(--soft);border:1px solid var(--line);padding:6px 8px;text-align:left;font-size:.92rem'>5</th></tr></thead><tbody><tr><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>u<sub>n</sub></td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>3</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>5</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>9</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>17</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>33</td><td style='border:1px solid var(--line);padding:6px 8px;font-size:.92rem;vertical-align:top'>65</td></tr></tbody></table></div><p><b>Calculer un terme de rang donné.</b> Avec une formule explicite, on remplace n par le rang voulu. Avec une récurrence, il faut calculer <b>tous les termes précédents</b> : pour u<sub>5</sub> ci-dessus, cinq calculs. C’est long pour un grand rang : d’où l’intérêt des suites arithmétiques et géométriques (cours suivants), dont on sait écrire la formule explicite.</p><h2>Représentation graphique</h2><p>On représente une suite par le <b>nuage de points</b> (n ; u<sub>n</sub>), avec n entier. On ne relie pas les points par un trait, car n’a de sens que pour les entiers. (On peut tracer en pointillé la courbe de la fonction f si u<sub>n</sub> = f(n), pour guider le regard.)</p><svg class=\"graph\" viewBox=\"0 0 330 212\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:370px\" role=\"img\" aria-label=\"Points de la suite u_n = n^2 - 4n pour n de 0 à 6 : elle décroît jusqu'à n = 2 puis croît\"><line x1=\"44\" y1=\"142.8\" x2=\"300\" y2=\"142.8\" stroke=\"currentColor\" stroke-width=\"1.4\" /><line x1=\"44\" y1=\"14\" x2=\"44\" y2=\"190\" stroke=\"currentColor\" stroke-width=\"1.4\" /><text x=\"50\" y=\"12\" text-anchor=\"start\" font-size=\"12\" fill=\"var(--muted)\">uₙ</text><text x=\"302\" y=\"136.8\" text-anchor=\"end\" font-size=\"12\" fill=\"var(--muted)\">n</text><line x1=\"41\" y1=\"180.6\" x2=\"44\" y2=\"180.6\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"38\" y=\"184.6\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">-4</text><line x1=\"41\" y1=\"142.8\" x2=\"44\" y2=\"142.8\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"38\" y=\"146.8\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">0</text><line x1=\"41\" y1=\"95.6\" x2=\"44\" y2=\"95.6\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"38\" y=\"99.6\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">5</text><line x1=\"41\" y1=\"48.3\" x2=\"44\" y2=\"48.3\" stroke=\"currentColor\" stroke-width=\"1.5\" /><text x=\"38\" y=\"52.3\" text-anchor=\"end\" font-size=\"10.5\" fill=\"var(--muted)\">10</text><polyline points=\"54,142.8 57.9,146.5 61.9,150 65.8,153.3 69.7,156.4 73.7,159.3 77.6,162 81.5,164.6 85.5,167 89.4,169.1 93.3,171.1 97.3,172.9 101.2,174.5 105.1,175.9 109.1,177.2 113,178.2 116.9,179 120.9,179.7 124.8,180.2 128.7,180.5 132.7,180.6 136.6,180.5 140.5,180.2 144.5,179.7 148.4,179 152.3,178.2 156.3,177.2 160.2,175.9 164.1,174.5 168.1,172.9 172,171.1 175.9,169.1 179.9,167 183.8,164.6 187.7,162 191.7,159.3 195.6,156.4 199.5,153.3 203.5,150 207.4,146.5 211.3,142.8 215.3,138.9 219.2,134.8 223.1,130.6 227.1,126.2 231,121.5 234.9,116.7 238.9,111.7 242.8,106.5 246.7,101.1 250.7,95.6 254.6,89.8 258.5,83.8 262.5,77.7 266.4,71.4 270.3,64.9 274.3,58.2 278.2,51.3 282.1,44.2 286.1,36.9 290,29.4\" fill=\"none\" stroke=\"var(--muted)\" stroke-width=\"1.4\" stroke-dasharray=\"4 3\"/><line x1=\"54\" y1=\"142.8\" x2=\"54\" y2=\"142.8\" stroke=\"var(--accent)\" stroke-width=\"1.2\" /><circle cx=\"54\" cy=\"142.8\" r=\"4.5\" fill=\"var(--accent)\"/><text x=\"65\" y=\"136.8\" text-anchor=\"middle\" font-size=\"11\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0</text><text x=\"54\" y=\"204\" text-anchor=\"middle\" font-size=\"11\" fill=\"var(--muted)\">0</text><line x1=\"93.3\" y1=\"142.8\" x2=\"93.3\" y2=\"171.1\" stroke=\"var(--accent)\" stroke-width=\"1.2\" /><circle cx=\"93.3\" cy=\"171.1\" r=\"4.5\" fill=\"var(--accent)\"/><text x=\"104.3\" y=\"185.1\" text-anchor=\"middle\" font-size=\"11\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">-3</text><text x=\"93.3\" y=\"204\" text-anchor=\"middle\" font-size=\"11\" fill=\"var(--muted)\">1</text><line x1=\"132.7\" y1=\"142.8\" x2=\"132.7\" y2=\"180.6\" stroke=\"var(--accent)\" stroke-width=\"1.2\" /><circle cx=\"132.7\" cy=\"180.6\" r=\"4.5\" fill=\"var(--accent)\"/><text x=\"143.7\" y=\"194.6\" text-anchor=\"middle\" font-size=\"11\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">-4</text><text x=\"132.7\" y=\"204\" text-anchor=\"middle\" font-size=\"11\" fill=\"var(--muted)\">2</text><line x1=\"172\" y1=\"142.8\" x2=\"172\" y2=\"171.1\" stroke=\"var(--accent)\" stroke-width=\"1.2\" /><circle cx=\"172\" cy=\"171.1\" r=\"4.5\" fill=\"var(--accent)\"/><text x=\"183\" y=\"185.1\" text-anchor=\"middle\" font-size=\"11\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">-3</text><text x=\"172\" y=\"204\" text-anchor=\"middle\" font-size=\"11\" fill=\"var(--muted)\">3</text><line x1=\"211.3\" y1=\"142.8\" x2=\"211.3\" y2=\"142.8\" stroke=\"var(--accent)\" stroke-width=\"1.2\" /><circle cx=\"211.3\" cy=\"142.8\" r=\"4.5\" fill=\"var(--accent)\"/><text x=\"222.3\" y=\"136.8\" text-anchor=\"middle\" font-size=\"11\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0</text><text x=\"211.3\" y=\"204\" text-anchor=\"middle\" font-size=\"11\" fill=\"var(--muted)\">4</text><line x1=\"250.7\" y1=\"142.8\" x2=\"250.7\" y2=\"95.6\" stroke=\"var(--accent)\" stroke-width=\"1.2\" /><circle cx=\"250.7\" cy=\"95.6\" r=\"4.5\" fill=\"var(--accent)\"/><text x=\"261.7\" y=\"89.6\" text-anchor=\"middle\" font-size=\"11\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">5</text><text x=\"250.7\" y=\"204\" text-anchor=\"middle\" font-size=\"11\" fill=\"var(--muted)\">5</text><line x1=\"290\" y1=\"142.8\" x2=\"290\" y2=\"29.4\" stroke=\"var(--accent)\" stroke-width=\"1.2\" /><circle cx=\"290\" cy=\"29.4\" r=\"4.5\" fill=\"var(--accent)\"/><text x=\"301\" y=\"23.4\" text-anchor=\"middle\" font-size=\"11\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">12</text><text x=\"290\" y=\"204\" text-anchor=\"middle\" font-size=\"11\" fill=\"var(--muted)\">6</text><text x=\"148.4\" y=\"188\" text-anchor=\"middle\" font-size=\"1\" fill=\"currentColor\"></text><text x=\"58\" y=\"32\" text-anchor=\"start\" font-size=\"11.5\" fill=\"var(--accent)\" font-weight=\"600\">minimum : u₂ = −4</text></svg><h2>Sens de variation</h2><p>La suite (u<sub>n</sub>) est <b>croissante</b> si u<sub>n+1</sub> ≥ u<sub>n</sub> pour tout n, <b>décroissante</b> si u<sub>n+1</sub> ≤ u<sub>n</sub> pour tout n, <b>constante</b> si u<sub>n+1</sub> = u<sub>n</sub>.</p><div class=\"formula\">Méthode : étudier le signe de u<sub>n+1</sub> − u<sub>n</sub>.<br>Pour une suite à termes strictement positifs : comparer u<sub>n+1</sub>/u<sub>n</sub> à 1.</div><p><b>Exemple.</b> v<sub>n</sub> = n² − 4n. Alors v<sub>n+1</sub> = (n + 1)² − 4(n + 1) = n² − 2n − 3, donc v<sub>n+1</sub> − v<sub>n</sub> = 2n − 3. Ce nombre est négatif pour n = 0 et n = 1, positif dès n = 2 : la suite décroît de v<sub>0</sub> à v<sub>2</sub> puis croît. Elle n’est donc <b>ni croissante ni décroissante</b> sur tous les entiers (le graphique le confirme).</p><p>Si u<sub>n</sub> = f(n) avec f croissante sur [0 ; +∞[, alors la suite est croissante (on peut utiliser la dérivée de f). La réciproque est fausse en général.</p>"},
+{t:"Suites arithmétiques",s:"Suites numériques (E)",h:"<h2>Définition</h2><p>Une suite est <b>arithmétique</b> quand on passe d’un terme au suivant en <b>ajoutant toujours le même nombre</b> r, appelé la <b>raison</b>.</p><div class=\"formula\">Relation de récurrence : u<sub>n+1</sub> = u<sub>n</sub> + r pour tout n</div><p>Pour reconnaître une suite arithmétique, on vérifie que la différence u<sub>n+1</sub> − u<sub>n</sub> est <b>constante</b>. Exemples : 4, 7, 10, 13, … est arithmétique de raison 3. 1, 2, 4, 8, … ne l’est pas (les différences valent 1, 2, 4, …).</p><h2>Expression en fonction de n</h2><p>On ajoute r à chaque étape : au rang n on a ajouté n fois r.</p><div class=\"formula\">u<sub>n</sub> = u<sub>0</sub> + n × r&nbsp;&nbsp;&nbsp;(si le premier terme est u<sub>0</sub>)<br>Plus généralement : u<sub>n</sub> = u<sub>p</sub> + (n − p) × r</div><p>Si la suite commence à u<sub>1</sub> : u<sub>n</sub> = u<sub>1</sub> + (n − 1) × r. Dans tous les cas, c’est une fonction <b>affine</b> de n : u<sub>n</sub> = r·n + u<sub>0</sub> (avec r pour pente).</p><h3>Exemples</h3><ul><li>u<sub>0</sub> = 5 et r = 3 : u<sub>n</sub> = 5 + 3n. Alors u<sub>10</sub> = 35 et u<sub>100</sub> = 305.</li><li><b>Retrouver r et u<sub>0</sub></b> à partir de deux termes : u<sub>3</sub> = 11 et u<sub>7</sub> = 23. Entre le rang 3 et le rang 7, on a ajouté 4 fois r : 4r = 23 − 11 = 12, donc r = 3. Puis u<sub>0</sub> = u<sub>3</sub> − 3r = 11 − 9 = 2, d’où u<sub>n</sub> = 2 + 3n.</li><li><b>Un salaire</b> de 1 800 € augmenté de 120 € chaque année : u<sub>n</sub> = 1 800 + 120n. Au bout de 6 ans : 2 520 €.</li></ul><h2>Sens de variation</h2><p>Comme u<sub>n+1</sub> − u<sub>n</sub> = r : si r &gt; 0, la suite est <b>strictement croissante</b> ; si r &lt; 0, <b>strictement décroissante</b> ; si r = 0, <b>constante</b>.</p><h2>Représentation graphique</h2><p>Les points (n ; u<sub>n</sub>) sont <b>alignés</b> sur la droite d’équation y = r·x + u<sub>0</sub> : l’ordonnée à l’origine est u<sub>0</sub> et la pente est r. À chaque pas de 1 vers la droite, on monte (ou on descend) de r.</p><svg class=\"graph\" viewBox=\"0 0 500 205\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:560px\" role=\"img\" aria-label=\"Deux suites arithmétiques : points alignés sur une droite, croissante pour r positif, décroissante pour r négatif\"><text x=\"126\" y=\"18\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"700\">r = 3 : croissante</text><line x1=\"26\" y1=\"184\" x2=\"230\" y2=\"184\" stroke=\"currentColor\" stroke-width=\"1.5\" /><line x1=\"26\" y1=\"184\" x2=\"26\" y2=\"34\" stroke=\"currentColor\" stroke-width=\"1.5\" /><path d=\"M43 154L45.8 152.2L48.7 150.4L51.5 148.6L54.3 146.8L57.2 145L60 143.2L62.8 141.4L65.7 139.6L68.5 137.8L71.3 136L74.2 134.2L77 132.4L79.8 130.6L82.7 128.8L85.5 127L88.3 125.2L91.2 123.4L94 121.6L96.8 119.8L99.7 118L102.5 116.2L105.3 114.4L108.2 112.6L111 110.8L113.8 109L116.7 107.2L119.5 105.4L122.3 103.6L125.2 101.8L128 100L130.8 98.2L133.7 96.4L136.5 94.6L139.3 92.8L142.2 91L145 89.2L147.8 87.4L150.7 85.6L153.5 83.8L156.3 82L159.2 80.2L162 78.4L164.8 76.6L167.7 74.8L170.5 73L173.3 71.2L176.2 69.4L179 67.6L181.8 65.8L184.7 64L187.5 62.2L190.3 60.4L193.2 58.6L196 56.8L198.8 55L201.7 53.2L204.5 51.4L207.3 49.6L210.2 47.8L213 46\" stroke=\"var(--muted)\" stroke-width=\"1.6\" fill=\"none\" stroke-dasharray=\"4 3\" stroke-linecap=\"round\" stroke-linejoin=\"round\" /><circle cx=\"43\" cy=\"154\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"43\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">0</text><text x=\"43\" y=\"145\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">5</text><circle cx=\"71.3\" cy=\"136\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"71.3\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">1</text><circle cx=\"99.7\" cy=\"118\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"99.7\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">2</text><circle cx=\"128\" cy=\"100\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"128\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">3</text><text x=\"128\" y=\"91\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">14</text><circle cx=\"156.3\" cy=\"82\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"156.3\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">4</text><circle cx=\"184.7\" cy=\"64\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"184.7\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">5</text><circle cx=\"213\" cy=\"46\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"213\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">6</text><text x=\"213\" y=\"37\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">23</text><text x=\"376\" y=\"18\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"700\">r = −3 : décroissante</text><line x1=\"276\" y1=\"184\" x2=\"480\" y2=\"184\" stroke=\"currentColor\" stroke-width=\"1.5\" /><line x1=\"276\" y1=\"184\" x2=\"276\" y2=\"34\" stroke=\"currentColor\" stroke-width=\"1.5\" /><path d=\"M293 55.4L295.8 57.6L298.7 59.7L301.5 61.9L304.3 64L307.2 66.1L310 68.3L312.8 70.4L315.7 72.6L318.5 74.7L321.3 76.9L324.2 79L327 81.1L329.8 83.3L332.7 85.4L335.5 87.6L338.3 89.7L341.2 91.9L344 94L346.8 96.1L349.7 98.3L352.5 100.4L355.3 102.6L358.2 104.7L361 106.9L363.8 109L366.7 111.1L369.5 113.3L372.3 115.4L375.2 117.6L378 119.7L380.8 121.9L383.7 124L386.5 126.1L389.3 128.3L392.2 130.4L395 132.6L397.8 134.7L400.7 136.9L403.5 139L406.3 141.1L409.2 143.3L412 145.4L414.8 147.6L417.7 149.7L420.5 151.9L423.3 154L426.2 156.1L429 158.3L431.8 160.4L434.7 162.6L437.5 164.7L440.3 166.9L443.2 169L446 171.1L448.8 173.3L451.7 175.4L454.5 177.6L457.3 179.7L460.2 181.9L463 184\" stroke=\"var(--muted)\" stroke-width=\"1.6\" fill=\"none\" stroke-dasharray=\"4 3\" stroke-linecap=\"round\" stroke-linejoin=\"round\" /><circle cx=\"293\" cy=\"55.4\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"293\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">0</text><text x=\"293\" y=\"46.4\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">18</text><circle cx=\"321.3\" cy=\"76.9\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"321.3\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">1</text><circle cx=\"349.7\" cy=\"98.3\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"349.7\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">2</text><circle cx=\"378\" cy=\"119.7\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"378\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">3</text><text x=\"378\" y=\"110.7\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">9</text><circle cx=\"406.3\" cy=\"141.1\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"406.3\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">4</text><circle cx=\"434.7\" cy=\"162.6\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"434.7\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">5</text><circle cx=\"463\" cy=\"184\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"463\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">6</text><text x=\"463\" y=\"175\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0</text></svg><p>Pour u<sub>n</sub> = 5 + 3n : on monte de 3 à chaque rang (5, 8, 11, 14, …). Pour u<sub>n</sub> = 18 − 3n : on descend de 3 à chaque rang (18, 15, 12, …, 0).</p>"},
+{t:"Suites géométriques à terme positif",s:"Suites numériques (E)",h:"<h2>Définition</h2><p>Une suite est <b>géométrique</b> quand on passe d’un terme au suivant en <b>multipliant toujours par le même nombre</b> q, appelé la <b>raison</b>. Dans le programme, on se limite aux suites <b>à termes positifs</b> : q &gt; 0 et u<sub>0</sub> &gt; 0 (tous les termes sont alors strictement positifs).</p><div class=\"formula\">Relation de récurrence : u<sub>n+1</sub> = q × u<sub>n</sub> pour tout n</div><p>Pour la reconnaître, on vérifie que le <b>quotient</b> u<sub>n+1</sub>/u<sub>n</sub> est constant. Exemples : 2, 6, 18, 54, … (q = 3) ; 80, 40, 20, 10, … (q = 1/2). La suite 1, 2, 4, 8, … est géométrique de raison 2, alors qu’elle n’est pas arithmétique.</p><h2>Expression en fonction de n</h2><p>On multiplie par q à chaque étape : au rang n, on a multiplié n fois.</p><div class=\"formula\">u<sub>n</sub> = u<sub>0</sub> × q<sup>n</sup>&nbsp;&nbsp;&nbsp;(si le premier terme est u<sub>0</sub>)<br>Plus généralement : u<sub>n</sub> = u<sub>p</sub> × q<sup>n − p</sup></div><h3>Exemples</h3><ul><li>u<sub>0</sub> = 2 et q = 3 : u<sub>n</sub> = 2 × 3<sup>n</sup>. Alors u<sub>4</sub> = 2 × 81 = 162.</li><li><b>Retrouver q et u<sub>0</sub></b> : u<sub>2</sub> = 18 et u<sub>4</sub> = 162. Entre les rangs 2 et 4, on a multiplié deux fois par q : q² = 162/18 = 9. Comme les termes sont positifs, q &gt; 0 donc <b>q = 3</b> (et non −3). Puis u<sub>0</sub> = u<sub>2</sub>/q² = 18/9 = 2.</li></ul><h2>Lien avec les évolutions en pourcentage</h2><p>Une évolution de t % à chaque période multiplie par le coefficient multiplicateur q = 1 + t. Une suite géométrique modélise donc une évolution <b>à taux constant</b>.</p><ul><li><b>Un capital placé à 4 % par an</b> : q = 1,04. Avec 1 000 € au départ, u<sub>n</sub> = 1 000 × 1,04<sup>n</sup>. Après 10 ans : 1 000 × 1,04<sup>10</sup> ≈ <b>1 480,24 €</b>.</li><li><b>Une ville qui perd 10 % de ses habitants par an</b> : q = 0,9. Avec 8 000 habitants : u<sub>n</sub> = 8 000 × 0,9<sup>n</sup>. Après 5 ans : 8 000 × 0,59049 ≈ <b>4 724 habitants</b>.</li></ul><h2>Sens de variation</h2><p>Comme u<sub>n+1</sub> − u<sub>n</sub> = q·u<sub>n</sub> − u<sub>n</sub> = u<sub>n</sub> × (q − 1) et que u<sub>n</sub> &gt; 0, le signe est celui de q − 1 :</p><ul><li>q &gt; 1 : suite <b>strictement croissante</b> (elle « explose » : 1,04<sup>n</sup> double en 18 ans environ) ;</li><li>0 &lt; q &lt; 1 : suite <b>strictement décroissante</b>, qui se rapproche de 0 sans l’atteindre ;</li><li>q = 1 : suite <b>constante</b>.</li></ul><h2>Représentation graphique</h2><p>Les points (n ; u<sub>n</sub>) ne sont plus alignés : ils se placent sur la courbe de la fonction exponentielle x ↦ u<sub>0</sub> × q<sup>x</sup> (courbe en pointillé). La croissance est de plus en plus rapide si q &gt; 1 ; la décroissance est de plus en plus lente si 0 &lt; q &lt; 1.</p><svg class=\"graph\" viewBox=\"0 0 500 205\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:560px\" role=\"img\" aria-label=\"Deux suites géométriques de termes positifs : points sur une courbe exponentielle, croissante pour q supérieur à 1, décroissante pour q entre 0 et 1\"><text x=\"126\" y=\"18\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"700\">q = 1,5 : croissante</text><line x1=\"26\" y1=\"184\" x2=\"230\" y2=\"184\" stroke=\"currentColor\" stroke-width=\"1.5\" /><line x1=\"26\" y1=\"184\" x2=\"26\" y2=\"34\" stroke=\"currentColor\" stroke-width=\"1.5\" /><path d=\"M43 172L45.8 171.5L48.7 171L51.5 170.4L54.3 169.9L57.2 169.3L60 168.7L62.8 168.1L65.7 167.4L68.5 166.7L71.3 166L74.2 165.3L77 164.5L79.8 163.7L82.7 162.8L85.5 162L88.3 161L91.2 160.1L94 159.1L96.8 158.1L99.7 157L102.5 155.9L105.3 154.7L108.2 153.5L111 152.2L113.8 150.9L116.7 149.6L119.5 148.1L122.3 146.7L125.2 145.1L128 143.5L130.8 141.8L133.7 140.1L136.5 138.3L139.3 136.4L142.2 134.4L145 132.3L147.8 130.2L150.7 128L153.5 125.7L156.3 123.2L159.2 120.7L162 118.1L164.8 115.4L167.7 112.6L170.5 109.6L173.3 106.5L176.2 103.3L179 100L181.8 96.5L184.7 92.9L187.5 89.1L190.3 85.2L193.2 81.1L196 76.8L198.8 72.4L201.7 67.8L204.5 63L207.3 58L210.2 52.7L213 47.3\" stroke=\"var(--muted)\" stroke-width=\"1.6\" fill=\"none\" stroke-dasharray=\"4 3\" stroke-linecap=\"round\" stroke-linejoin=\"round\" /><circle cx=\"43\" cy=\"172\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"43\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">0</text><text x=\"43\" y=\"163\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">2</text><circle cx=\"71.3\" cy=\"166\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"71.3\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">1</text><circle cx=\"99.7\" cy=\"157\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"99.7\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">2</text><circle cx=\"128\" cy=\"143.5\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"128\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">3</text><text x=\"128\" y=\"134.5\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">6,75</text><circle cx=\"156.3\" cy=\"123.2\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"156.3\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">4</text><circle cx=\"184.7\" cy=\"92.9\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"184.7\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">5</text><circle cx=\"213\" cy=\"47.3\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"213\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">6</text><text x=\"213\" y=\"38.3\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">22,8</text><text x=\"376\" y=\"18\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"700\">q = 0,6 : décroissante</text><line x1=\"276\" y1=\"184\" x2=\"480\" y2=\"184\" stroke=\"currentColor\" stroke-width=\"1.5\" /><line x1=\"276\" y1=\"184\" x2=\"276\" y2=\"34\" stroke=\"currentColor\" stroke-width=\"1.5\" /><path d=\"M293 47.6L295.8 54.4L298.7 60.9L301.5 67L304.3 72.8L307.2 78.4L310 83.6L312.8 88.6L315.7 93.4L318.5 97.9L321.3 102.2L324.2 106.3L327 110.1L329.8 113.8L332.7 117.3L335.5 120.6L338.3 123.8L341.2 126.8L344 129.6L346.8 132.3L349.7 134.9L352.5 137.4L355.3 139.7L358.2 141.9L361 144L363.8 146L366.7 147.9L369.5 149.7L372.3 151.4L375.2 153L378 154.5L380.8 156L383.7 157.4L386.5 158.7L389.3 160L392.2 161.2L395 162.3L397.8 163.4L400.7 164.4L403.5 165.4L406.3 166.3L409.2 167.2L412 168L414.8 168.8L417.7 169.6L420.5 170.3L423.3 171L426.2 171.6L429 172.3L431.8 172.8L434.7 173.4L437.5 173.9L440.3 174.4L443.2 174.9L446 175.4L448.8 175.8L451.7 176.2L454.5 176.6L457.3 177L460.2 177.3L463 177.6\" stroke=\"var(--muted)\" stroke-width=\"1.6\" fill=\"none\" stroke-dasharray=\"4 3\" stroke-linecap=\"round\" stroke-linejoin=\"round\" /><circle cx=\"293\" cy=\"47.6\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"293\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">0</text><text x=\"293\" y=\"38.6\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">20</text><circle cx=\"321.3\" cy=\"102.2\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"321.3\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">1</text><circle cx=\"349.7\" cy=\"134.9\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"349.7\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">2</text><circle cx=\"378\" cy=\"154.5\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"378\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">3</text><text x=\"378\" y=\"145.5\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">4,3</text><circle cx=\"406.3\" cy=\"166.3\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"406.3\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">4</text><circle cx=\"434.7\" cy=\"173.4\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"434.7\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">5</text><circle cx=\"463\" cy=\"177.6\" r=\"4.8\" fill=\"var(--accent)\"/><text x=\"463\" y=\"199\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"var(--muted)\">6</text><text x=\"463\" y=\"168.6\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"currentColor\" stroke=\"var(--surface)\" stroke-width=\"4\" paint-order=\"stroke\" stroke-linejoin=\"round\">0,9</text></svg><p><b>Comparer les deux modèles.</b> Arithmétique : on ajoute la même quantité à chaque étape (croissance <i>linéaire</i>). Géométrique : on multiplie par la même quantité (évolution en pourcentage constant, croissance ou décroissance <i>exponentielle</i>).</p>"},
+{t:"Somme des n premiers termes",s:"Suites numériques (E)",h:"<h2>Ce qu’on veut calculer</h2><p>On cherche à additionner plusieurs termes consécutifs d’une suite, par exemple S = u<sub>0</sub> + u<sub>1</sub> + … + u<sub>n</sub>. <b>Première précaution :</b> compter le <b>nombre de termes</b>. De u<sub>0</sub> à u<sub>n</sub>, il y a n + 1 termes ; de u<sub>1</sub> à u<sub>n</sub>, il y en a n ; de u<sub>p</sub> à u<sub>n</sub>, il y en a n − p + 1.</p><h2>La somme des premiers entiers</h2><div class=\"formula\">1 + 2 + 3 + … + n = n(n + 1) / 2</div><p>L’astuce attribuée à Gauss : on écrit la somme S deux fois, dans l’ordre puis à l’envers, et on additionne les colonnes ; chaque colonne vaut n + 1, et il y en a n. Donc 2S = n(n + 1). Sur le schéma, les points bleus (S) et les points verts (S aussi, à l’envers) forment un rectangle de n lignes et n + 1 colonnes.</p><svg class=\"graph\" viewBox=\"0 0 330 212\" font-family=\"Segoe UI,system-ui,Arial,sans-serif\" style=\"max-width:320px\" role=\"img\" aria-label=\"Points bleus et verts formant un rectangle : la somme des entiers de 1 à 6 vaut 21\"><circle cx=\"47\" cy=\"22\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"75\" cy=\"22\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"103\" cy=\"22\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"131\" cy=\"22\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"159\" cy=\"22\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"187\" cy=\"22\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"215\" cy=\"22\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"47\" cy=\"50\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"75\" cy=\"50\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"103\" cy=\"50\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"131\" cy=\"50\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"159\" cy=\"50\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"187\" cy=\"50\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"215\" cy=\"50\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"47\" cy=\"78\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"75\" cy=\"78\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"103\" cy=\"78\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"131\" cy=\"78\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"159\" cy=\"78\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"187\" cy=\"78\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"215\" cy=\"78\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"47\" cy=\"106\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"75\" cy=\"106\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"103\" cy=\"106\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"131\" cy=\"106\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"159\" cy=\"106\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"187\" cy=\"106\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"215\" cy=\"106\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"47\" cy=\"134\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"75\" cy=\"134\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"103\" cy=\"134\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"131\" cy=\"134\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"159\" cy=\"134\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"187\" cy=\"134\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"215\" cy=\"134\" r=\"9\" fill=\"var(--ok)\"/><circle cx=\"47\" cy=\"162\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"75\" cy=\"162\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"103\" cy=\"162\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"131\" cy=\"162\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"159\" cy=\"162\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"187\" cy=\"162\" r=\"9\" fill=\"var(--accent)\"/><circle cx=\"215\" cy=\"162\" r=\"9\" fill=\"var(--ok)\"/><text x=\"165\" y=\"198\" text-anchor=\"middle\" font-size=\"12.5\" fill=\"currentColor\" font-weight=\"600\">S = 1 + … + 6 : bleus = verts, donc 2S = 6 × 7, S = 21</text></svg><p>Exemples : 1 + 2 + … + 100 = 100 × 101/2 = <b>5 050</b> ; 1 + 2 + … + 6 = 6 × 7/2 = 21.</p><h2>Somme de termes d’une suite arithmétique</h2><div class=\"formula\">Somme = (nombre de termes) × (premier terme + dernier terme) / 2</div><p>La preuve est la même que celle de Gauss : le premier et le dernier terme, le deuxième et l’avant-dernier, etc., ont tous la même somme.</p><ul><li><b>u<sub>n</sub> = 5 + 3n, somme de u<sub>0</sub> à u<sub>9</sub></b> : 10 termes, premier terme 5, dernier u<sub>9</sub> = 32. S = 10 × (5 + 32)/2 = <b>185</b>.</li><li><b>Une épargne</b> : on verse 100 € le premier mois, puis 10 € de plus chaque mois, pendant 12 mois (100, 110, …, 210). S = 12 × (100 + 210)/2 = <b>1 860 €</b>.</li></ul><h2>Somme de termes d’une suite géométrique</h2><div class=\"formula\">Pour q ≠ 1 : 1 + q + q² + … + q<sup>n</sup> = (1 − q<sup>n+1</sup>) / (1 − q)<br>Somme de termes géométriques = (premier terme) × (1 − q<sup>nombre de termes</sup>) / (1 − q)</div><p><b>Pourquoi ?</b> Posons S = 1 + q + … + q<sup>n</sup>. Alors qS = q + q² + … + q<sup>n+1</sup>. En soustrayant, S − qS = 1 − q<sup>n+1</sup>, donc S(1 − q) = 1 − q<sup>n+1</sup>. Si q = 1, la somme vaut simplement n + 1 (il y a n + 1 termes tous égaux à 1).</p><ul><li><b>1 + 2 + 4 + … + 2⁹</b> (10 termes, q = 2) : S = (1 − 2¹⁰)/(1 − 2) = (1 − 1 024)/(−1) = <b>1 023</b>.</li><li><b>3 + 6 + 12 + … sur 8 termes</b> (premier terme 3, q = 2) : S = 3 × (1 − 2⁸)/(1 − 2) = 3 × 255 = <b>765</b>.</li><li><b>Placement</b> : on place 1 000 € au début de chaque année à 4 % pendant 5 ans ; l’argent du 1ᵉʳ versement a rapporté 5 ans, celui du dernier 1 an : 1 000(1,04 + 1,04² + … + 1,04⁵) = 1 000 × 1,04 × (1 − 1,04⁵)/(1 − 1,04) ≈ <b>5 632,98 €</b>.</li></ul><p><b>À retenir :</b> arithmétique → on compte les termes et on prend la moyenne du premier et du dernier ; géométrique → on utilise la formule avec q<sup>nombre de termes</sup>.</p>"},
 ];
 var UPCOMING=[];
 var EXOS=[
@@ -495,11 +566,11 @@ var EXOS=[
 var $=function(s){return document.querySelector(s)};
 var curTab="",pos={};
 function setTab(t,push){
- if(["cours","exercices","programme","calculatrice","pdfs"].indexOf(t)<0)t="cours";if(t==="pdfs"&&!PDFOK)t="cours";if(t===curTab)return;pos[curTab]=window.scrollY;
+ if(["cours","exercices","programme","calculatrice","fonctions","pdfs"].indexOf(t)<0)t="cours";if(t==="pdfs"&&!PDFOK)t="cours";if(t===curTab)return;pos[curTab]=window.scrollY;
  document.querySelectorAll(".view").forEach(function(v){v.classList.toggle("hide",v.id!==t)});
  document.querySelectorAll("nav button").forEach(function(b){if(b.dataset.tab===t)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
  if(push&&location.hash!=="#"+t)location.hash=t;
- curTab=t;window.scrollTo(0,pos[t]||0);
+ curTab=t;window.scrollTo(0,pos[t]||0);if(t==="fonctions"&&window.GR)GR.show();
 }
 document.addEventListener("click",function(e){
  var b=e.target.closest("[data-tab],[data-go]");if(!b)return;
@@ -693,6 +764,877 @@ try{var s=localStorage.getItem("spemb-theme");if(s)root.dataset.theme=s}catch(e)
 label();
 tb.onclick=function(){var n=dark()?"light":"dark";root.dataset.theme=n;try{localStorage.setItem("spemb-theme",n)}catch(e){}label()};
 setTab(location.hash.slice(1),false);
+</script>
+<script>
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s)};
+function isDark(){var t=document.documentElement.dataset.theme;return t?t==="dark":matchMedia("(prefers-color-scheme:dark)").matches}
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()||"#888"}
+
+/* ------------------------------------------------------------ formatting */
+function fmt(v,d){
+ d=d===undefined?4:d;
+ if(v===Infinity)return"+∞";if(v===-Infinity)return"−∞";if(isNaN(v))return"indéfini";
+ var k=Math.pow(10,d),r=Math.round(v*k)/k;if(r===0)r=0;
+ var s=String(r);if(/e/.test(s))s=r.toExponential(3);
+ return s.replace("-","−").replace(".",",");
+}
+function fnum(v){
+ var s=Number.isInteger(v)?String(v):String(parseFloat(v.toPrecision(6)));
+ return s.replace("-","−").replace(".",",");
+}
+
+/* ------------------------------------------------------------ parser */
+var NAMES=["sqrt","exp","abs","sin","cos","tan","log","ln","pi","x","e"];
+var FN={sqrt:1,exp:1,abs:1,sin:1,cos:1,tan:1,log:1,ln:1};
+function N(v){return{t:"n",v:v}}
+function mk(t,a,b){return b===undefined?{t:t,a:a}:{t:t,a:a,b:b}}
+function Fn(n,a){return{t:"f",n:n,a:a}}
+function tokenize(src){
+ var s=src.toLowerCase().replace(/\s+/g,"").replace(/[−–—]/g,"-").replace(/[×·]/g,"*").replace(/÷/g,"/")
+  .replace(/²/g,"^2").replace(/³/g,"^3").replace(/√/g,"sqrt").replace(/π/g,"pi").replace(/,/g,".").replace(/^(f\(x\)|y)=/,"");
+ if(!s)throw new Error("Saisissez une expression, par exemple x^2 + 3x + 4.");
+ var out=[],i=0,m;
+ while(i<s.length){
+  var ch=s[i];
+  if(/[0-9.]/.test(ch)){
+   m=/^(\d+\.?\d*|\.\d+)/.exec(s.slice(i));
+   if(!m)throw new Error("Nombre incorrect près de « "+s.slice(i,i+4)+" ».");
+   out.push({k:"n",v:parseFloat(m[1])});i+=m[1].length;continue}
+  if(/[a-z]/.test(ch)){
+   var nm=null;for(var q=0;q<NAMES.length;q++){if(s.indexOf(NAMES[q],i)===i){nm=NAMES[q];break}}
+   if(!nm)throw new Error("Symbole inconnu : « "+ch+" ». Utilisez x, e, pi, sqrt, exp, ln, abs, sin, cos, tan.");
+   out.push({k:"id",v:nm});i+=nm.length;continue}
+  if("+-*/^()".indexOf(ch)>=0){out.push({k:"op",v:ch});i++;continue}
+  throw new Error("Caractère non reconnu : « "+ch+" ».");
+ }
+ var r=[];
+ out.forEach(function(t){
+  var p=r[r.length-1];
+  if(p){
+   var pe=p.k==="n"||(p.k==="id"&&!FN[p.v])||(p.k==="op"&&p.v===")");
+   var cs=t.k==="n"||t.k==="id"||(t.k==="op"&&t.v==="(");
+   if(pe&&cs)r.push({k:"op",v:"*"});
+  }
+  r.push(t);
+ });
+ return r;
+}
+function parse(src){
+ var T=tokenize(src),p=0;
+ function isOp(v){return T[p]&&T[p].k==="op"&&T[p].v===v}
+ function expr(){var a=term();while(isOp("+")||isOp("-")){var o=T[p++].v,b=term();a=mk(o==="+"?"add":"sub",a,b)}return a}
+ function term(){var a=unary();while(isOp("*")||isOp("/")){var o=T[p++].v,b=unary();a=mk(o==="*"?"mul":"div",a,b)}return a}
+ function unary(){if(isOp("-")){p++;return mk("neg",unary())}if(isOp("+")){p++;return unary()}return pw()}
+ function pw(){var a=atom();if(isOp("^")){p++;return mk("pow",a,unary())}return a}
+ function atom(){
+  var t=T[p++];if(!t)throw new Error("Expression incomplète.");
+  if(t.k==="n")return N(t.v);
+  if(t.k==="id"){
+   if(t.v==="x")return{t:"x"};
+   if(t.v==="e")return{t:"c",n:"e",v:Math.E};
+   if(t.v==="pi")return{t:"c",n:"pi",v:Math.PI};
+   var a;
+   if(isOp("(")){p++;a=expr();if(!isOp(")"))throw new Error("Parenthèse fermante manquante.");p++}else a=atom();
+   return Fn(t.v,a);
+  }
+  if(t.v==="("){var b=expr();if(!isOp(")"))throw new Error("Parenthèse fermante manquante.");p++;return b}
+  throw new Error("Symbole inattendu : « "+t.v+" ».");
+ }
+ var r=expr();
+ if(p<T.length)throw new Error("Expression incorrecte près de « "+T[p].v+" ».");
+ return r;
+}
+
+/* ------------------------------------------------------------ evaluation */
+function pwr(u,v){if(Number.isInteger(v))return Math.pow(u,v);if(u<0)return NaN;return Math.pow(u,v)}
+function comp(n){
+ var a,b;
+ switch(n.t){
+ case"n":case"c":var v=n.v;return function(){return v};
+ case"x":return function(x){return x};
+ case"neg":a=comp(n.a);return function(x){return -a(x)};
+ case"add":a=comp(n.a);b=comp(n.b);return function(x){return a(x)+b(x)};
+ case"sub":a=comp(n.a);b=comp(n.b);return function(x){return a(x)-b(x)};
+ case"mul":a=comp(n.a);b=comp(n.b);return function(x){return a(x)*b(x)};
+ case"div":a=comp(n.a);b=comp(n.b);return function(x){return a(x)/b(x)};
+ case"pow":a=comp(n.a);b=comp(n.b);return function(x){return pwr(a(x),b(x))};
+ case"f":a=comp(n.a);
+  switch(n.n){
+  case"sqrt":return function(x){var u=a(x);return u<0?NaN:Math.sqrt(u)};
+  case"exp":return function(x){return Math.exp(a(x))};
+  case"ln":return function(x){var u=a(x);return u>0?Math.log(u):(u===0?-Infinity:NaN)};
+  case"log":return function(x){var u=a(x);return u>0?Math.log10(u):(u===0?-Infinity:NaN)};
+  case"abs":return function(x){return Math.abs(a(x))};
+  case"sin":return function(x){return Math.sin(a(x))};
+  case"cos":return function(x){return Math.cos(a(x))};
+  case"tan":return function(x){return Math.tan(a(x))};
+  }
+ }
+ throw new Error("Expression non gérée.");
+}
+function hasX(a){
+ switch(a.t){case"x":return true;case"n":case"c":return false;case"neg":case"f":return hasX(a.a);default:return hasX(a.a)||hasX(a.b)}
+}
+
+/* ------------------------------------------------------------ printing */
+function frac(v){
+ for(var q=2;q<=12;q++){var p=Math.round(v*q);if(Math.abs(v*q-p)<1e-8)return fnum(p)+"/"+q}
+ return null;
+}
+function mf2(n,out){if(n.t==="mul"){mf2(n.a,out);mf2(n.b,out)}else out.push(n)}
+function cls(n){
+ if(n.t==="n")return n.v>=0?"N":"O";
+ if(n.t==="x"||n.t==="add"||n.t==="sub")return"P";
+ if(n.t==="pow"&&(n.a.t==="x"||n.a.t==="add"||n.a.t==="sub"))return"P";
+ return"O";
+}
+function imp(u,v){var a=cls(u);return(a==="N"||a==="P")&&cls(v)==="P"}
+function pr(n,par){
+ par=par||0;var s,q;
+ switch(n.t){
+ case"n":s=fnum(n.v);q=n.v<0?3:5;break;
+ case"c":s=n.n==="pi"?"π":"e";q=5;break;
+ case"x":s="x";q=5;break;
+ case"neg":s="−"+pr(n.a,2);q=3;break;
+ case"add":s=pr(n.a,1)+" + "+pr(n.b,1);q=1;break;
+ case"sub":s=pr(n.a,1)+" − "+pr(n.b,2);q=1;break;
+ case"mul":{var fs=[];mf2(n,fs);s="";
+  for(var k=0;k<fs.length;k++){if(k>0)s+=imp(fs[k-1],fs[k])?"":" × ";s+=pr(fs[k],3)}
+  q=2;break}
+ case"div":s=pr(n.a,2)+" / "+pr(n.b,3);q=2;break;
+ case"pow":{var es=(n.b.t==="n"&&!Number.isInteger(n.b.v))?frac(n.b.v):null;
+  s=pr(n.a,5)+"^"+(es?"("+es+")":pr(n.b,5));q=4;break}
+ case"f":s=n.n+"("+pr(n.a,0)+")";q=5;break;
+ }
+ return q<par?"("+s+")":s;
+}
+
+/* ------------------------------------------------------------ simplification */
+function isN(a,v){return a.t==="n"&&(v===undefined||a.v===v)}
+function terms(n,sg,out){
+ if(n.t==="add"){terms(n.a,sg,out);terms(n.b,sg,out)}
+ else if(n.t==="sub"){terms(n.a,sg,out);terms(n.b,-sg,out)}
+ else if(n.t==="neg")terms(n.a,-sg,out);
+ else if(n.t==="n")out.push({c:sg*n.v,r:null});
+ else if(n.t==="mul"&&n.a.t==="n")out.push({c:sg*n.a.v,r:n.b});
+ else out.push({c:sg,r:n});
+}
+function addSimp(a,b,minus){
+ var ts=[];terms(a,1,ts);terms(b,minus?-1:1,ts);
+ var keys=[],map={};
+ ts.forEach(function(t){
+  var k=t.r===null?"#":pr(t.r);
+  if(map[k]===undefined){map[k]={c:t.c,r:t.r};keys.push(k)}else map[k].c+=t.c;
+ });
+ var res=null;
+ keys.forEach(function(k){
+  var t=map[k];if(Math.abs(t.c)<1e-12)return;
+  var neg=t.c<0,ac=Math.abs(t.c);
+  var node=t.r===null?N(ac):(ac===1?t.r:mk("mul",N(ac),t.r));
+  if(res===null)res=neg?(t.r===null?N(-ac):mk("neg",node)):node;
+  else res=mk(neg?"sub":"add",res,node);
+ });
+ return res===null?N(0):res;
+}
+function mfl(n,sg,out){
+ if(n.t==="mul"){mfl(n.a,sg,out);mfl(n.b,sg,out)}
+ else if(n.t==="div"){mfl(n.a,sg,out);mfl(n.b,-sg,out)}
+ else out.push({n:n,s:sg});
+}
+function mulSimp(a,b){
+ var work=[],c=1,rest=[];
+ mfl(a,1,work);mfl(b,1,work);
+ while(work.length){
+  var it=work.shift(),f=it.n;
+  if(f.t==="n"){c=it.s>0?c*f.v:c/f.v}
+  else if(f.t==="neg"){c*=-1;var tmp=[];mfl(f.a,it.s,tmp);work=tmp.concat(work)}
+  else rest.push(it);
+ }
+ if(c===0)return N(0);
+ var list=[],map={};
+ rest.forEach(function(it){
+  var base=it.n,e=it.s;
+  if(base.t==="pow"&&base.b.t==="n"){e=it.s*base.b.v;base=base.a}
+  var k=pr(base);
+  if(map[k]===undefined){map[k]={base:base,e:e};list.push(k)}else map[k].e+=e;
+ });
+ var num=null,den=null;
+ list.forEach(function(k){
+  var m=map[k];if(Math.abs(m.e)<1e-12)return;
+  var e=Math.abs(m.e),f=e===1?m.base:mk("pow",m.base,N(e));
+  if(m.e>0)num=num===null?f:mk("mul",num,f);else den=den===null?f:mk("mul",den,f);
+ });
+ var neg=c<0,ac=Math.abs(c);
+ var top=num===null?N(ac):(ac===1?num:mk("mul",N(ac),num));
+ var res=den===null?top:mk("div",top,den);
+ return neg?mk("neg",res):res;
+}
+function simp(n){
+ var a,b;
+ switch(n.t){
+ case"n":case"x":case"c":return n;
+ case"neg":a=simp(n.a);if(isN(a))return N(-a.v);if(a.t==="neg")return a.a;return mk("neg",a);
+ case"f":
+  a=simp(n.a);
+  if(n.n==="ln"&&a.t==="c"&&a.n==="e")return N(1);
+  if(n.n==="ln"&&isN(a,1))return N(0);
+  if(n.n==="exp"&&isN(a,0))return N(1);
+  if(n.n==="sqrt"&&isN(a)&&a.v>=0&&Number.isInteger(Math.sqrt(a.v)))return N(Math.sqrt(a.v));
+  return Fn(n.n,a);
+ case"add":return addSimp(simp(n.a),simp(n.b),false);
+ case"sub":return addSimp(simp(n.a),simp(n.b),true);
+ case"mul":return mulSimp(simp(n.a),simp(n.b));
+ case"div":return mulSimp(simp(n.a),mk("div",N(1),simp(n.b)));
+ case"pow":
+  a=simp(n.a);b=simp(n.b);
+  if(isN(b,1))return a;
+  if(isN(b,0))return N(1);
+  if(isN(a,1))return N(1);
+  if(a.t==="pow"&&a.b.t==="n"&&b.t==="n")return mk("pow",a.a,N(a.b.v*b.v));
+  if(isN(a)&&isN(b)){var v=Math.pow(a.v,b.v);if(isFinite(v)&&Number.isInteger(v))return N(v)}
+  return mk("pow",a,b);
+ }
+ return n;
+}
+
+/* ------------------------------------------------------------ derivative */
+function dif(n){
+ var a=n.a,b=n.b,da,db;
+ switch(n.t){
+ case"n":case"c":return N(0);
+ case"x":return N(1);
+ case"neg":return mk("neg",dif(a));
+ case"add":return mk("add",dif(a),dif(b));
+ case"sub":return mk("sub",dif(a),dif(b));
+ case"mul":return mk("add",mk("mul",dif(a),b),mk("mul",a,dif(b)));
+ case"div":return mk("div",mk("sub",mk("mul",dif(a),b),mk("mul",a,dif(b))),mk("pow",b,N(2)));
+ case"pow":
+  if(!hasX(b))return mk("mul",mk("mul",b,mk("pow",a,mk("sub",b,N(1)))),dif(a));
+  if(!hasX(a))return mk("mul",mk("mul",n,Fn("ln",a)),dif(b));
+  return mk("mul",n,mk("add",mk("mul",dif(b),Fn("ln",a)),mk("div",mk("mul",b,dif(a)),a)));
+ case"f":
+  da=dif(a);
+  switch(n.n){
+  case"sqrt":return mk("div",da,mk("mul",N(2),n));
+  case"exp":return mk("mul",da,n);
+  case"ln":return mk("div",da,a);
+  case"log":return mk("div",da,mk("mul",a,N(Math.LN10)));
+  case"abs":return mk("mul",da,mk("div",a,n));
+  case"sin":return mk("mul",da,Fn("cos",a));
+  case"cos":return mk("neg",mk("mul",da,Fn("sin",a)));
+  case"tan":return mk("mul",da,mk("add",N(1),mk("pow",n,N(2))));
+  }
+ }
+ throw new Error("Dérivée non gérée.");
+}
+
+/* ------------------------------------------------------------ analysis */
+var NS=24000;
+function fin(v){return typeof v==="number"&&isFinite(v)}
+function sgn(v){return v>0?1:v<0?-1:0}
+function snap(b){var s=Math.round(b*1e6)/1e6;return Math.abs(s-b)<2e-6?s:b}
+
+function rootsOf(g,xs,vals,opts){
+ var r=[],n=xs.length-1;opts=opts||{};
+ function addR(x){for(var i=0;i<r.length;i++)if(Math.abs(r[i]-x)<1e-4)return;r.push(x)}
+ for(var i=0;i<n;i++){
+  var a=vals[i],b=vals[i+1];
+  if(isNaN(a)||isNaN(b))continue;
+  if(a===0){if((i===0||vals[i-1]!==0)&&b!==0)addR(xs[i]);continue}
+  if(a*b<0){
+   var lo=xs[i],hi=xs[i+1],glo=a;
+   for(var k=0;k<70;k++){var m=(lo+hi)/2,gm=g(m);if(isNaN(gm))break;if(gm*glo<=0)hi=m;else{lo=m;glo=gm}}
+   var x=(lo+hi)/2,gx=g(x);
+   if(Math.abs(gx)<1e-6*(1+Math.max(Math.abs(a),Math.abs(b))))addR(x);
+   else if(opts.kink&&opts.cont&&opts.cont(x))addR(x);
+  }
+ }
+ if(!opts.noTouch){
+  for(var j=1;j<n;j++){
+   var v0=vals[j-1],v1=vals[j],v2=vals[j+1];
+   if(isNaN(v0)||isNaN(v1)||isNaN(v2))continue;
+   var A=Math.abs(v1);
+   if(v1!==0&&A<=Math.abs(v0)&&A<=Math.abs(v2)&&A<0.05){
+    var lo2=xs[j-1],hi2=xs[j+1];
+    for(var k2=0;k2<80;k2++){var m1=lo2+(hi2-lo2)/3,m2=hi2-(hi2-lo2)/3;
+     var g1=Math.abs(g(m1)),g2=Math.abs(g(m2));if(isNaN(g1)||isNaN(g2))break;if(g1<g2)hi2=m2;else lo2=m1}
+    var xm=(lo2+hi2)/2,gv=g(xm);
+    if(Math.abs(gv)<1e-9)addR(xm);
+   }
+  }
+ }
+ r.sort(function(p,q){return p-q});
+ return r.map(function(x){return Math.abs(x)<1e-9?0:snap(x)});
+}
+
+function bisectBound(f,bad,good){
+ for(var k=0;k<70;k++){var m=(bad+good)/2;if(fin(f(m)))good=m;else bad=m}
+ return(bad+good)/2;
+}
+
+function analyze(S,ra){
+ var f=S.f,fp=S.fp,N0=NS,st=2*ra/N0;
+ var xs=new Float64Array(N0+1),ys=new Float64Array(N0+1),ds=new Float64Array(N0+1);
+ for(var i=0;i<=N0;i++){
+  var x=-ra+i*st;xs[i]=x;
+  var y=f(x);ys[i]=fin(y)?(Math.abs(y)<1e-200?0:y):NaN;
+  var d=fp(x);ds[i]=fin(d)?(Math.abs(d)<1e-200?0:d):NaN;
+ }
+ var A={ra:ra};
+ /* holes : poles and excluded points */
+ var holes=[];
+ function addHole(x){x=snap(x);for(var i=0;i<holes.length;i++)if(Math.abs(holes[i]-x)<1e-4)return;holes.push(x)}
+ S.dens.forEach(function(dn){
+  var dv=new Float64Array(N0+1);
+  for(var i=0;i<=N0;i++){var v=dn(xs[i]);dv[i]=fin(v)?v:NaN}
+  rootsOf(dn,xs,dv,{}).forEach(addHole);
+ });
+ for(var i2=1;i2<N0;i2++){
+  if(isNaN(ys[i2])&&!isNaN(ys[i2-1])&&!isNaN(ys[i2+1]))addHole(xs[i2]);
+  var v=ys[i2];
+  if(!isNaN(v)&&Math.abs(v)>50&&!isNaN(ys[i2-1])&&!isNaN(ys[i2+1])&&Math.abs(v)>=Math.abs(ys[i2-1])&&Math.abs(v)>=Math.abs(ys[i2+1])){
+   var lo=xs[i2-1],hi=xs[i2+1];
+   var mm=function(z){var w=f(z);return fin(w)?Math.abs(w):1e300};
+   for(var k=0;k<80;k++){var m1=lo+(hi-lo)/3,m2=hi-(hi-lo)/3;if(mm(m1)<mm(m2))lo=m1;else hi=m2}
+   var xm=(lo+hi)/2;
+   if(mm(xm)>1e7)addHole(xm);
+  }
+ }
+ holes.sort(function(a,b){return a-b});
+ /* classify holes: vertical asymptote or removable/excluded point */
+ A.poles=[];A.holes=[];
+ holes.forEach(function(h){
+  var big=false;
+  [1e-8,1e-6].forEach(function(d){[h-d,h+d].forEach(function(z){var w=f(z);if(!fin(w)||Math.abs(w)>1e5)big=big||(!fin(w)?false:true)})});
+  var w1=f(h+1e-8),w2=f(h-1e-8);
+  if((fin(w1)&&Math.abs(w1)>1e5)||(fin(w2)&&Math.abs(w2)>1e5))A.poles.push(h);
+  A.holes.push(h);
+ });
+ /* domain */
+ var runs=[],i3=0;
+ while(i3<=N0){
+  if(isNaN(ys[i3])){i3++;continue}
+  var j=i3;while(j+1<=N0&&!isNaN(ys[j+1]))j++;
+  var run={};
+  if(i3===0){run.a=-ra;run.aInf=true;run.aC=false}
+  else{run.a=snap(bisectBound(f,xs[i3-1],xs[i3]));run.aC=fin(f(run.a));run.aInf=false}
+  if(j===N0){run.b=ra;run.bInf=true;run.bC=false}
+  else{run.b=snap(bisectBound(f,xs[j+1],xs[j]));run.bC=fin(f(run.b));run.bInf=false}
+  runs.push(run);i3=j+1;
+ }
+ var dom=[];
+ runs.forEach(function(r){
+  var cur={a:r.a,aC:r.aC,aInf:r.aInf};
+  A.holes.forEach(function(h){
+   if(h>cur.a+1e-4&&h<r.b-1e-4){
+    dom.push({a:cur.a,aC:cur.aC,aInf:cur.aInf,b:h,bC:false,bInf:false});
+    cur={a:h,aC:false,aInf:false};
+   }else if(Math.abs(h-r.a)<=1e-4&&!r.aInf)r.aC=cur.aC=false;
+   else if(Math.abs(h-r.b)<=1e-4&&!r.bInf)r.bC=false;
+  });
+  dom.push({a:cur.a,aC:cur.aC,aInf:cur.aInf,b:r.b,bC:r.bC,bInf:r.bInf});
+ });
+ A.dom=dom;
+ function inDom(x){for(var i=0;i<dom.length;i++){var d=dom[i];if((d.aInf||x>d.a-1e-9)&&(d.bInf||x<d.b+1e-9))return true}return false}
+ /* zeros */
+ A.zeros=rootsOf(f,xs,ys,{}).filter(inDom);
+ /* critical points of f' */
+ var cont=function(x){var a=f(x-1e-9),b=f(x+1e-9);return fin(a)&&fin(b)&&Math.abs(a-b)<1e-6*(1+Math.abs(a))};
+ var cr=rootsOf(fp,xs,ds,{kink:true,cont:cont});
+ for(var i4=1;i4<N0;i4++){
+  if(isNaN(ds[i4])&&!isNaN(ys[i4])&&!isNaN(ds[i4-1])&&!isNaN(ds[i4+1])&&ds[i4-1]*ds[i4+1]<0){
+   var c=snap(xs[i4]);if(!cr.some(function(q){return Math.abs(q-c)<1e-4}))cr.push(c);
+  }
+ }
+ cr.sort(function(a,b){return a-b});
+ A.crit=[];
+ cr.forEach(function(c){
+  if(!fin(f(c))||!inDom(c))return;
+  var dl=2e-4*(1+Math.abs(c)),l=fp(c-dl),r=fp(c+dl),cv=fp(c),type;
+  if(isNaN(l)||isNaN(r)){var yl=f(c-dl),yr=f(c+dl),y0=f(c);type=(yl>y0&&yr>y0)?"min":(yl<y0&&yr<y0)?"max":"flat"}
+  else if(l<0&&r>0)type="min";else if(l>0&&r<0)type="max";else type="flat";
+  A.crit.push({x:c,y:f(c),type:type,kink:isNaN(cv)||Math.abs(cv)>1e-3});
+ });
+ /* parity */
+ var ev=0,od=0,tot=0;
+ [0.37,0.9,1.7,2.9,5.3].forEach(function(t){
+  var a=f(t),b=f(-t);if(!fin(a)||!fin(b))return;tot++;
+  if(Math.abs(a-b)<1e-9*(1+Math.abs(a)))ev++;
+  if(Math.abs(a+b)<1e-9*(1+Math.abs(a)))od++;
+ });
+ A.parity=tot<2?"none":(ev===tot&&od===tot)?"zero":ev===tot?"even":od===tot?"odd":"none";
+ /* asymptotes */
+ var asy=[];
+ A.vert=A.poles.slice();
+ dom.forEach(function(d){
+  [["a",d.a,d.aInf,1],["b",d.b,d.bInf,-1]].forEach(function(e){
+   if(e[2])return;var b=e[1],dir=e[3];
+   var v12=Math.abs(f(b+dir*1e-12)),v6=Math.abs(f(b+dir*1e-6));
+   if(fin(v12)&&fin(v6)&&v12>10&&v12>1.5*v6&&!A.vert.some(function(q){return Math.abs(q-b)<1e-4}))A.vert.push(b);
+  });
+ });
+ A.vert.sort(function(a,b){return a-b});
+ function isSelf(a,b,sg){
+  var ok=0,cnt=0;
+  [0.5,1.3,2.2,3.7,0.8,7.1].forEach(function(t){t*=sg;var y=f(t);if(fin(y)){cnt++;if(Math.abs(y-(a*t+b))<1e-9*(1+Math.abs(y)))ok++}});
+  return cnt>=2&&ok===cnt;
+ }
+ function farLine(sign){
+  var X1=sign*1e5,X2=sign*1e6,X3=sign*1e7,y1=f(X1),y2=f(X2),y3=f(X3);
+  if(!fin(y1)||!fin(y2)||!fin(y3))return null;
+  var tol=1e-3*Math.max(1,Math.abs(y3));
+  if(Math.abs(y2-y1)<tol&&Math.abs(y3-y2)<tol){
+   var L=Math.abs(y3-Math.round(y3*1e4)/1e4)<2e-5?Math.round(y3*1e4)/1e4:parseFloat(y3.toPrecision(6));
+   if(Math.abs(L)<1e-4)L=0;
+   return{a:0,b:L};
+  }
+  var a=(y2-y1)/(X2-X1),b=y2-a*X2;
+  var tb=1e-3*Math.max(1,Math.abs(b));
+  if(Math.abs(y3-(a*X3+b))>tb||Math.abs(y1-(a*X1+b))>tb)return null;
+  if(Math.abs(a)>1e4)return null;
+  a=parseFloat(a.toPrecision(8));if(Math.abs(a)<1e-4)return null;
+  b=parseFloat(b.toPrecision(8));if(Math.abs(b)<1e-4)b=0;
+  if(isSelf(a,b,sign))return null;
+  return{a:a,b:b};
+ }
+ A.lines=[];
+ var pL=farLine(1),mL=farLine(-1);
+ if(pL&&mL&&Math.abs(pL.a-mL.a)<1e-6&&Math.abs(pL.b-mL.b)<1e-6)A.lines.push({a:pL.a,b:pL.b,at:"±∞"});
+ else{if(pL)A.lines.push({a:pL.a,b:pL.b,at:"+∞"});if(mL)A.lines.push({a:mL.a,b:mL.b,at:"−∞"})}
+ return A;
+}
+
+/* ------------------------------------------------------------ state */
+var S=null,A=null,V={xmin:-6,xmax:6,ymin:-4,ymax:8},cv,ctx,dpr=1,hover=null,raf=0;
+var O={zeros:true,y0:false,dom:true,par:false,der:true,dcv:false,vr:true,asy:true,tan:false,val:false,int:false,grid:true};
+var P={a:1,x0:2,ia:0,ib:2};
+
+function setExpr(src){
+ var tree=parse(src);
+ var f=comp(tree);
+ var dtree=simp(simp(dif(tree)));
+ var fp=comp(dtree);
+ var dens=[];
+ (function walk(n){
+  if(n.t==="n"||n.t==="x"||n.t==="c")return;
+  if(n.t==="neg"||n.t==="f"){walk(n.a);return}
+  walk(n.a);walk(n.b);
+  if(n.t==="div"&&hasX(n.b))dens.push(comp(n.b));
+  if(n.t==="pow"&&n.b.t==="n"&&n.b.v<0&&hasX(n.a))dens.push(comp(n.a));
+ })(tree);
+ var f0=f(0.5);
+ if(!tree||(!hasX(tree)&&!fin(f0)))throw new Error("Expression non valable.");
+ S={src:src,tree:tree,f:f,fp:fp,dtree:dtree,dens:dens,text:pr(simp(tree)),dtext:pr(dtree)};
+ A=null;
+}
+function ensureAnalysis(){
+ var ra=Math.min(2000,Math.max(60,Math.abs(V.xmin),Math.abs(V.xmax)));
+ if(!A||A.ra<ra*0.999)A=analyze(S,Math.max(ra,A?A.ra:0));
+ return A;
+}
+
+/* ------------------------------------------------------------ intervals text */
+function ivText(a,aC,aInf,b,bC,bInf){
+ return(aInf?"]−∞":(aC?"[":"]")+fmt(a))+" ; "+(bInf?"+∞[":fmt(b)+(bC?"]":"["));
+}
+function domainText(A){
+ var d=A.dom;
+ if(!d.length)return"∅ (aucun point où f est définie)";
+ if(d.length===1&&d[0].aInf&&d[0].bInf)return"ℝ";
+ var gap=true;
+ if(!d[0].aInf||!d[d.length-1].bInf)gap=false;
+ for(var i=0;i<d.length-1;i++)if(Math.abs(d[i].b-d[i+1].a)>1e-4||d[i].bC||d[i+1].aC)gap=false;
+ if(gap){var hs=d.slice(0,-1).map(function(x){return fmt(x.b)});return"ℝ ∖ {"+(hs.length>6?hs.slice(0,6).join(" ; ")+" ; …":hs.join(" ; "))+"}"}
+ return d.map(function(x){return ivText(x.a,x.aC,x.aInf,x.b,x.bC,x.bInf)}).join(" ∪ ");
+}
+function splitIntervals(A,breaks){
+ var out=[];
+ A.dom.forEach(function(d){
+  var pts=breaks.filter(function(c){return(d.aInf||c>d.a+1e-9)&&(d.bInf||c<d.b-1e-9)}).sort(function(p,q){return p-q});
+  var seq=[{x:d.a,C:d.aC,inf:d.aInf}];
+  pts.forEach(function(c){seq.push({x:c,C:true,inf:false,mid:true})});
+  seq.push({x:d.b,C:d.bC,inf:d.bInf});
+  for(var i=0;i<seq.length-1;i++)out.push({L:seq[i],R:seq[i+1],dom:d});
+ });
+ return out;
+}
+function testPts(it){
+ var a=it.L.x,b=it.R.x;
+ return[0.5,0.9,0.99,0.1,0.01,0.75,0.25].map(function(r){return a+(b-a)*r});
+}
+function variationLines(A,f,fp){
+ var segs=splitIntervals(A,A.crit.map(function(c){return c.x}));
+ var res=[];
+ segs.forEach(function(s){
+  var d=NaN;
+  testPts(s).forEach(function(t){if(!fin(d)||d===0){var v=fp(t);if(fin(v))d=v}});
+  var dir=fin(d)?sgn(d):sgn(f(s.R.x)-f(s.L.x));
+  var last=res[res.length-1];
+  if(last&&last.dir===dir&&last.R.mid&&last.dom===s.dom){last.R=s.R}
+  else res.push({L:s.L,R:s.R,dir:dir,dom:s.dom});
+ });
+ return res;
+}
+function signLines(A,f){
+ var br=A.zeros.slice();
+ var segs=splitIntervals(A,br);
+ function strict(p){if(!p.inf&&A.zeros.some(function(z){return Math.abs(z-p.x)<1e-6}))return{x:p.x,C:false,inf:false};return p}
+ return segs.map(function(s){
+  var y=NaN;
+  testPts(s).forEach(function(t){if(!fin(y)||y===0){var v=f(t);if(fin(v))y=v}});
+  return{L:strict(s.L),R:strict(s.R),sg:fin(y)?sgn(y):0};
+ });
+}
+function segText(s){
+ return ivText(s.L.x,s.L.C,s.L.inf,s.R.x,s.R.C,s.R.inf);
+}
+
+/* ------------------------------------------------------------ info panel */
+function sup(t){return t.replace(/\^(\([^()]*\)|[−\d,]+|x|e)/g,function(m,g){var inner=g[0]==="("?g.slice(1,-1):g;return"<sup>"+sup(inner)+"</sup>"})}
+function code(x){return"<code>"+sup(x.replace(/</g,"&lt;"))+"</code>"}
+function lineEq(a,b){
+ var s="y = ";
+ if(a===0)return s+fmt(b);
+ var ax=a===1?"x":a===-1?"−x":fmt(a)+"x";
+ if(b===0)return s+ax;
+ return s+ax+(b<0?" − ":" + ")+fmt(Math.abs(b));
+}
+function infoHTML(){
+ var out=[];
+ function card(t,h){out.push('<div class="gzcard"><h4>'+t+'</h4><div>'+h+'</div></div>')}
+ var A=ensureAnalysis(),f=S.f,fp=S.fp;
+ if(O.dom)card("Ensemble de définition","D = "+domainText(A)+'<small class="gzn">Estimé numériquement sur [−'+fmt(A.ra,0)+" ; "+fmt(A.ra,0)+"].</small>");
+ if(O.par){
+  var p=A.parity;
+  card("Parité",p==="even"?"f est <b>paire</b> : f(−x) = f(x). La courbe est symétrique par rapport à l’axe des ordonnées.":p==="odd"?"f est <b>impaire</b> : f(−x) = −f(x). La courbe est symétrique par rapport à l’origine.":p==="zero"?"f est à la fois paire et impaire (fonction nulle).":"f n’est ni paire ni impaire (ou son ensemble de définition n’est pas symétrique).");
+ }
+ if(O.y0){var y0=f(0);card("Ordonnée à l’origine",fin(y0)?"f(0) = <b>"+fmt(y0)+"</b> : la courbe coupe l’axe des ordonnées en (0 ; "+fmt(y0)+").":"0 n’appartient pas à l’ensemble de définition : pas d’intersection avec l’axe des ordonnées.")}
+ if(O.zeros){
+  var z=A.zeros,h=z.length?"f(x) = 0 pour "+z.slice(0,12).map(function(x){return"x = <b>"+fmt(x)+"</b>"}).join(" ; ")+(z.length>12?" …":""):"Aucun zéro repéré : la courbe ne coupe pas l’axe des abscisses.";
+  var sl=signLines(A,f),pos=[],neg=[];
+  sl.forEach(function(s){if(s.sg>0)pos.push(segText(s));else if(s.sg<0)neg.push(segText(s))});
+  var lim=function(l){return l.length>10?l.slice(0,10).join(" ∪ ")+" ∪ …":l.join(" ∪ ")};
+  if(pos.length)h+='<br><span class="gzp">f(x) &gt; 0</span> sur '+lim(pos);
+  if(neg.length)h+='<br><span class="gzm">f(x) &lt; 0</span> sur '+lim(neg);
+  card("Zéros et signe",h);
+ }
+ if(O.der)card("Dérivée","f′(x) = "+code(S.dtext)+'<small class="gzn">Dérivée calculée formellement et simplifiée.</small>');
+ if(O.vr){
+  var vl=variationLines(A,f,fp),h2="";
+  var shown=vl.slice(0,12);
+  shown.forEach(function(s){
+   h2+=(s.dir>0?'<span class="gzp">↗ croissante</span>':s.dir<0?'<span class="gzm">↘ décroissante</span>':"→ constante")+" sur "+segText(s)+"<br>";
+  });
+  if(vl.length>12)h2+="…<br>";
+  var ex=A.crit.slice(0,12);
+  ex.forEach(function(c){
+   h2+=(c.type==="max"?"<b>Maximum local</b>":c.type==="min"?"<b>Minimum local</b>":"Tangente horizontale sans extremum")+" en x = "+fmt(c.x)+" : f("+fmt(c.x)+") = <b>"+fmt(c.y)+"</b>"+(c.kind?" (point anguleux)":"")+"<br>";
+  });
+  if(!ex.length)h2+="Aucun extremum local repéré.";
+  card("Variations et extremums",h2);
+ }
+ if(O.asy){
+  var as=[];
+  A.vert.forEach(function(x){as.push("Verticale : <b>x = "+fmt(x)+"</b>")});
+  A.lines.forEach(function(l){as.push((l.a===0?"Horizontale":"Oblique")+" en "+l.at+" : <b>"+lineEq(l.a,l.b)+"</b>")});
+  card("Asymptotes",as.length?as.join("<br>"):"Aucune asymptote repérée.");
+ }
+ if(O.tan){
+  var a=P.a,ya=f(a),m=fp(a);
+  if(fin(ya)&&fin(m))card("Tangente en x = "+fmt(a),"f("+fmt(a)+") = "+fmt(ya)+" et f′("+fmt(a)+") = "+fmt(m)+".<br>Équation : <b>y = f′(a)(x − a) + f(a)</b>, soit <b>"+lineEq(m,ya-m*a)+"</b>.");
+  else card("Tangente en x = "+fmt(a),"f n’est pas dérivable en ce point (ou n’y est pas définie) : pas de tangente non verticale.");
+ }
+ if(O.val){var v=f(P.x0);card("Valeur en x₀ = "+fmt(P.x0),fin(v)?"f("+fmt(P.x0)+") = <b>"+fmt(v,6)+"</b>":"f n’est pas définie en ce point.")}
+ if(O.int){
+  var I=integral(P.ia,P.ib);
+  card("Intégrale de "+fmt(P.ia)+" à "+fmt(P.ib),I===null?"Calcul impossible : f n’est pas définie (ou pas bornée) sur tout l’intervalle.":"∫ f(x) dx ≈ <b>"+fmt(I,6)+"</b><small class=\"gzn\">Aire algébrique entre la courbe et l’axe des abscisses (méthode de Simpson).</small>");
+ }
+ $("#gzinfo").innerHTML=out.join("");
+}
+function integral(a,b){
+ var f=S.f,n=4000,sign=1;if(a===b)return 0;if(a>b){var t=a;a=b;b=t;sign=-1}
+ var h=(b-a)/n,s=0;
+ for(var i=0;i<=n;i++){
+  var y=f(a+i*h);if(!fin(y)||Math.abs(y)>1e8)return null;
+  s+=y*(i===0||i===n?1:(i%2?4:2));
+ }
+ return sign*s*h/3;
+}
+
+/* ------------------------------------------------------------ drawing */
+function niceStep(raw){
+ var p=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/p;
+ return(m<1.5?1:m<3.5?2:m<7.5?5:10)*p;
+}
+function request(){if(!raf)raf=requestAnimationFrame(function(){raf=0;draw()})}
+function draw(){
+ if(!S||!cv||!cv.clientWidth)return;
+ var W=cv.clientWidth,H=cv.clientHeight;
+ ctx.setTransform(dpr,0,0,dpr,0,0);
+ var dk=isDark(),ink=getComputedStyle(cv).color,line=css("--line"),muted=css("--muted"),acc=css("--accent"),ok=css("--ok"),ko=css("--ko"),surf=css("--surface");
+ var org=dk?"#ffb347":"#d97706",pur=dk?"#c4a1ff":"#7c3aed";
+ ctx.clearRect(0,0,W,H);
+ var dx=V.xmax-V.xmin,dy=V.ymax-V.ymin;
+ function X(x){return(x-V.xmin)/dx*W}
+ function Y(y){var v=H-(y-V.ymin)/dy*H;return Math.max(-1e6,Math.min(1e6,v))}
+ ctx.font="11px Segoe UI,system-ui,Arial,sans-serif";ctx.lineJoin="round";ctx.lineCap="round";
+ /* grid */
+ var sx=niceStep(dx/(W/75)),sy=niceStep(dy/(H/60));
+ ctx.lineWidth=1;
+ if(O.grid){
+  ctx.strokeStyle=line;ctx.beginPath();
+  for(var gx=Math.ceil(V.xmin/sx)*sx;gx<=V.xmax;gx+=sx){ctx.moveTo(Math.round(X(gx))+.5,0);ctx.lineTo(Math.round(X(gx))+.5,H)}
+  for(var gy=Math.ceil(V.ymin/sy)*sy;gy<=V.ymax;gy+=sy){ctx.moveTo(0,Math.round(Y(gy))+.5);ctx.lineTo(W,Math.round(Y(gy))+.5)}
+  ctx.stroke();
+ }
+ /* axes */
+ var ax0=Math.max(0,Math.min(W,X(0))),ay0=Math.max(0,Math.min(H,Y(0)));
+ ctx.strokeStyle=ink;ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(0,ay0);ctx.lineTo(W,ay0);ctx.moveTo(ax0,0);ctx.lineTo(ax0,H);ctx.stroke();
+ ctx.fillStyle=muted;ctx.textAlign="center";
+ var ly=Math.min(H-4,ay0+14);
+ for(var tx=Math.ceil(V.xmin/sx)*sx;tx<=V.xmax;tx+=sx){
+  if(Math.abs(tx)<sx*1e-6)continue;
+  ctx.fillText(fmt(tx,6),X(tx),ly);
+  ctx.beginPath();ctx.moveTo(X(tx),ay0-3);ctx.lineTo(X(tx),ay0+3);ctx.stroke();
+ }
+ var rightSide=ax0<W-46;ctx.textAlign=rightSide?"left":"right";
+ var lx=rightSide?ax0+6:ax0-6;
+ for(var ty=Math.ceil(V.ymin/sy)*sy;ty<=V.ymax;ty+=sy){
+  if(Math.abs(ty)<sy*1e-6)continue;
+  ctx.fillText(fmt(ty,6),lx,Y(ty)+4);
+ }
+ ctx.textAlign="left";ctx.fillStyle=ink;ctx.fillText("x",W-12,Math.max(12,ay0-6));ctx.fillText("y",Math.min(W-10,ax0+6),12);
+ function label(t,x,y,col,al){
+  ctx.textAlign=al||"left";ctx.lineWidth=4;ctx.strokeStyle=surf;ctx.strokeText(t,x,y);ctx.fillStyle=col||ink;ctx.fillText(t,x,y);ctx.lineWidth=1.4;
+ }
+ var Ao=ensureAnalysis();
+ /* integral shading */
+ if(O.int){
+  var ia=Math.min(P.ia,P.ib),ib=Math.max(P.ia,P.ib),f0=S.f;
+  ctx.fillStyle=dk?"rgba(77,141,255,.28)":"rgba(20,86,214,.2)";
+  ctx.beginPath();var started=false,n0=Math.max(2,Math.ceil((X(ib)-X(ia))/1.5));
+  for(var i=0;i<=n0;i++){var xx=ia+(ib-ia)*i/n0,yy=f0(xx);if(!fin(yy)){started=false;continue}
+   if(!started){ctx.moveTo(X(xx),Y(0));started=true}ctx.lineTo(X(xx),Y(yy))}
+  ctx.lineTo(X(ib),Y(0));ctx.closePath();ctx.fill();
+  ctx.strokeStyle=acc;ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(X(ia),0);ctx.lineTo(X(ia),H);ctx.moveTo(X(ib),0);ctx.lineTo(X(ib),H);ctx.stroke();ctx.setLineDash([]);
+ }
+ /* asymptotes */
+ if(O.asy){
+  ctx.strokeStyle=muted;ctx.lineWidth=1.3;ctx.setLineDash([6,4]);
+  Ao.vert.forEach(function(x){if(x>V.xmin&&x<V.xmax){ctx.beginPath();ctx.moveTo(X(x),0);ctx.lineTo(X(x),H);ctx.stroke();label("x = "+fmt(x),X(x)+5,H-8,muted)}});
+  Ao.lines.forEach(function(l){
+   ctx.beginPath();ctx.moveTo(0,Y(l.a*V.xmin+l.b));ctx.lineTo(W,Y(l.a*V.xmax+l.b));ctx.stroke();
+   var tx=l.at==="−∞"?V.xmin+dx*0.04:V.xmax-dx*0.04;
+   label(lineEq(l.a,l.b),X(tx),Y(l.a*tx+l.b)-7,muted,l.at==="−∞"?"left":"right");
+  });
+  ctx.setLineDash([]);ctx.lineWidth=1.4;
+ }
+ /* curve helper */
+ function plot(fn,color,width,dash,vary){
+  ctx.lineWidth=width;ctx.setLineDash(dash||[]);
+  var px0=null,py0=null,x0=0,cur=null,open=false;
+  function flush(){if(open){ctx.stroke();open=false}}
+  for(var px=0;px<=W;px+=1){
+   var x=V.xmin+px*dx/W,y=fn(x);
+   if(!fin(y)){flush();px0=null;continue}
+   var py=Y(y);
+   if(px0!==null&&Math.abs(py-py0)<H*3){
+    var col=color;
+    if(vary){var d=S.fp((x+x0)/2);col=fin(d)?(d>0?ok:d<0?ko:acc):acc}
+    if(!open||col!==cur){flush();ctx.strokeStyle=col;cur=col;ctx.beginPath();ctx.moveTo(px0,py0);open=true}
+    ctx.lineTo(px,py);
+   }
+   px0=px;py0=py;x0=x;
+  }
+  flush();ctx.setLineDash([]);
+ }
+ if(O.dcv)plot(S.fp,org,2,[7,4],false);
+ plot(S.f,acc,3,null,O.vr);
+ /* tangent */
+ if(O.tan){
+  var a=P.a,ya=S.f(a),m=S.fp(a);
+  if(fin(ya)&&fin(m)){
+   ctx.strokeStyle=pur;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,Y(ya+m*(V.xmin-a)));ctx.lineTo(W,Y(ya+m*(V.xmax-a)));ctx.stroke();
+   ctx.fillStyle=pur;ctx.beginPath();ctx.arc(X(a),Y(ya),5,0,7);ctx.fill();
+   label("tangente",X(a)+8,Y(ya)-9,pur);
+  }
+ }
+ /* special points */
+ function dot(x,y,col,t,dyl){
+  if(!fin(y)||x<V.xmin||x>V.xmax)return;
+  ctx.fillStyle=col;ctx.strokeStyle=surf;ctx.lineWidth=2;ctx.beginPath();ctx.arc(X(x),Y(y),5,0,7);ctx.stroke();ctx.fill();
+  if(t)label(t,X(x),Y(y)+(dyl||-10),ink,"center");
+ }
+ if(O.zeros)Ao.zeros.slice(0,20).forEach(function(z){dot(z,0,ko,"("+fmt(z,3)+" ; 0)",18)});
+ if(O.y0){var y0=S.f(0);dot(0,y0,pur,"(0 ; "+fmt(y0,3)+")",-10)}
+ if(O.vr)Ao.crit.slice(0,20).forEach(function(c){dot(c.x,c.y,c.type==="flat"?muted:acc,"("+fmt(c.x,3)+" ; "+fmt(c.y,3)+")",c.type==="max"?-10:18)});
+ if(O.val){var vv=S.f(P.x0);if(fin(vv)){ctx.strokeStyle=pur;ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(X(P.x0),Y(0));ctx.lineTo(X(P.x0),Y(vv));ctx.lineTo(X(V.xmin),Y(vv));ctx.stroke();ctx.setLineDash([]);dot(P.x0,vv,pur,"("+fmt(P.x0,3)+" ; "+fmt(vv,3)+")",-10)}}
+ if(hover!==null){
+  var hy=S.f(hover);
+  if(fin(hy)){ctx.fillStyle=acc;ctx.beginPath();ctx.arc(X(hover),Y(hy),4.5,0,7);ctx.fill()}
+ }
+}
+function readout(){
+ var el=$("#gztr");
+ if(hover===null){el.textContent="Survolez ou touchez la courbe pour lire les valeurs ; faites glisser pour déplacer le repère ; molette ou pincement pour zoomer.";return}
+ var y=S.f(hover),d=S.fp(hover);
+ el.innerHTML="x = <b>"+fmt(hover,4)+"</b> ; f(x) = <b>"+(fin(y)?fmt(y,4):"indéfini")+"</b>"+(fin(d)?" ; f′(x) = <b>"+fmt(d,4)+"</b>":"");
+}
+
+/* ------------------------------------------------------------ window handling */
+function syncInputs(){
+ $("#gzx0").value=fmt(V.xmin,4);$("#gzx1").value=fmt(V.xmax,4);$("#gzy0").value=fmt(V.ymin,4);$("#gzy1").value=fmt(V.ymax,4);
+}
+function num(s){return parseFloat(String(s).replace(",",".").replace("−","-"))}
+function applyInputs(){
+ var a=num($("#gzx0").value),b=num($("#gzx1").value),c=num($("#gzy0").value),d=num($("#gzy1").value);
+ if(fin(a)&&fin(b)&&b>a){V.xmin=a;V.xmax=b}
+ if(fin(c)&&fin(d)&&d>c){V.ymin=c;V.ymax=d}
+ syncInputs();afterView();
+}
+function afterView(){
+ if(A&&A.ra<Math.min(2000,Math.max(Math.abs(V.xmin),Math.abs(V.xmax)))*0.999){A=null;infoHTML()}
+ request();
+}
+function autoY(){
+ var ys=[],n=400;
+ for(var i=0;i<=n;i++){var y=S.f(V.xmin+(V.xmax-V.xmin)*i/n);if(fin(y)&&Math.abs(y)<1e12)ys.push(y)}
+ if(!ys.length){V.ymin=-5;V.ymax=5;return}
+ ys.sort(function(a,b){return a-b});
+ var lo=ys[Math.floor(ys.length*0.04)],hi=ys[Math.ceil(ys.length*0.96)-1];
+ if(hi-lo<1e-9){lo-=1;hi+=1}
+ var pad=(hi-lo)*0.18;V.ymin=lo-pad;V.ymax=hi+pad;
+ if(V.ymin>0&&V.ymin<(hi-lo)*0.6)V.ymin=-(hi-lo)*0.1;
+ if(V.ymax<0&&-V.ymax<(hi-lo)*0.6)V.ymax=(hi-lo)*0.1;
+}
+function smartView(){
+ A=analyze(S,60);
+ var pts=[0];
+ A.zeros.concat(A.crit.map(function(c){return c.x}),A.vert).forEach(function(x){if(Math.abs(x)<=15)pts.push(x)});
+ pts.sort(function(a,b){return Math.abs(a)-Math.abs(b)});pts=pts.slice(0,10);
+ var lo=Math.min.apply(null,pts),hi=Math.max.apply(null,pts);
+ var span=Math.max(hi-lo,1),pad=Math.max(0.5,span*0.3),c=(lo+hi)/2,half=Math.max(span/2+pad,3);
+ V.xmin=c-half;V.xmax=c+half;
+ var ys=[],n=400;
+ for(var i=0;i<=n;i++){var y=S.f(V.xmin+(V.xmax-V.xmin)*i/n);if(fin(y)&&Math.abs(y)<1e12)ys.push(y)}
+ if(!ys.length){V.ymin=-5;V.ymax=5;return}
+ ys.sort(function(a,b){return a-b});
+ var yl=ys[Math.floor(ys.length*0.08)],yh=ys[Math.min(ys.length-1,Math.ceil(ys.length*0.92)-1)];
+ A.crit.forEach(function(k){if(k.x>=V.xmin&&k.x<=V.xmax){yl=Math.min(yl,k.y);yh=Math.max(yh,k.y)}});
+ if(yh-yl<1e-9){yl-=1;yh+=1}
+ if(yl>0&&yl<0.6*(yh-yl))yl=0;
+ if(yh<0&&-yh<0.6*(yh-yl))yh=0;
+ var p=(yh-yl)*0.15;V.ymin=yl-p;V.ymax=yh+p;
+}
+function ortho(){
+ var W=cv.clientWidth,H=cv.clientHeight,u=(V.xmax-V.xmin)/W,cy=(V.ymin+V.ymax)/2;
+ V.ymin=cy-u*H/2;V.ymax=cy+u*H/2;syncInputs();request();
+}
+function zoom(f,cx,cy){
+ if(cx===undefined)cx=(V.xmin+V.xmax)/2;if(cy===undefined)cy=(V.ymin+V.ymax)/2;
+ V.xmin=cx+(V.xmin-cx)*f;V.xmax=cx+(V.xmax-cx)*f;V.ymin=cy+(V.ymin-cy)*f;V.ymax=cy+(V.ymax-cy)*f;
+ syncInputs();afterView();
+}
+
+/* ------------------------------------------------------------ interaction */
+function wire(){
+ cv=$("#gzc");ctx=cv.getContext("2d");
+ var ptrs={},drag=null,pinch=null;
+ function toX(px){return V.xmin+px/cv.clientWidth*(V.xmax-V.xmin)}
+ function toY(py){return V.ymax-py/cv.clientHeight*(V.ymax-V.ymin)}
+ function pos(e){var r=cv.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+ cv.addEventListener("pointerdown",function(e){
+  cv.setPointerCapture(e.pointerId);ptrs[e.pointerId]=pos(e);
+  var ids=Object.keys(ptrs);
+  if(ids.length===1){drag={x:ptrs[ids[0]].x,y:ptrs[ids[0]].y,moved:false};cv.style.cursor="grabbing"}
+  else if(ids.length===2){var a=ptrs[ids[0]],b=ptrs[ids[1]];pinch={d:Math.hypot(a.x-b.x,a.y-b.y),cx:(a.x+b.x)/2,cy:(a.y+b.y)/2};drag=null}
+ });
+ cv.addEventListener("pointermove",function(e){
+  var p=pos(e);
+  if(ptrs[e.pointerId]){
+   var prev=ptrs[e.pointerId];ptrs[e.pointerId]=p;
+   var ids=Object.keys(ptrs);
+   if(ids.length>=2&&pinch){
+    var a=ptrs[ids[0]],b=ptrs[ids[1]],d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(pinch.d>0&&d>0)zoom(pinch.d/d,toX((a.x+b.x)/2),toY((a.y+b.y)/2));
+    pinch.d=d;return;
+   }
+   if(drag){
+    var ddx=(p.x-drag.x)/cv.clientWidth*(V.xmax-V.xmin),ddy=(p.y-drag.y)/cv.clientHeight*(V.ymax-V.ymin);
+    if(Math.abs(p.x-drag.x)+Math.abs(p.y-drag.y)>0)drag.moved=true;
+    V.xmin-=ddx;V.xmax-=ddx;V.ymin+=ddy;V.ymax+=ddy;drag.x=p.x;drag.y=p.y;
+    hover=toX(p.x);syncInputs();afterView();readout();
+   }
+  }else{hover=toX(p.x);request();readout()}
+ });
+ function up(e){delete ptrs[e.pointerId];drag=null;pinch=null;cv.style.cursor="grab";var ids=Object.keys(ptrs);if(ids.length===1)drag={x:ptrs[ids[0]].x,y:ptrs[ids[0]].y,moved:false}}
+ cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
+ cv.addEventListener("pointerleave",function(e){if(!ptrs[e.pointerId]){hover=null;request();readout()}});
+ cv.addEventListener("wheel",function(e){e.preventDefault();var p=pos(e);zoom(e.deltaY>0?1.15:1/1.15,toX(p.x),toY(p.y))},{passive:false});
+ cv.addEventListener("keydown",function(e){
+  var k=e.key,w=(V.xmax-V.xmin)*0.1,h=(V.ymax-V.ymin)*0.1;
+  if(k==="ArrowLeft"){V.xmin-=w;V.xmax-=w}else if(k==="ArrowRight"){V.xmin+=w;V.xmax+=w}else if(k==="ArrowUp"){V.ymin+=h;V.ymax+=h}else if(k==="ArrowDown"){V.ymin-=h;V.ymax-=h}
+  else if(k==="+"||k==="="){zoom(0.8)}else if(k==="-"){zoom(1.25)}else return;
+  e.preventDefault();syncInputs();afterView();
+ });
+ function resize(){
+  dpr=Math.max(1,Math.min(3,window.devicePixelRatio||1));
+  var w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;
+  cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);request();
+ }
+ if(window.ResizeObserver)new ResizeObserver(resize).observe(cv);else window.addEventListener("resize",resize);
+ new MutationObserver(request).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+ if(matchMedia)matchMedia("(prefers-color-scheme:dark)").addListener&&matchMedia("(prefers-color-scheme:dark)").addListener(request);
+ $("#gzgo").onclick=trace;
+ $("#gzf").addEventListener("keydown",function(e){if(e.key==="Enter")trace()});
+ $("#gzzi").onclick=function(){zoom(0.8)};$("#gzzo").onclick=function(){zoom(1.25)};
+ $("#gzor").onclick=ortho;$("#gzay").onclick=function(){autoY();syncInputs();request()};
+ $("#gzrs").onclick=function(){smartView();syncInputs();afterView()};
+ ["gzx0","gzx1","gzy0","gzy1"].forEach(function(id){$("#"+id).addEventListener("change",applyInputs)});
+ document.querySelectorAll("#gzopt input[type=checkbox]").forEach(function(c){
+  c.checked=!!O[c.dataset.o];
+  c.addEventListener("change",function(){O[c.dataset.o]=c.checked;sub();if(S){infoHTML();request()}});
+ });
+ function sub(){document.querySelectorAll("#gzopt .gzsub").forEach(function(s){var o=s.dataset.for;s.style.display=O[o]?"inline-flex":"none"})}
+ sub();
+ [["gza","a"],["gzx","x0"],["gzia","ia"],["gzib","ib"]].forEach(function(p){
+  var el=$("#"+p[0]);el.value=fmt(P[p[1]]);
+  el.addEventListener("change",function(){var v=num(el.value);if(fin(v)){P[p[1]]=v}el.value=fmt(P[p[1]]);if(S){infoHTML();request()}});
+ });
+ var ex=$("#gzex");
+ ["x^2+3x+4","(x-1)(x-3)","x(x-3)^2","x^3-3x","sqrt(x)","1/x","(4x-5)/(2x+1)","x/(x^2+1)","(x^2+1)/x","exp(x)","x*exp(x)","ln(x)","ln(x)/x","abs(x)","sin(x)"].forEach(function(t){
+  var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=t;
+  b.onclick=function(){$("#gzf").value=t;trace()};ex.appendChild(b);
+ });
+}
+var first=true;
+function trace(){
+ var err=$("#gzerr");err.textContent="";
+ try{
+  var src=$("#gzf").value;
+  setExpr(src);
+ }catch(e){err.textContent=e.message;return}
+ smartView();syncInputs();
+ $("#gzc").setAttribute("aria-label","Graphe de f(x) = "+S.text);
+ $("#gzcur").innerHTML="f(x) = "+code(S.text);
+ infoHTML();request();readout();
+}
+function show(){
+ if(first){first=false;wire();$("#gzf").value="x^2+3x+4";trace()}
+ else{request()}
+}
+window.GR={show:show,trace:trace,
+ _t:function(src){
+  setExpr(src);var a=analyze(S,60);
+  return{text:S.text,d:S.dtext,dom:domainText(a),zeros:a.zeros,crit:a.crit.map(function(c){return c.type+"@"+fmt(c.x)+"="+fmt(c.y)}),vert:a.vert,lines:a.lines.map(function(l){return l.at+": "+lineEq(l.a,l.b)}),par:a.parity,
+   vars:variationLines(a,S.f,S.fp).map(function(s){return(s.dir>0?"up ":"down ")+segText(s)}),
+   signs:signLines(a,S.f).map(function(s){return s.sg+" "+segText(s)})};
+ }};
+})();
+
+if(location.hash==="#fonctions"&&window.GR)GR.show();
 </script>
 </body>
 </html>

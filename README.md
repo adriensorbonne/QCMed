@@ -8,7 +8,7 @@ Le site propose des cours courts appuyés sur des exemples concrets, des exercic
 
 ## Ce que contient le site
 
-Le site tient dans un seul fichier, `index.html`. Il comporte cinq onglets.
+Le site tient dans un seul fichier, `QCMed_pour_les_futurs_B.html`. Il comporte cinq onglets.
 
 ### Cours
 
@@ -39,10 +39,6 @@ Un PDF par chapitre de cours, généré à la demande et téléchargeable, pour 
 
 Rappel de la structure de l'épreuve et détail du programme de mathématiques, avec un repère « cours disponible » sur chaque point déjà couvert. Les cours sont ajoutés au fur et à mesure.
 
-## Sections liées
-
-L'onglet Cours propose deux liens vers des sections séparées, chacune dans son propre fichier : **Réviser la spé maths du B** (`SpeMathsB.html`) et **Réviser la spé maths du A** (`SpeMathsA.html`). Elles reprennent les mêmes onglets (Cours, Exercices, Calculatrice, Programme, PDFs). Chacune propose un lien « Retour au site QCM B ». Les trois fichiers doivent se trouver dans le même dossier.
-
 ## Confort d'utilisation
 
 - Mode clair et mode sombre (le choix est mémorisé).
@@ -52,7 +48,7 @@ L'onglet Cours propose deux liens vers des sections séparées, chacune dans son
 
 ## Accès
 
-Une page de connexion demande un identifiant (le prénom) et un mot de passe commun. La session est conservée tant que l'onglet reste ouvert.
+Une page de connexion demande un identifiant (le prénom) et un mot de passe commun. La session est conservée tant que l'onglet reste ouvert. Une seule connexion suffit pour les trois sites (QCM B, Spé Maths B, Spé Maths A) : se connecter ou se déconnecter sur l'un vaut pour les autres, tant qu'on navigue dans le même onglet.
 
 **Cette protection est légère, pas sécurisée.** La vérification se fait dans le navigateur (empreinte SHA-256 du mot de passe, présente dans le code). Elle sert à limiter l'accès à un groupe de candidats, pas à protéger des données sensibles : le contenu des cours reste lisible dans le code source de la page. Une liste d'identifiants autorisés est prévue dans le code (`ALLOWED`), mais elle est vide : seul le mot de passe est contrôlé.
 
@@ -105,3 +101,9 @@ Le cours apparaît automatiquement dans la liste des chapitres et dans l'onglet 
 - Le site couvre les mathématiques du QCM uniquement : pas de culture générale, de français ni de raisonnement logique.
 - Certains points du programme n'ont pas encore de cours : PGCD et PPCM détaillés, monômes et polynômes, intérêts simples, prix d'achat, de vente et de revient, masses et densité.
 - Des énoncés issus de fiches peuvent contenir des coquilles : en cas de doute sur une correction, se reporter à l'énoncé d'origine.
+
+### Spé Maths B : onglet « Fonctions » et cours D/E
+
+L'onglet **Fonctions** de `SpeMathsB.html` est un solveur de graphes : on saisit une expression en x (fonctions usuelles : racine, exp, ln, sin, cos, abs…), le graphe est tracé et des boutons affichent au choix le domaine, les zéros, l'ordonnée à l'origine, la parité, la dérivée formelle, ses variations, les asymptotes, une tangente, une valeur et une intégrale. L'analyse est numérique (sur [−60 ; 60] au moins), la dérivée est calculée de façon symbolique.
+
+Les sections **D (statistiques et probabilités)** et **E (suites numériques)** du programme ont chacune un cours par point (14 chapitres avec schémas), également disponibles dans l'onglet PDFs.
