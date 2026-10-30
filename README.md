@@ -8,7 +8,7 @@ Le site propose des cours courts appuyés sur des exemples concrets, des exercic
 
 ## Ce que contient le site
 
-Le site tient dans un seul fichier, `QCMed_pour_les_futurs_B.html`. Il comporte cinq onglets.
+Le site tient dans un seul fichier, `index.html`. Il comporte cinq onglets.
 
 ### Cours
 
@@ -38,6 +38,10 @@ Un PDF par chapitre de cours, généré à la demande et téléchargeable, pour 
 ### Programme
 
 Rappel de la structure de l'épreuve et détail du programme de mathématiques, avec un repère « cours disponible » sur chaque point déjà couvert. Les cours sont ajoutés au fur et à mesure.
+
+## Sections liées
+
+L'onglet Cours propose deux liens vers des sections séparées, chacune dans son propre fichier : **Réviser la spé maths du B** (`SpeMathsB.html`) et **Réviser la spé maths du A** (`SpeMathsA.html`). Elles reprennent les mêmes onglets (Cours, Exercices, Calculatrice, Programme, PDFs). Chacune propose un lien « Retour au site QCM B ». Les trois fichiers doivent se trouver dans le même dossier.
 
 ## Confort d'utilisation
 
@@ -107,3 +111,13 @@ Le cours apparaît automatiquement dans la liste des chapitres et dans l'onglet 
 L'onglet **Fonctions** de `SpeMathsB.html` est un solveur de graphes : on saisit une expression en x (fonctions usuelles : racine, exp, ln, sin, cos, abs…), le graphe est tracé et des boutons affichent au choix le domaine, les zéros, l'ordonnée à l'origine, la parité, la dérivée formelle, ses variations, les asymptotes, une tangente, une valeur et une intégrale. L'analyse est numérique (sur [−60 ; 60] au moins), la dérivée est calculée de façon symbolique.
 
 Les sections **D (statistiques et probabilités)** et **E (suites numériques)** du programme ont chacune un cours par point (14 chapitres avec schémas), également disponibles dans l'onglet PDFs.
+
+### Exercices de Spé Maths B
+
+L'onglet **Exercices** contient : **Exos QCM** (une centaine de questions, un thème par chapitre : nombres, divisibilité, division euclidienne, proportionnalité et TVA, calcul littéral, équations, fonctions usuelles, statistiques, dénombrement, probabilités, loi binomiale et espérance, suites, dérivées, intégrales) et **Exos Usuels** (fiches de dérivées, sujets des concours 2023, 2024 et 2026 avec corrections détaillées, exercices d'entraînement par thème).
+
+### Spé Maths B : chapitres complétés et cours « hors programme »
+- **15 nouveaux cours** (soit 64 au total). Huit complètent le programme : décimaux (ajoutés au cours « Manipulation des nombres »), racines carrées, comparaison de fractions et de puissances, changement d’écriture, échelle d’une carte, unités et conversions, réduire/ordonner/calculer, somme et produit d’inégalités (lien avec la fonction affine), repère orthonormé.
+- L’onglet **Cours** comporte deux encadrés : « Cours du programme » et « Hors programme, tombés au concours ». Ce second encadré contient : logarithme (équations, inéquations, croissances comparées), raisonnement par récurrence, comparaison de moyennes, et géométrie dans l’espace en quatre cours.
+- **Exercices** : 15 exercices corrigés ajoutés dans « Exos Usuels » (2 groupes) et 64 QCM supplémentaires (164 au total).
+- L’onglet **Programme** indique désormais « cours disponible » pour presque tous les points. PDF des nouveaux cours : 50 à 64 (et 02 mis à jour).
