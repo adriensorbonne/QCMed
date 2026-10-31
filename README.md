@@ -150,3 +150,9 @@ Après l'analyse d'une suite, le bouton crée une fiche A4 (suite étudiée, pre
 - Suite : convergence simple, fonction limite (formes usuelles identifiées, sauts repérés), convergence uniforme (sup|fn − f| pour n croissant, point où se concentre le défaut, essais sur des segments qui l'évitent), rappel des théorèmes.
 - Série : convergence simple, absolue, normale, uniforme (restes), rayon de convergence d'une série entière, continuité, intégration et dérivation terme à terme, valeurs de la somme.
 - Bouton « Générer le PDF » après le résultat. Analyse numérique : les conclusions sont à justifier sur la copie (précision limitée là où la convergence est très lente).
+
+## Chapitres « Géométrie : aires » et « Géométrie : volumes » (QCM B et Spé Maths B)
+Deux nouveaux cours : un tableau des figures planes usuelles (contour bleu, aire en orange, formule de l'aire) et un tableau des solides usuels (arêtes bleues, intérieur haché orange, formule du volume), avec unités, exemples, effet d'un agrandissement et pièges. Ils apparaissent aussi dans l'onglet PDFs de la Spé B.
+
+## Contre-exemples et leurres (QCM B)
+Chaque cours du site QCM B se termine par un encadré « Contre-exemples et leurres du QCM » : énoncés qui ressemblent au chapitre sans s'y résoudre (par ex. ouvriers × jours pour le produit en croix) et affirmations tentantes mais fausses, avec le contre-exemple chiffré. L'encadré apparaît aussi dans les PDF des cours.
