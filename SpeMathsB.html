@@ -93,6 +93,7 @@ header{backdrop-filter:none;-webkit-backdrop-filter:none}
 .logo{font-size:1.05rem;white-space:nowrap}
 .theme{font-size:.85rem;padding:6px 10px;white-space:nowrap}
 .nm{display:none}
+#logout{padding:6px 9px;line-height:0}
 .nl{display:none}.ns{display:inline}
 nav{position:fixed;left:0;right:0;bottom:0;z-index:15;gap:0;background:var(--hd);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
 nav button{flex:1;min-height:46px;padding:6px 0;font-size:.7rem;border-radius:12px;white-space:nowrap}
@@ -162,6 +163,8 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 @media (max-width:600px){.gzwin{grid-template-columns:repeat(2,1fr)}}
 .gzbar .gzpdfb{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}.gzbar .gzpdfb:hover{background:var(--accent);filter:brightness(1.12)}.gzbar .gzpdfb:disabled{opacity:.65;cursor:wait}#gzpst{font-size:.88rem;color:var(--muted);align-self:center}
 /*d6fix*/.layout>*,#lesson,main{min-width:0}.tocbox{display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);border-radius:14px;padding:10px;background:var(--surface)}.tocbox+.tocbox{margin-top:12px}.tocbox h3{margin:0;font-size:.95rem}.tocbox p{margin:0 0 4px;font-size:.8rem;color:var(--muted)}.tocbox.th{border-color:var(--accent)}.tocbox button{width:100%}@media(min-width:761px){.toc{max-height:calc(100vh - 96px);overflow-y:auto}}
+@media (min-width:761px){.bar{max-width:1180px}nav{gap:2px}nav button{padding:7px 10px}}
+@media (max-width:760px){#sqmode,#sqex{flex-wrap:wrap;overflow-x:visible}}
 </style>
 </head>
 <body class="locked">
@@ -178,10 +181,10 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <header><div class="bar">
 <div class="logo">Spé Maths <span>B</span></div>
 <nav aria-label="Navigation principale">
-<button data-tab="cours">Cours</button><button data-tab="exercices">Exercices</button><button data-tab="calculatrice"><span class="nl">Calculatrice</span><span class="ns">Calcul</span></button><button data-tab="fonctions">Fonctions</button><button data-tab="programme">Programme</button><button data-tab="pdfs" id="navPdf" class="hide">PDFs</button>
+<button data-tab="cours">Cours</button><button data-tab="exercices">Exercices</button><button data-tab="calculatrice"><span class="nl">Calculatrice</span><span class="ns">Calcul</span></button><button data-tab="fonctions">Fonctions</button><button data-tab="suites">Suites</button><button data-tab="programme">Programme</button><button data-tab="pdfs" id="navPdf" class="hide">PDFs</button>
 </nav>
 <button class="theme" id="theme" aria-label="Changer de thème">Mode sombre</button>
-<button class="theme hide" id="logout"></button>
+<button class="theme hide" id="logout" type="button" aria-label="Déconnexion" title="Déconnexion"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></button>
 </div></header>
 
 <main>
@@ -237,6 +240,21 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <ul id="hist"></ul>
 </section>
 
+<section id="suites" class="view hide">
+<h1>Suites : nature, variations, limite</h1>
+<p class="lead">Choisissez la façon dont la suite est donnée : expression de Un en fonction de n, ou relation de récurrence (avec le premier terme, ou les deux premiers). Le site indique la nature de la suite (constante, arithmétique, géométrique, arithmético-géométrique, récurrente linéaire d’ordre 2…), son sens de variation, son expression en fonction de n et sa limite en +∞.</p>
+<div class="card gz">
+<div class="chips" id="sqmode" role="group" aria-label="Type de donnée"><button type="button" class="chip" data-m="1" aria-pressed="true">Un en fonction de n</button><button type="button" class="chip" data-m="2" aria-pressed="false">Un+1 en fonction de Un</button><button type="button" class="chip" data-m="3" aria-pressed="false">Un+2 en fonction de Un+1 et Un</button></div>
+<div class="gzin" style="margin-top:12px"><label for="sqf" id="sqlab">Un =</label><input id="sqf" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" placeholder="Ex. : 2n+3"><button class="cta" id="sqgo" type="button">Analyser</button></div>
+<p class="gzn" id="sqhint" style="margin:6px 0 0"></p>
+<div class="gzwin" style="margin-top:10px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))"><label>Premier indice n₀<select id="sqn0" style="font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)"><option value="0">0</option><option value="1">1</option></select></label><label id="sqw0" class="hide"><span id="sqk0">U₀ =</span><input id="squ0" inputmode="decimal" value="1"></label><label id="sqw1" class="hide"><span id="sqk1">U₁ =</span><input id="squ1" inputmode="decimal" value="1"></label></div>
+<div id="sqerr" class="gzerr" role="alert"></div>
+<div class="chips" id="sqex" aria-label="Exemples de suites"></div>
+<div id="sqcw" class="hide"><canvas id="sqc" role="img" aria-label="Premiers termes de la suite" style="width:100%;height:220px;display:block;color:var(--ink);margin-top:12px"></canvas></div>
+<div id="sqinfo" class="gzinfo" aria-live="polite"></div>
+<div class="gzbar hide" id="sqbar"><button type="button" class="gzpdfb" id="sqpdf">Générer le PDF</button><span id="sqpst" role="status"></span></div>
+</div>
+</section>
 <section id="fonctions" class="view hide">
 <h1>Fonctions : tracer et étudier</h1>
 <p class="lead">Saisissez une fonction de x : le site trace sa courbe. Activez ensuite, parmi les boutons sous le graphique, les informations que vous voulez voir : zéros, dérivée, variations, asymptotes, tangente… Une fois la courbe tracée, le bouton « Générer le PDF » crée une fiche complète de la fonction (toutes les informations, quelles que soient les options affichées).</p>
@@ -730,11 +748,11 @@ var EXOS=[
 var $=function(s){return document.querySelector(s)};
 var curTab="",pos={};
 function setTab(t,push){
- if(["cours","exercices","programme","calculatrice","fonctions","pdfs"].indexOf(t)<0)t="cours";if(t==="pdfs"&&!PDFOK)t="cours";if(t===curTab)return;pos[curTab]=window.scrollY;
+ if(["cours","exercices","programme","calculatrice","fonctions","suites","pdfs"].indexOf(t)<0)t="cours";if(t==="pdfs"&&!PDFOK)t="cours";if(t===curTab)return;pos[curTab]=window.scrollY;
  document.querySelectorAll(".view").forEach(function(v){v.classList.toggle("hide",v.id!==t)});
  document.querySelectorAll("nav button").forEach(function(b){if(b.dataset.tab===t)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
  if(push&&location.hash!=="#"+t)location.hash=t;
- curTab=t;window.scrollTo(0,pos[t]||0);if(t==="fonctions"&&window.GR)GR.show();
+ curTab=t;window.scrollTo(0,pos[t]||0);if(t==="fonctions"&&window.GR)GR.show();if(t==="suites"&&window.SQ)SQ.show();
 }
 document.addEventListener("click",function(e){
  var b=e.target.closest("[data-tab],[data-go]");if(!b)return;
@@ -905,7 +923,7 @@ pupdate(lg(KP,P0));
 var AH="c67e20d5be6d171d7b7fb94024191731fd87f5066a708612e7b5cabb6137a4dc",PH="00a9289487c52eb0367e7978bdeb0e3480d898a20e76320dff8390cd4cce4790",ALLOWED=[];
 async function sha(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("")}
 function norm(n){return n.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ")}
-function unlock(n,adm){ADM=!!adm;pstart();document.body.classList.remove("locked");var l=$("#logout");l.classList.remove("hide");l.textContent="Déconnexion";var sp=document.createElement("span");sp.className="nm";sp.textContent=" ("+n+")";l.appendChild(sp);window.scrollTo(0,0)}
+function unlock(n,adm){ADM=!!adm;pstart();document.body.classList.remove("locked");var l=$("#logout");l.classList.remove("hide");window.scrollTo(0,0)}
 function lock(){pstop();ADM=false;pupdate(lg(KP,P0));document.body.classList.add("locked");$("#logout").classList.add("hide");$("#lu").value="";$("#lp").value="";$("#lu").focus()}
 function SKset(u,a){SK.forEach(function(k){try{sessionStorage.setItem(k,u);if(a)sessionStorage.setItem(k+"-adm","1");else sessionStorage.removeItem(k+"-adm")}catch(x){}})}
 function SKclr(){SK.forEach(function(k){try{sessionStorage.removeItem(k);sessionStorage.removeItem(k+"-adm")}catch(x){}})}
@@ -1916,6 +1934,636 @@ window.GR={show:show,trace:trace,report:function(){return reportHTML()},_lim:fun
 })();
 
 if(location.hash==="#fonctions"&&window.GR)GR.show();
+if(location.hash==="#suites"&&window.SQ)SQ.show();
+</script>
+<script>
+(function(){
+"use strict";
+/*PDFK*/
+var H2C="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",JSP="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",libs={},DL=null;
+try{if(window.claude&&claude.use)claude.use("downloads").then(function(d){DL=d}).catch(function(){})}catch(x){}
+function loadJS(u){return libs[u]||(libs[u]=new Promise(function(ok,ko){var e=document.createElement("script");e.src=u;e.onload=ok;e.onerror=function(){delete libs[u];ko(new Error("load"))};document.head.appendChild(e)}))}
+function saveFile(name,blob){
+ if(DL)return DL.save({filename:name,data:blob});
+ var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},4000);return Promise.resolve()}
+var RCSS=".gzr{font-size:15px;line-height:1.5;padding:0 56px 8px!important;color:#0b1e3d}.gzr .blk{margin:0 0 14px}.gzr h1{font-size:25px;margin:2px 0 6px;line-height:1.25}.gzr h3{font-size:16px;margin:0 0 6px;color:#1456d6;border-bottom:2px solid #cfe0f7;padding-bottom:3px}.gzr .brand{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#4a5f82;font-weight:700}.gzr .meta{font-size:13px;color:#4a5f82}.gzr code{background:#e4eeff;border-radius:5px;padding:1px 6px;font-size:.95em}.gzr img{width:100%;display:block;border:1px solid #cfe0f7;border-radius:8px}.gzr .cap{font-size:12.5px;color:#4a5f82;margin-top:4px}.gzr .gzp{color:#0d7a4a;font-weight:700}.gzr .gzm{color:#b3261e;font-weight:700}.gzr .gzn{display:block;color:#4a5f82;font-size:12.5px;margin-top:4px}.gzr table.gzv{border-collapse:collapse;width:100%;margin:6px 0;font-size:14.5px}.gzr table.gzv th,.gzr table.gzv td{border:1px solid #9db4d8;padding:5px 6px;text-align:center}.gzr table.gzv th{background:#e4eeff;width:70px}.gzr .vp{color:#0d7a4a;font-weight:700}.gzr .vm{color:#b3261e;font-weight:700}.gzr .va{font-size:18px}.gzr .lg span{display:inline-block;margin-right:14px}.gzr .lg i{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:5px}"+".gzr table.gzv td.l{text-align:left}.gzr table.gzv th.w{width:auto}.gzr sub,.gzr sup{line-height:0}";
+function slugf(t){return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"fiche"}
+async function mkPdf(html,foot,fname,btn,st){
+ var lab=btn.textContent,box=null;btn.disabled=true;btn.textContent="Création du PDF…";st.textContent="";
+ try{
+  await loadJS(H2C);await loadJS(JSP);
+  box=document.createElement("div");box.className="pdfdoc gzr";box.innerHTML="<style>"+RCSS+"</style>"+html;document.body.appendChild(box);
+  var imgs=[].slice.call(box.querySelectorAll("img"));
+  await Promise.all(imgs.map(function(im){return im.decode?im.decode().catch(function(){}):0}));
+  var blks=[].slice.call(box.children).filter(function(e){return e.classList.contains("blk")}),PH=1017,pages=[],start=0;
+  blks.forEach(function(b){var top=b.offsetTop,bot=top+b.offsetHeight;if(bot>start+PH&&top>start){pages.push([start,top]);start=top}});
+  pages.push([start,box.scrollHeight]);
+  var cv2=await html2canvas(box,{scale:2,backgroundColor:"#ffffff",logging:false,onclone:function(dd){var e=dd.querySelector(".gzr");e.style.left="0";e.style.top="0"}});
+  var pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4",compress:true}),k=cv2.width/794,mm=cv2.width/210;
+  pages.forEach(function(r,n){
+   if(n)pdf.addPage();
+   var y0=Math.round(r[0]*k),h=Math.min(cv2.height-y0,Math.round((r[1]-r[0])*k));if(h<=0)return;
+   var c=document.createElement("canvas");c.width=cv2.width;c.height=h;var x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,h);x.drawImage(cv2,0,y0,cv2.width,h,0,0,c.width,h);
+   pdf.addImage(c.toDataURL("image/jpeg",0.93),"JPEG",0,12,210,h/mm);
+   pdf.setFontSize(9);pdf.setTextColor(120);pdf.text(foot+" - page "+(n+1)+"/"+pages.length,105,291,{align:"center"});
+  });
+  await saveFile(fname,pdf.output("blob"));
+  st.textContent="PDF prêt.";
+ }catch(e){
+  st.textContent=e&&e.code==="declined"?"Téléchargement annulé.":"Impossible de créer le PDF. Vérifiez votre connexion et réessayez.";
+ }finally{if(box)box.remove();btn.disabled=false;btn.textContent=lab}
+}
+function dateFr(){return new Date().toLocaleDateString("fr-FR")}
+
+var $=function(s){return document.querySelector(s)};
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()||"#888"}
+function fin(v){return typeof v==="number"&&isFinite(v)}
+function fmt(v,d){
+ d=d===undefined?5:d;
+ if(v===Infinity)return"+∞";if(v===-Infinity)return"−∞";if(v!==v)return"indéfini";
+ var k=Math.pow(10,d),r=Math.round(v*k)/k;if(r===0)r=0;var s=String(r);if(/e/.test(s))s=v.toExponential(3);
+ return s.replace("-","−").replace(".",",");
+}
+function fr(v){
+ if(!fin(v))return fmt(v);
+ if(Math.abs(v-Math.round(v))<1e-9*Math.max(1,Math.abs(v)))return fmt(Math.round(v),0);
+ for(var q=2;q<=60;q++){var p=Math.round(v*q);if(Math.abs(v-p/q)<1e-9*Math.max(1,Math.abs(v)))return(p<0?"−":"")+Math.abs(p)+"/"+q}
+ return fmt(v,5);
+}
+function par(v){var s=fr(v);return(/[\/−]/.test(s))?"("+s+")":s}
+function close(a,b,t){return Math.abs(a-b)<=(t||1e-9)*(1+Math.abs(a)+Math.abs(b))}
+function sg(v){return v>0?1:v<0?-1:0}
+
+/* ------------------------------------------------ parser */
+var NAMES=["sqrt","exp","abs","sin","cos","tan","ln","log","fact","pi","n","u","v","e"];
+var FN={sqrt:1,exp:1,abs:1,sin:1,cos:1,tan:1,ln:1,log:1,fact:1};
+function tokenize(src,mode){
+ var s=src.toLowerCase().replace(/\s+/g,"").replace(/[−–—]/g,"-").replace(/[×·]/g,"*").replace(/÷/g,"/")
+  .replace(/²/g,"^2").replace(/³/g,"^3").replace(/√/g,"sqrt").replace(/π/g,"pi").replace(/,/g,".");
+ s=s.replace(/^u_?\(?n(\+\d)?\)?=/,"");
+ if(mode>1){s=s.replace(/u_?\(n\+1\)/g,"v").replace(/u_?\(n\)/g,"u").replace(/u_n/g,"u")}
+ if(!s)throw new Error("Saisissez une expression.");
+ var out=[],i=0,m;
+ while(i<s.length){
+  var ch=s[i];
+  if(/[0-9.]/.test(ch)){m=/^(\d+\.?\d*|\.\d+)/.exec(s.slice(i));if(!m)throw new Error("Nombre incorrect.");out.push({k:"n",v:parseFloat(m[1])});i+=m[1].length;continue}
+  if(/[a-z]/.test(ch)){
+   var nm=null;for(var q=0;q<NAMES.length;q++){if(s.indexOf(NAMES[q],i)===i){nm=NAMES[q];break}}
+   if(!nm)throw new Error("Symbole inconnu : « "+ch+" ». Utilisez n, u, v, e, pi, sqrt, exp, ln, abs, sin, cos, fact.");
+   out.push({k:"id",v:nm});i+=nm.length;continue}
+  if("+-*/^()!".indexOf(ch)>=0){out.push({k:"op",v:ch});i++;continue}
+  throw new Error("Caractère non reconnu : « "+ch+" ».");
+ }
+ var r=[];
+ out.forEach(function(t){
+  var p=r[r.length-1];
+  if(p){
+   var pe=p.k==="n"||(p.k==="id"&&!FN[p.v])||(p.k==="op"&&(p.v===")"||p.v==="!"));
+   var cs=t.k==="n"||t.k==="id"||(t.k==="op"&&t.v==="(");
+   if(pe&&cs)r.push({k:"op",v:"*"});
+  }
+  r.push(t);
+ });
+ return r;
+}
+function parse(src,mode){
+ var T=tokenize(src,mode),p=0,used={};
+ function isOp(v){return T[p]&&T[p].k==="op"&&T[p].v===v}
+ function expr(){var a=term();while(isOp("+")||isOp("-")){var o=T[p++].v,b=term();a={t:o==="+"?"add":"sub",a:a,b:b}}return a}
+ function term(){var a=unary();while(isOp("*")||isOp("/")){var o=T[p++].v,b=unary();a={t:o==="*"?"mul":"div",a:a,b:b}}return a}
+ function unary(){if(isOp("-")){p++;return{t:"neg",a:unary()}}if(isOp("+")){p++;return unary()}return pw()}
+ function pw(){var a=post();if(isOp("^")){p++;return{t:"pow",a:a,b:unary()}}return a}
+ function post(){var a=atom();while(isOp("!")){p++;a={t:"f",n:"fact",a:a}}return a}
+ function atom(){
+  var t=T[p];if(!t)throw new Error("Expression incomplète.");
+  if(t.k==="n"){p++;return{t:"c",v:t.v}}
+  if(t.k==="id"){
+   p++;
+   if(FN[t.v]){if(!isOp("("))throw new Error("Il manque des parenthèses après « "+t.v+" ».");p++;var a=expr();if(!isOp(")"))throw new Error("Parenthèse fermante manquante.");p++;return{t:"f",n:t.v,a:a}}
+   if(t.v==="e")return{t:"c",v:Math.E};if(t.v==="pi")return{t:"c",v:Math.PI};
+   used[t.v]=1;return{t:"v",n:t.v};
+  }
+  if(t.v==="("){p++;var b=expr();if(!isOp(")"))throw new Error("Parenthèse fermante manquante.");p++;return b}
+  throw new Error("Expression incorrecte près de « "+t.v+" ».");
+ }
+ var tree=expr();if(p<T.length)throw new Error("Expression incorrecte près de « "+T[p].v+" ».");
+ var ok={1:{n:1},2:{n:1,u:1},3:{n:1,u:1,v:1}}[mode];
+ for(var k in used)if(!ok[k])throw new Error(mode===1?"En mode « Un en fonction de n », seule la variable n est autorisée.":"La variable « "+k+" » n’est pas autorisée dans ce mode.");
+ if(mode>1&&!used.u&&!used.v&&!used.n&&false)throw new Error("");
+ return{tree:tree,used:used};
+}
+function fact(x){if(x<0||x%1)return NaN;if(x>170)return Infinity;var r=1;for(var i=2;i<=x;i++)r*=i;return r}
+var FNS={sqrt:Math.sqrt,exp:Math.exp,abs:Math.abs,sin:Math.sin,cos:Math.cos,tan:Math.tan,ln:Math.log,log:function(x){return Math.log10(x)},fact:fact};
+function comp(n){
+ switch(n.t){
+  case"c":return function(){return n.v};
+  case"v":return n.n==="n"?function(a,b,c){return a}:n.n==="u"?function(a,b,c){return b}:function(a,b,c){return c};
+  case"neg":var a0=comp(n.a);return function(x,y,z){return-a0(x,y,z)};
+  case"f":var a1=comp(n.a),fn=FNS[n.n];return function(x,y,z){return fn(a1(x,y,z))};
+  default:
+   var l=comp(n.a),r=comp(n.b);
+   if(n.t==="add")return function(x,y,z){return l(x,y,z)+r(x,y,z)};
+   if(n.t==="sub")return function(x,y,z){return l(x,y,z)-r(x,y,z)};
+   if(n.t==="mul")return function(x,y,z){return l(x,y,z)*r(x,y,z)};
+   if(n.t==="div")return function(x,y,z){return l(x,y,z)/r(x,y,z)};
+   return function(x,y,z){var u=l(x,y,z),v=r(x,y,z);if(u<0&&v%1!==0)return NaN;return Math.pow(u,v)};
+ }
+}
+
+/* ------------------------------------------------ state */
+var mode=1,n0=0,G=null,lastTerms=[],lastLimit=null;
+var EX={
+ 1:[["2n+3",0],["3*2^n",0],["(-1)^n",0],["1/(n+1)",0],["n^2-5n+6",0],["(1+1/n)^n",1],["(2n+1)/(n+3)",0],["2^n/fact(n)",0]],
+ 2:[["2u+3",0,1],["u+5",0,2],["0.5*u",0,8],["sqrt(2+u)",0,0],["u/(1+u)",0,1],["u^2-2",0,1],["u+n",0,0]],
+ 3:[["u+v",0,0,1],["3v-2u",0,1,3],["2v-u",0,1,3],["(u+v)/2",0,1,5],["v-u",0,1,2],["2v-2u",0,1,2]]
+};
+var LAB={1:"Un =",2:"U(n+1) =",3:"U(n+2) ="};
+var HINT={1:"Variable : n (par ex. 2n+3, 3*2^n, (-1)^n, 1/(n+1)).",2:"Variables : u pour Un (et éventuellement n). Ex. : 2u+3.",3:"Variables : u pour Un et v pour U(n+1). Ex. : 3v-2u."};
+
+function terms(N){
+ var t=[],g=G,i;
+ if(mode===1){for(i=0;i<N;i++)t.push(g(n0+i))}
+ else if(mode===2){t.push(inp(1));for(i=0;i<N-1;i++)t.push(g(n0+i,t[i]))}
+ else{t.push(inp(1));t.push(inp(2));for(i=0;i<N-2;i++)t.push(g(n0+i,t[i],t[i+1]))}
+ var o=[];for(i=0;i<t.length;i++){if(!(Math.abs(t[i])<1e150)){if(t[i]!==t[i])break;o.push(t[i]);break}o.push(t[i])}
+ return o;
+}
+function inp(k){return parseFloat(String($(k===1?"#squ0":"#squ1").value).replace(",",".").replace("−","-"))}
+
+/* ------------------------------------------------ detection */
+function allClose(arr,ref){for(var i=0;i<arr.length;i++)if(!close(arr[i],ref,1e-8))return false;return true}
+function structure(t){
+ var s={},L=Math.min(t.length,40),i;
+ if(L<4)return s;
+ var d=[],q=[],okq=true;
+ for(i=0;i<L-1;i++){d.push(t[i+1]-t[i]);if(t[i]===0||!fin(t[i]))okq=false;else q.push(t[i+1]/t[i])}
+ var sc=0;for(i=0;i<L;i++)sc=Math.max(sc,Math.abs(t[i]));
+ var dz=true;for(i=0;i<d.length;i++)if(Math.abs(d[i])>1e-12*(1+sc))dz=false;
+ if(dz){s.cst=true;s.arith=0;if(okq)s.geo=1;return s}
+ var ar=true;for(i=0;i<d.length;i++)if(Math.abs(d[i]-d[0])>1e-9*(1+sc))ar=false;
+ if(ar)s.arith=d[0];
+ if(okq&&q.length===L-1&&allClose(q,q[0]))s.geo=q[0];
+ if(!ar&&!s.geo&&Math.abs(d[0])>1e-12*(1+sc)){
+  var a=d[1]/d[0],b=t[1]-a*t[0],ok=true;
+  for(i=0;i<L-1;i++)if(Math.abs(t[i+1]-(a*t[i]+b))>1e-8*(1+sc))ok=false;
+  if(ok&&fin(a)&&Math.abs(a-1)>1e-9&&Math.abs(a)>1e-9)s.ag={a:a,b:b};
+ }
+ return s;
+}
+function affine1(){ // mode 2 : g(n,u)=a*u+b independent of n ?
+ var g=G,ns=[n0,n0+1,n0+4,n0+9],a0=null,b0=null,i;
+ for(i=0;i<ns.length;i++){
+  var b=g(ns[i],0),a=g(ns[i],1)-b;
+  if(!fin(a)||!fin(b))return null;
+  if(a0===null){a0=a;b0=b}else if(!close(a0,a)||!close(b0,b))return null;
+ }
+ var chk=[-3,0.5,7,11];
+ for(i=0;i<chk.length;i++)if(!close(g(n0,chk[i]),a0*chk[i]+b0,1e-9))return null;
+ return{a:fixz(a0),b:fixz(b0)};
+}
+function fixz(x){return Math.abs(x)<1e-12?0:Math.round(x*1e9)/1e9===x?x:parseFloat(x.toPrecision(12))}
+function affine2(){
+ var g=G,c=g(n0,0,0),a=g(n0,0,1)-c,b=g(n0,1,0)-c,i;
+ if(!fin(a)||!fin(b)||!fin(c))return null;
+ var pts=[[2,-1,n0+3],[0.5,4,n0+7],[-3,2,n0+1],[5,5,n0+11]];
+ for(i=0;i<pts.length;i++){var p=pts[i];if(!close(g(p[2],p[0],p[1]),a*p[1]+b*p[0]+c,1e-9))return null}
+ return{a:fixz(a),b:fixz(b),c:fixz(c)};
+}
+function fixedPts(){
+ var g=G,out=[],xs=[],h=function(x){return g(n0,x)-x},ok=true,i;
+ [n0+1,n0+5].forEach(function(nn){[-4,0.3,9].forEach(function(x){if(!close(g(nn,x),g(n0,x),1e-9))ok=false})});
+ if(!ok)return null;
+ var N=4000,lo=-100,prev=h(lo),px=lo;
+ for(i=1;i<=N;i++){
+  var x=lo+i*200/N,y=h(x);
+  if(fin(prev)&&fin(y)&&prev*y<=0&&!(prev===0&&y===0)){
+   var A=px,B=x,fa=prev;
+   for(var k=0;k<60;k++){var m=(A+B)/2,fm=h(m);if(fm*fa<=0)B=m;else{A=m;fa=fm}}
+   var r=(A+B)/2;if(Math.abs(h(r))<1e-6&&!out.some(function(z){return Math.abs(z-r)<1e-6}))out.push(r);
+  }
+  prev=y;px=x;
+ }
+ return out.slice(0,6);
+}
+
+/* ------------------------------------------------ monotony */
+function monoText(t,exact){
+ var d=[],tol,i;
+ for(i=0;i<t.length-1;i++){tol=1e-12*(1+Math.abs(t[i]));var x=t[i+1]-t[i];d.push(Math.abs(x)<=tol?0:sg(x))}
+ if(!d.length)return"";
+ var pos=d.filter(function(x){return x>0}).length,neg=d.filter(function(x){return x<0}).length,zer=d.length-pos-neg;
+ var note=exact?"":" <small class=\"gzn\">Constaté sur les "+t.length+" premiers termes ; à démontrer par le signe de Un+1 − Un.</small>";
+ if(!pos&&!neg)return"La suite est <b>constante</b>.";
+ if(!neg)return(zer?"La suite est <b>croissante</b> (non strictement).":"La suite est <b class=\"gzp\">strictement croissante</b>.")+note;
+ if(!pos)return(zer?"La suite est <b>décroissante</b> (non strictement).":"La suite est <b class=\"gzm\">strictement décroissante</b>.")+note;
+ var alt=true;for(i=0;i<Math.min(d.length-1,12);i++)if(d[i]*d[i+1]>=0)alt=false;
+ if(alt)return"La suite n’est <b>pas monotone</b> : Un+1 − Un change de signe à chaque terme (suite alternée).";
+ var last=0;for(i=d.length-1;i>=0;i--)if(d[i]!==0){last=d[i];break}
+ var k=-1;for(i=0;i<d.length;i++)if(d[i]!==0&&d[i]!==last)k=i;
+ if(k>=0&&d.length-k>=25)return"La suite n’est pas monotone sur tout son domaine, mais elle est "+(last>0?"<b class=\"gzp\">croissante</b>":"<b class=\"gzm\">décroissante</b>")+" <b>à partir du rang "+(n0+k+1)+"</b>."+note;
+ return"La suite n’est <b>ni croissante ni décroissante</b> sur les termes calculés."+note;
+}
+function monoSamples(f){ // mode 1 : dense + log-spaced samples
+ var d=[],i,n;
+ for(i=0;i<300;i++)d.push([n0+i,f(n0+i),f(n0+i+1)]);
+ n=400;while(n<2e6){d.push([n,f(n),f(n+1)]);n=Math.round(n*1.4)}
+ return d;
+}
+function monoText1(f){
+ var S=monoSamples(f),i,d=[],dense=0;
+ for(i=0;i<S.length;i++){
+  var r=S[i],dense_=i<300,x=r[2]-r[1];
+  if(!fin(r[1])||!fin(r[2])){if(dense_)return"Sens de variation non déterminé (valeurs infinies ou indéfinies).";break}
+  var tol=(dense_?1e-12:1e-9)*(1+Math.abs(r[1]));
+  d.push(Math.abs(x)<=tol?(dense_?0:null):sg(x));
+ }
+ var S2=S.slice(0,d.length),dd=d.filter(function(x){return x!==null});
+ var pos=dd.filter(function(x){return x>0}).length,neg=dd.filter(function(x){return x<0}).length,zer=dd.length-pos-neg;
+ var note=" <small class=\"gzn\">Constaté numériquement (premiers termes puis valeurs jusqu’à n = 2 000 000) ; à démontrer par le signe de Un+1 − Un.</small>";
+ if(!pos&&!neg)return"La suite est <b>constante</b>.";
+ if(!neg)return(zer?"La suite est <b class=\"gzp\">croissante</b> (non strictement).":"La suite est <b class=\"gzp\">strictement croissante</b>.")+note;
+ if(!pos)return(zer?"La suite est <b class=\"gzm\">décroissante</b> (non strictement).":"La suite est <b class=\"gzm\">strictement décroissante</b>.")+note;
+ var alt=true;for(i=0;i<10;i++)if(d[i]===null||d[i+1]===null||d[i]*d[i+1]>=0)alt=false;
+ if(alt)return"La suite n’est <b>pas monotone</b> : Un+1 − Un change de signe à chaque terme (suite alternée).";
+ var last=0,k=-1,j;for(j=d.length-1;j>=0;j--)if(d[j]){last=d[j];break}
+ for(j=0;j<d.length;j++)if(d[j]&&d[j]!==last)k=j;
+ if(k>=0&&k<299)return"La suite n’est pas monotone sur tout son domaine, mais elle est "+(last>0?"<b class=\"gzp\">croissante</b>":"<b class=\"gzm\">décroissante</b>")+" <b>à partir du rang "+(S2[k][0]+1)+"</b>."+note;
+ return"La suite n’est <b>pas monotone</b> sur les valeurs testées."+note;
+}
+
+/* ------------------------------------------------ limits */
+function cl(v){
+ var n=v.length,L=v[n-1],p=v[n-2],q=v[n-3],i;
+ for(i=0;i<n;i++)if(v[i]!==v[i])return null;
+ if(L===Infinity)return"+∞";if(L===-Infinity)return"−∞";
+ if(!fin(L)||!fin(p)||!fin(q))return null;
+ var d1=Math.abs(L-p),d0=Math.abs(p-q);
+ if(Math.abs(L)>1e6&&Math.abs(L)>=Math.abs(p))return L>0?"+∞":"−∞";
+ if(d1<=1e-3*Math.max(1,Math.abs(L))&&d1<=0.5*d0+1e-12)return L;
+ if(Math.abs(L)>Math.abs(p)&&Math.abs(p)>Math.abs(q)&&d1>=0.5*d0&&Math.abs(L)>20&&(L>0)===(p>0))return L>0?"+∞":"−∞";
+ return null;
+}
+function lv(x){
+ if(typeof x==="string")return x;
+ if(Math.abs(x-Math.E)<5e-4)return"e ≈ "+fmt(x,4);
+ if(Math.abs(x-1/Math.E)<5e-4)return"1/e ≈ "+fmt(x,4);
+ if(Math.abs(x-Math.PI)<5e-4)return"π ≈ "+fmt(x,4);
+ return fr(Math.round(x*1e4)/1e4);
+}
+function limitExplicit(f){
+ var E=[1e3,1e5,1e7,1e9].map(function(n){return f(n)}),O=[1001,100001,10000001,1000000001].map(function(n){return f(n)});
+ var a=cl(E),b=cl(O);
+ if(a===null||b===null){E=[40,80,120,160].map(function(n){return f(n)});O=[41,81,121,161].map(function(n){return f(n)});a=cl(E);b=cl(O)}
+ if(a!==null&&b!==null){
+  if(a===b||(typeof a==="number"&&typeof b==="number"&&close(a,b,1e-3)))return"<b>"+lv(a)+"</b>";
+  return"La suite <b>n’a pas de limite</b> : les termes d’indice pair tendent vers "+lv(a)+", ceux d’indice impair vers "+lv(b)+".";
+ }
+ return"Limite non repérée (la suite semble osciller sans se stabiliser).";
+}
+function limitOrbit(t,over){
+ var N=t.length;
+ if(over){
+  var s=t.slice(-6).map(sg),same=s.every(function(x){return x===s[0]&&x!==0});
+  return same?"<b>"+(s[0]>0?"+∞":"−∞")+"</b> (les termes deviennent arbitrairement grands)":"La suite <b>n’a pas de limite</b> : |Un| tend vers +∞ en changeant de signe.";
+ }
+ var L=t[N-1],p=t[N-2];
+ if(Math.abs(L-p)<1e-9*(1+Math.abs(L)))return"<b>"+lv(L)+"</b>";
+ if(N>80){
+  var dl=L-p,d0=t[N-50]-t[N-51],mon=true,sgn=sg(dl);
+  for(var z=N-50;z<N;z++)if(sg(t[z]-t[z-1])!==sgn)mon=false;
+  if(mon&&sgn!==0&&Math.abs(dl)>1e-3&&Math.abs(dl)>=0.9*Math.abs(d0))return"<b>"+(sgn>0?"+∞":"−∞")+"</b>";
+ }
+ var E=t[N-1-(N%2?0:1)],ev=[],od=[];
+ for(var i=N-40;i<N;i++){(i%2?od:ev).push(t[i])}
+ var e1=ev[ev.length-1],o1=od[od.length-1];
+ if(Math.abs(ev[ev.length-1]-ev[ev.length-2])<1e-9*(1+Math.abs(e1))&&Math.abs(od[od.length-1]-od[od.length-2])<1e-9*(1+Math.abs(o1))&&Math.abs(e1-o1)>1e-6)
+  return"La suite <b>n’a pas de limite</b> : les termes pairs tendent vers "+lv(e1)+", les impairs vers "+lv(o1)+".";
+ return null;
+}
+
+/* ------------------------------------------------ closed forms */
+function M(){return n0===0?"n":"(n − "+n0+")"}
+function pw(b,m){return close(b,1,1e-12)?"":par(b)+"<sup>"+m+"</sup>"}
+function lc(list){ // list of [coef,base] -> text
+ var s="";
+ list.forEach(function(p){
+  var c=p[0],b=p[1];if(Math.abs(c)<1e-12)return;
+  var neg=c<0,a=Math.abs(c),body;
+  if(b==="")body=fr(a);else body=close(a,1,1e-10)?b:(/[\/]/.test(fr(a))?"("+fr(a)+")":fr(a))+"·"+b;
+  if(!s)s=(neg?"−":"")+body;else s+=(neg?" − ":" + ")+body;
+ });
+ return s||"0";
+}
+function agClosed(a,b,U){ // U = first term at index n0
+ var m=M();
+ if(Math.abs(a-1)<1e-12)return{t:"Un = "+lc([[U,""],[b,m]]),kind:"arith"};
+ if(Math.abs(b)<1e-12)return{t:"Un = "+lc([[U,pw(a,m)]]),kind:"geo"};
+ var l=b/(1-a);
+ return{t:"Un = "+lc([[U-l,pw(a,m)],[l,""]]),kind:"ag",l:l};
+}
+function lin2(a,b,c,U0,U1,t){
+ var D=a*a+4*b,m,B1,B2,P=function(){return 0},ptxt="",ptype=0,i;
+ var s=a+b;
+ if(Math.abs(c)>1e-12){
+  if(Math.abs(1-s)>1e-9){var l=c/(1-s);P=function(){return l};ptxt=[l,""];ptype=1}
+  else if(Math.abs(a-2)>1e-9){var k=c/(2-a);P=function(m){return k*m};ptxt=[k,"<i>m</i>"];ptype=2}
+  else{var k2=c/2;P=function(m){return k2*m*m};ptxt=[k2,"<i>m</i>²"];ptype=3}
+ }
+ var mt=M(),info="",bases;
+ if(D>1e-9){
+  var sq=Math.sqrt(D),r1=(a+sq)/2,r2=(a-sq)/2;
+  B1=function(m){return Math.pow(r1,m)};B2=function(m){return Math.pow(r2,m)};
+  bases=[pw(r1,mt),pw(r2,mt)];
+  info="Δ = "+fr(D)+" &gt; 0 : deux racines réelles r₁ = "+(Number.isInteger(Math.sqrt(D))||Math.abs(Math.sqrt(D)-Math.round(Math.sqrt(D)))<1e-9?fr(r1):"(" + fr(a) + " + √" + fr(D) + ")/2 ≈ " + fmt(r1,5)) + " et r₂ = "+(Math.abs(Math.sqrt(D)-Math.round(Math.sqrt(D)))<1e-9?fr(r2):"(" + fr(a) + " − √" + fr(D) + ")/2 ≈ " + fmt(r2,5))+".";
+ }else if(Math.abs(D)<=1e-9){
+  var r=a/2;B1=function(m){return Math.pow(r,m)};B2=function(m){return m*Math.pow(r,m)};
+  bases=[pw(r,mt),pw(r,mt)?mt+"·"+pw(r,mt):mt];
+  info="Δ = 0 : racine double r = "+fr(r)+".";
+ }else{
+  var rho=Math.sqrt(-b),th=Math.atan2(Math.sqrt(-D)/2,a/2);
+  B1=function(m){return Math.pow(rho,m)*Math.cos(m*th)};B2=function(m){return Math.pow(rho,m)*Math.sin(m*th)};
+  var thp=th/Math.PI,thtxt=fmt(th,5)+" rad";
+  for(var q=1;q<=12;q++){var pp=Math.round(thp*q);if(pp&&Math.abs(thp-pp/q)<1e-9){thtxt=(pp===1?"":pp)+"π"+(q===1?"":"/"+q);break}}
+  var rt=Math.abs(rho-Math.round(rho))<1e-9||Math.abs(rho*rho-Math.round(rho*rho))<1e-9?(Math.abs(rho-Math.round(rho))<1e-9?fr(rho):"√"+fr(rho*rho)):fmt(rho,5);
+  bases=[(rt==="1"?"":par(rho).replace(/^\(|\)$/g,"")==="" ?"":"")+""+(rt==="1"?"":(/√/.test(rt)?"("+rt+")":rt)+"<sup>"+mt+"</sup>·")+"cos("+mt+"·"+(/[π]/.test(thtxt)?thtxt:"θ")+")",(rt==="1"?"":(/√/.test(rt)?"("+rt+")":rt)+"<sup>"+mt+"</sup>·")+"sin("+mt+"·"+(/[π]/.test(thtxt)?thtxt:"θ")+")"];
+  info="Δ = "+fr(D)+" &lt; 0 : racines complexes conjuguées de module "+(/√/.test(rt)?rt+" ≈ "+fmt(rho,4):rt)+" et d’argument ±"+thtxt+".";
+ }
+ var d1=B1(0),d2=B2(0),e1=B1(1),e2=B2(1),det=d1*e2-d2*e1;
+ if(Math.abs(det)<1e-12)return null;
+ var r0=U0-P(0),r1_=U1-P(1),al=(r0*e2-d2*r1_)/det,be=(d1*r1_-r0*e1)/det;
+ var f=function(n){var mm=n-n0;return al*B1(mm)+be*B2(mm)+P(mm)};
+ for(i=0;i<Math.min(t.length,25);i++)if(!close(f(n0+i),t[i],1e-6))return null;
+ var parts=[[al,bases[0]],[be,bases[1]]],txt=lc(parts);
+ if(ptype){var pc=ptxt[0],pb=ptxt[1].replace("<i>m</i>",mt);if(ptype===1)txt+=(pc<0?" − ":" + ")+fr(Math.abs(pc));else txt+=(pc<0?" − ":" + ")+(close(Math.abs(pc),1,1e-10)?"":fr(Math.abs(pc))+"·")+pb}
+ return{t:"Un = "+txt,info:info,f:f,al:al,be:be,ptype:ptype,P:P};
+}
+
+function limit3(a2,sol){
+ var a=a2.a,b=a2.b,c=a2.c,D=a*a+4*b,al=sol.al,be=sol.be,eps=1e-9;
+ var l=Math.abs(1-a-b)>eps?c/(1-a-b):null,rho,trivial=Math.abs(al)<eps&&Math.abs(be)<eps;
+ var inf=function(sg_){return"<b>"+(sg_>0?"+∞":"−∞")+"</b>"};
+ var noLim=function(why){return"La suite <b>n’a pas de limite</b> : "+why};
+ var lz=function(){return"<b>"+(l===null?"0":lv(Math.round(l*1e6)/1e6))+"</b>"};
+ if(sol.ptype>=2){
+  var k=c/(sol.ptype===2?(2-a):2);
+  var mx=D>=-eps?Math.max(Math.abs((a+Math.sqrt(Math.max(D,0)))/2),Math.abs((a-Math.sqrt(Math.max(D,0)))/2)):Math.sqrt(-b);
+  if(mx<=1+eps)return inf(k);
+  return null;
+ }
+ if(D>eps){
+  var sq=Math.sqrt(D),r1=(a+sq)/2,r2=(a-sq)/2,R=[[r1,al],[r2,be]].sort(function(x,y){return Math.abs(y[0])-Math.abs(x[0])});
+  var dom=R[0];
+  if(Math.abs(dom[0])<1-eps)return lz();
+  if(Math.abs(Math.abs(dom[0])-1)<=eps){
+   if(dom[0]>0&&Math.abs(R[1][0])<1-eps)return"<b>"+lv(Math.round((dom[1]+(l===null?0:l))*1e6)/1e6)+"</b>";
+   return null;
+  }
+  if(Math.abs(dom[1])<eps)return null;
+  if(dom[0]>0)return inf(dom[1]);
+  return noLim("|Un| tend vers +∞ en changeant de signe (racine dominante négative).");
+ }
+ if(Math.abs(D)<=eps){
+  var r=a/2;
+  if(Math.abs(r)<1-eps)return lz();
+  if(Math.abs(r-1)<eps)return Math.abs(be)>eps?inf(be):null;
+  if(Math.abs(r+1)<eps)return trivial?null:noLim("|Un| tend vers +∞ en changeant de signe (racine double −1).");
+  if(r>1)return Math.abs(be)>eps?inf(be):Math.abs(al)>eps?inf(al):null;
+  return noLim("|Un| tend vers +∞ en changeant de signe (racine double &lt; −1).");
+ }
+ rho=Math.sqrt(-b);
+ if(rho<1-eps)return lz();
+ if(trivial)return lz();
+ if(Math.abs(rho-1)<=eps)return noLim("les termes oscillent sans se stabiliser (racines complexes de module 1).");
+ return noLim("les termes oscillent avec une amplitude qui tend vers +∞ (racines complexes de module &gt; 1).");
+}
+/* ------------------------------------------------ analysis */
+var LC=[];
+function card(t,h){LC.push([t,h]);return'<div class="gzcard"><h4>'+t+'</h4><div>'+h+'</div></div>'}
+function relText(){
+ var e=$("#sqf").value.trim().replace(/^u_?\(?n(\+\d)?\)?\s*=/i,"");
+ return mode===1?"Un = "+e:mode===2?"U(n+1) = "+e:"U(n+2) = "+e;
+}
+function sub(i){return"U<sub>"+(n0+i)+"</sub>"}
+function analyze(){
+ var err=$("#sqerr");err.textContent="";LC=[];
+ try{
+  var src=$("#sqf").value;
+  var P=parse(src,mode);G=comp(P.tree);
+  if(mode>=2&&!fin(inp(1)))throw new Error("Indiquez la valeur de U"+n0+" (nombre).");
+  if(mode===3&&!fin(inp(2)))throw new Error("Indiquez la valeur de U"+(n0+1)+" (nombre).");
+  var N=mode===1?60:600,t=terms(N);
+  if(t.length<4||!fin(t[0])||(mode===1&&!t.slice(0,6).every(fin)))throw new Error(mode===1?"La formule n’est pas définie pour toutes les valeurs de n à partir de n = "+n0+".":"Le calcul des premiers termes échoue (valeur non définie).");
+  var over=t.length<N&&Math.abs(t[t.length-1])>=1e150;
+  lastTerms=t.slice(0,30);
+  var out=[],st=structure(t.slice(0,60)),i;
+  var head=relText();
+  if(mode===2)head+=" , U"+sb(n0)+" = "+fr(inp(1));
+  if(mode===3)head+=" , U"+sb(n0)+" = "+fr(inp(1))+" , U"+sb(n0+1)+" = "+fr(inp(2));
+  out.push(card("Suite étudiée","<code>"+head.replace(/</g,"&lt;")+"</code>"));
+  var tl=t.slice(0,8).map(function(v,k){return sub(k)+" = <b>"+fr(v)+"</b>"}).join(" ; ");
+  out.push(card("Premiers termes",tl+(t.length>8?" …":"")));
+  /* nature + closed form + monotony + limit */
+  var nat=[],cf="",mono="",lim="",cfTitle="Expression en fonction de n",exact=false;
+  var af=null,a2=null;
+  if(mode===2)af=affine1();
+  if(mode===3)a2=affine2();
+  var U0=t[0],klass=null;
+  if(mode===2&&af){
+   var a=af.a,b=af.b;
+   if(Math.abs(a-1)<1e-12){klass={k:"arith",r:b}}
+   else if(Math.abs(b)<1e-12){klass={k:"geo",q:a}}
+   else if(Math.abs(a)<1e-12){klass={k:"cstdes",b:b}}
+   else klass={k:"ag",a:a,b:b,l:b/(1-a)};
+  }else if(mode===3&&a2&&Math.abs(a2.b)<1e-12&&Math.abs(a2.a)>1e-12){
+   // U(n+2)=a U(n+1)+c : first order from rank n0+1
+   klass={k:"ord1",a:a2.a,c:a2.c};
+  }else{
+   if(st.cst)klass={k:"cst"};else if(st.arith!==undefined)klass={k:"arith",r:st.arith,num:1};
+   else if(st.geo!==undefined)klass={k:"geo",q:st.geo,num:1};
+   else if(st.ag)klass={k:"ag",a:st.ag.a,b:st.ag.b,l:st.ag.b/(1-st.ag.a),num:1};
+  }
+  if(klass&&klass.k==="cst"||(klass&&klass.k==="arith"&&Math.abs(klass.r)<1e-12)){
+   nat.push("Suite <b>constante</b> : tous les termes valent "+fr(U0)+" (arithmétique de raison 0, géométrique de raison 1).");
+   mono="La suite est <b>constante</b>.";lim="<b>"+lv(U0)+"</b>";exact=true;
+   cf="Un = "+fr(U0)+" pour tout n ≥ "+n0+".";
+  }else if(klass&&klass.k==="arith"){
+   var r=klass.r;
+   nat.push("Suite <b>arithmétique</b> de raison <b>r = "+fr(r)+"</b> : Un+1 = Un "+(r<0?"− ":"+ ")+fr(Math.abs(r))+" (Un+1 − Un est constant)."+(klass.num?"<small class=\"gzn\">constaté sur les 60 premiers termes</small>":""));
+   cf="Un = "+lc([[U0,""],[r,M()]])+" (terme initial "+sub(0)+" = "+fr(U0)+").";
+   mono=r>0?"Un+1 − Un = r = "+fr(r)+" &gt; 0 : la suite est <b class=\"gzp\">strictement croissante</b>.":"Un+1 − Un = r = "+fr(r)+" &lt; 0 : la suite est <b class=\"gzm\">strictement décroissante</b>.";
+   lim="<b>"+(r>0?"+∞":"−∞")+"</b> (suite arithmétique de raison "+(r>0?"positive":"négative")+").";exact=true;
+  }else if(klass&&klass.k==="geo"){
+   var q=klass.q;
+   nat.push("Suite <b>géométrique</b> de raison <b>q = "+fr(q)+"</b> : Un+1 = "+par(q)+" × Un"+(klass.num?" <small class=\"gzn\">constaté sur les 60 premiers termes</small>":""));
+   cf="Un = "+lc([[U0,pw(q,M())]])+" (terme initial "+sub(0)+" = "+fr(U0)+").";
+   if(q>0&&q!==1){var up=(q>1)===(U0>0);mono="q &gt; 0 et "+sub(0)+(U0>0?" &gt; 0":" &lt; 0")+" : la suite est "+(up?"<b class=\"gzp\">strictement croissante</b>":"<b class=\"gzm\">strictement décroissante</b>")+".";}
+   else if(q<0)mono="q &lt; 0 : les termes changent de signe à chaque rang, la suite <b>n’est pas monotone</b>.";
+   if(Math.abs(q)<1)lim="<b>0</b> (|q| &lt; 1).";
+   else if(q>1)lim="<b>"+(U0>0?"+∞":"−∞")+"</b> (q &gt; 1).";
+   else if(q===-1)lim="<b>Pas de limite</b> : les termes alternent entre "+fr(U0)+" et "+fr(-U0)+".";
+   else lim="<b>Pas de limite</b> : |Un| tend vers +∞ en changeant de signe (q &lt; −1).";
+   exact=true;
+  }else if(klass&&klass.k==="ag"){
+   var a1=klass.a,b1=klass.b,l=klass.l;
+   nat.push("Suite <b>arithmético-géométrique</b> : Un+1 = "+lc([[a1,"Un"],[b1,""]])+" (a = "+fr(a1)+", b = "+fr(b1)+")."+(klass.num?"<small class=\"gzn\">constaté sur les 60 premiers termes</small>":"")+"<br>Point fixe : l = b/(1 − a) = <b>"+fr(l)+"</b>. La suite Vn = Un − l est géométrique de raison "+fr(a1)+".");
+   cf="Un = "+lc([[U0-l,pw(a1,M())],[l,""]])+" (terme initial "+sub(0)+" = "+fr(U0)+").";
+   var dl=U0-l;
+   if(Math.abs(dl)<1e-12){mono="Le premier terme est le point fixe : la suite est <b>constante</b>.";lim="<b>"+fr(l)+"</b>"}
+   else{
+    if(a1>0){var inc=(a1-1)*dl>0;mono="Un+1 − Un = (a − 1)(U"+n0+" − l)·a<sup>n</sup> est du signe de "+fr((a1-1)*dl)+" : la suite est "+(inc?"<b class=\"gzp\">strictement croissante</b>":"<b class=\"gzm\">strictement décroissante</b>")+".";}
+    else mono="a &lt; 0 : Un − l change de signe à chaque rang, la suite <b>n’est pas monotone</b>.";
+    if(Math.abs(a1)<1)lim="<b>"+fr(l)+"</b> (|a| &lt; 1, la suite converge vers le point fixe).";
+    else if(a1>1)lim="<b>"+(dl>0?"+∞":"−∞")+"</b> (a &gt; 1).";
+    else if(a1===-1)lim="<b>Pas de limite</b> : les termes alternent entre "+fr(U0)+" et "+fr(2*l-U0)+".";
+    else lim="<b>Pas de limite</b> : |Un − l| tend vers +∞ en changeant de signe (a &lt; −1).";
+   }
+   exact=true;
+  }else if(klass&&klass.k==="cstdes"){
+   nat.push("Un+1 = "+fr(klass.b)+" ne dépend pas de Un : la suite est <b>constante à partir du rang "+(n0+1)+"</b>.");
+   cf="Un = "+fr(klass.b)+" pour n ≥ "+(n0+1)+" (et "+sub(0)+" = "+fr(U0)+").";
+   mono=monoText(t,false);lim="<b>"+fr(klass.b)+"</b>";
+  }else if(klass&&klass.k==="ord1"){
+   nat.push("Comme b = 0, la relation s’écrit Un+2 = "+lc([[a2.a,"Un+1"],[a2.c,""]])+" : c’est une relation <b>arithmético-géométrique d’ordre 1</b> à partir du rang "+(n0+1)+".");
+   var n1=n0;n0=n0+1;var cc=agClosed(a2.a,a2.c,t[1]);n0=n1;
+   cf=cc.t+" pour n ≥ "+(n0+1)+" (terme initial "+sub(1)+" = "+fr(t[1])+").";
+   mono=monoText(t.slice(1),false);
+   var lt=limitOrbit(t,over);lim=lt||"Limite non repérée.";
+  }else{
+   /* general case */
+   var nonl=false;
+   if(mode===1)nat.push("La suite n’est ni arithmétique, ni géométrique, ni arithmético-géométrique (tests sur les 60 premiers termes).");
+   if(mode===2){
+    if(af)nat.push("");
+    nat.push("Relation <b>non affine</b> en Un : ce n’est ni une suite arithmétique, ni géométrique, ni arithmético-géométrique.");nonl=true;
+   }
+   if(mode===3){
+    if(a2){
+     var sol=lin2(a2.a,a2.b,a2.c,t[0],t[1],t);
+     nat.push("Suite <b>récurrente linéaire d’ordre 2</b> : Un+2 = "+lc([[a2.a,"Un+1"],[a2.b,"Un"],[a2.c,""]])+".<br>Équation caractéristique : r² "+(a2.a<0?"+ ":"− ")+(Math.abs(a2.a)===1?"":fr(Math.abs(a2.a)))+"r "+(a2.b<0?"+ ":"− ")+fr(Math.abs(a2.b))+" = 0"+(sol?"<br>"+sol.info:""));
+     if(sol)cf=sol.t+" pour n ≥ "+n0+"."+(sol.ptype>1?" <small class=\"gzn\">1 est racine du polynôme caractéristique : la solution particulière est de la forme k·n"+(sol.ptype===3?"²":"")+".</small>":"");
+     else cf="Forme explicite non obtenue automatiquement.";
+    }else{nat.push("Relation <b>non linéaire</b> (ou dépendant de n) : pas de méthode générale pour une expression explicite.");nonl=true}
+   }
+   if(mode===3&&a2&&!nonl){var sol3=lin2(a2.a,a2.b,a2.c,t[0],t[1],t);if(sol3){var cl3=limit3(a2,sol3);if(cl3)lim=cl3}}
+   if(mode>1&&nonl){cf="Pas d’expression explicite simple pour cette relation : seuls les termes calculés et le comportement observé sont donnés.";
+    if(mode===2){var fp=fixedPts();if(fp&&fp.length)cf+="<br>Points fixes (solutions de l = g(l)) : "+fp.map(function(x){return"<b>"+fr(Math.round(x*1e6)/1e6)+"</b>"}).join(" ; ")+". Si Un converge, c’est vers l’un d’eux."}}
+   if(mode===1){
+    mono=monoText1(G);lim=limitExplicit(G);
+    cf="Relation de récurrence non affine : Un+1 n’est pas de la forme a·Un + b.";cfTitle="Relation de récurrence";
+   }else{
+    mono=monoText(t,false);
+    var lo=(mode===3&&lim)?lim:limitOrbit(t,over);
+    if(lo===null&&mode===2){var fp2=fixedPts();var uN=t[t.length-1];lo="Limite non repérée numériquement.";if(fp2)for(i=0;i<fp2.length;i++)if(Math.abs(fp2[i]-uN)<1e-2*(1+Math.abs(uN))){lo="Les termes se rapprochent du point fixe <b>"+fr(Math.round(fp2[i]*1e6)/1e6)+"</b> : limite supposée <b>"+fr(Math.round(fp2[i]*1e6)/1e6)+"</b> (convergence lente, à justifier)."}}
+    lim=lo||"Limite non repérée numériquement.";
+   }
+  }
+  if(mode===1&&klass){cfTitle="Relation de récurrence";
+   var k0=klass.k;
+   if(k0==="arith")cf="Un+1 = Un "+(klass.r<0?"− ":"+ ")+fr(Math.abs(klass.r))+" avec "+sub(0)+" = "+fr(U0)+".";
+   else if(k0==="geo")cf="Un+1 = "+par(klass.q)+"·Un avec "+sub(0)+" = "+fr(U0)+".";
+   else if(k0==="ag")cf="Un+1 = "+lc([[klass.a,"Un"],[klass.b,""]])+" avec "+sub(0)+" = "+fr(U0)+".";
+   else if(k0==="cst")cf="Un+1 = Un.";
+   if(k0==="geo"||k0==="arith"||k0==="ag"||k0==="cst"){
+    var lx=limitExplicit(G);if(!(k0==="cst"))lim=lim||lx;
+   }
+  }
+  out.push(card("Nature de la suite",nat.filter(Boolean).join("<br>")));
+  out.push(card("Sens de variation",mono));
+  out.push(card(cfTitle,cf));
+  var finlim=null;if(/<b>[−+]?∞<\/b>/.test(lim)===false){var mm=/<b>([^<]*)<\/b>/.exec(lim);if(mm){var v=parseFloat(mm[1].replace("−","-").replace(",",".").replace(/[^\d.\-].*$/,""));if(fin(v)&&!/pas de limite/i.test(lim))finlim=v}}
+  lastLimit=finlim;
+  out.push(card("Limite en +∞",/^(<b>Pas de limite|La suite|Limite non|Les termes)/.test(lim)?lim:"lim<sub>n→+∞</sub> Un = "+lim));
+  $("#sqinfo").innerHTML=out.join("");
+  $("#sqcw").classList.remove("hide");$("#sqbar").classList.remove("hide");$("#sqpst").textContent="";
+  redraw();
+ }catch(e){err.textContent=e.message;}
+}
+function reportS(){
+ var B=[],tmp=document.createElement("canvas"),pal={ink:"#0b1e3d",line:"#cfe0f7",muted:"#4a5f82",acc:"#1456d6",ok:"#0d7a4a"};
+ function blk(h){B.push('<div class="blk">'+h+'</div>')}
+ var m=mode===1?"Un en fonction de n":mode===2?"Un+1 en fonction de Un":"Un+2 en fonction de Un+1 et Un";
+ blk('<div class="brand">Fiche d’étude de suite</div><h1>'+relText().replace(/</g,"&lt;")+'</h1><div class="meta">Générée le '+dateFr()+' · donnée par : '+m+' · premier indice n₀ = '+n0+'</div>');
+ LC.forEach(function(c,i){
+  if(i===0)return;
+  blk("<h3>"+c[0]+"</h3><div>"+c[1]+"</div>");
+  if(i===1){draw(tmp,700,300,pal);blk('<h3>Représentation des premiers termes</h3><img alt="Premiers termes" src="'+tmp.toDataURL("image/png")+'"><div class="cap">Points : termes Un'+(lastLimit!==null?' ; pointillés verts : limite':'')+'.</div>')}
+ });
+ blk('<div class="meta">Résultats obtenus par calcul numérique sur les premiers termes : le sens de variation et la limite des suites non classiques sont à justifier par une démonstration.</div>');
+ return B.join("");
+}
+function makePdfS(){if(!LC.length)return;mkPdf(reportS(),"Fiche d'etude de suite","suite-"+slugf($("#sqf").value)+".pdf",$("#sqpdf"),$("#sqpst"))}
+function sb(i){return"<sub>"+i+"</sub>"}
+
+/* ------------------------------------------------ chart */
+function redraw(){var c=$("#sqc");if(c&&c.clientWidth)draw(c,c.clientWidth,c.clientHeight,null)}
+function draw(c,W,H,pal){
+ if(!lastTerms.length)return;
+ var dpr=pal?1:Math.max(1,Math.min(3,window.devicePixelRatio||1));
+ c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);
+ var g=c.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);
+ if(pal){g.fillStyle="#fff";g.fillRect(0,0,W,H)}
+ var ink=pal?pal.ink:getComputedStyle(c).color,line=pal?pal.line:css("--line"),muted=pal?pal.muted:css("--muted"),acc=pal?pal.acc:css("--accent"),ok=pal?pal.ok:css("--ok");
+ var t=lastTerms.filter(fin),N=t.length;if(!N)return;
+ var lo=Math.min.apply(null,t),hi=Math.max.apply(null,t);
+ if(lastLimit!==null){lo=Math.min(lo,lastLimit);hi=Math.max(hi,lastLimit)}
+ if(hi-lo<1e-9){hi+=1;lo-=1}
+ var pad=(hi-lo)*0.12;lo-=pad;hi+=pad;
+ var ax=function(v){return Math.abs(v)>=1e5||(v!==0&&Math.abs(v)<1e-3)?v.toExponential(1).replace("-","−").replace(".",","):fmt(v,3)};
+ g.font="11px Segoe UI,system-ui,Arial,sans-serif";
+ var L=12,k0;for(k0=0;k0<=4;k0++)L=Math.max(L,g.measureText(ax(lo+(hi-lo)*k0/4)).width+12);
+ var R=12,T=10,B=22,pw_=W-L-R,ph=H-T-B;
+ function X(i){return L+(N<2?0:i/(N-1))*pw_}
+ function Y(v){return T+(hi-v)/(hi-lo)*ph}
+ g.font="11px Segoe UI,system-ui,Arial,sans-serif";g.lineWidth=1;g.strokeStyle=line;g.fillStyle=muted;
+ g.textAlign="right";
+ for(var k=0;k<=4;k++){var v=lo+(hi-lo)*k/4,y=Y(v);g.beginPath();g.moveTo(L,y);g.lineTo(W-R,y);g.stroke();g.fillText(ax(v),L-5,y+4)}
+ g.textAlign="center";
+ var step=N>16?5:N>8?2:1;
+ for(var i=0;i<N;i+=step)g.fillText(String(n0+i),X(i),H-6);
+ if(lo<0&&hi>0){g.strokeStyle=ink;g.lineWidth=1.2;g.beginPath();g.moveTo(L,Y(0));g.lineTo(W-R,Y(0));g.stroke()}
+ if(lastLimit!==null){g.strokeStyle=ok;g.setLineDash([6,4]);g.lineWidth=1.4;g.beginPath();g.moveTo(L,Y(lastLimit));g.lineTo(W-R,Y(lastLimit));g.stroke();g.setLineDash([]);g.fillStyle=ok;g.textAlign="right";g.fillText("l = "+fmt(lastLimit,3),W-R-2,Y(lastLimit)-5)}
+ g.fillStyle=acc;
+ for(var j=0;j<N;j++){g.beginPath();g.arc(X(j),Y(t[j]),3.6,0,7);g.fill()}
+}
+
+/* ------------------------------------------------ UI */
+function setMode(m){
+ mode=m;
+ document.querySelectorAll("#sqmode .chip").forEach(function(b){b.setAttribute("aria-pressed",String(+b.dataset.m===m))});
+ $("#sqlab").textContent=LAB[m];$("#sqhint").textContent=HINT[m];
+ $("#sqw0").classList.toggle("hide",m<2);$("#sqw1").classList.toggle("hide",m<3);
+ var ex=$("#sqex");ex.innerHTML="";
+ EX[m].forEach(function(e){
+  var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=e[0];
+  b.onclick=function(){
+   $("#sqf").value=e[0];$("#sqn0").value=String(e[1]);n0=e[1];
+   if(m>=2)$("#squ0").value=String(e[2]);if(m===3)$("#squ1").value=String(e[3]);
+   syncLabels();analyze();
+  };ex.appendChild(b);
+ });
+ syncLabels();
+}
+function syncLabels(){
+ n0=parseInt($("#sqn0").value,10)||0;
+ $("#sqk0").innerHTML="U"+sb(n0)+" =";$("#sqk1").innerHTML="U"+sb(n0+1)+" =";
+}
+var first=true;
+function wire(){
+ document.querySelectorAll("#sqmode .chip").forEach(function(b){b.onclick=function(){setMode(+b.dataset.m);$("#sqf").value=EX[+b.dataset.m][0][0];var e=EX[+b.dataset.m][0];$("#sqn0").value=String(e[1]);if(e[2]!==undefined)$("#squ0").value=String(e[2]);if(e[3]!==undefined)$("#squ1").value=String(e[3]);syncLabels();analyze()}});
+ $("#sqpdf").onclick=makePdfS;
+ $("#sqgo").onclick=function(){syncLabels();analyze()};
+ $("#sqf").addEventListener("keydown",function(e){if(e.key==="Enter"){syncLabels();analyze()}});
+ $("#sqn0").addEventListener("change",function(){syncLabels();analyze()});
+ ["squ0","squ1"].forEach(function(id){$("#"+id).addEventListener("keydown",function(e){if(e.key==="Enter"){syncLabels();analyze()}})});
+ if(window.ResizeObserver)new ResizeObserver(redraw).observe($("#sqc"));
+ new MutationObserver(redraw).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+}
+function show(){
+ if(first){first=false;wire();setMode(1);$("#sqf").value="2n+3";analyze()}else redraw();
+}
+if(location.hash==="#suites"&&document.getElementById("suites"))setTimeout(show,0);
+window.SQ={show:show,run:function(m,expr,n,u0,u1){setMode(m);$("#sqf").value=expr;$("#sqn0").value=String(n||0);if(u0!==undefined)$("#squ0").value=String(u0);if(u1!==undefined)$("#squ1").value=String(u1);syncLabels();analyze();return $("#sqerr").textContent||$("#sqinfo").textContent}};
+})();
 </script>
 </body>
 </html>

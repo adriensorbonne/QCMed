@@ -93,6 +93,7 @@ header{backdrop-filter:none;-webkit-backdrop-filter:none}
 .logo{font-size:1.05rem;white-space:nowrap}
 .theme{font-size:.85rem;padding:6px 10px;white-space:nowrap}
 .nm{display:none}
+#logout{padding:6px 9px;line-height:0}
 .nl{display:none}.ns{display:inline}
 nav{position:fixed;left:0;right:0;bottom:0;z-index:15;gap:0;background:var(--hd);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
 nav button{flex:1;min-height:46px;padding:6px 0;font-size:.7rem;border-radius:12px;white-space:nowrap}
@@ -161,6 +162,9 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 .gzhelp{margin-top:16px}.gzhelp summary{cursor:pointer;font-weight:600}
 @media (max-width:600px){.gzwin{grid-template-columns:repeat(2,1fr)}}
 .gzbar .gzpdfb{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}.gzbar .gzpdfb:hover{background:var(--accent);filter:brightness(1.12)}.gzbar .gzpdfb:disabled{opacity:.65;cursor:wait}#gzpst{font-size:.88rem;color:var(--muted);align-self:center}
+@media (min-width:761px){.bar{max-width:1180px}nav{gap:2px}nav button{padding:7px 10px}}
+@media (max-width:760px){#sfmode,#sfex{flex-wrap:wrap;overflow-x:visible}}
+#sfinfo{grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}#sfinfo .gzcard{min-width:0;overflow-x:auto}#sfinfo table{font-size:.85rem}#sfinfo th,#sfinfo td{padding:4px 5px}
 </style>
 </head>
 <body class="locked">
@@ -177,10 +181,10 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <header><div class="bar">
 <div class="logo">Spé Maths <span>A</span></div>
 <nav aria-label="Navigation principale">
-<button data-tab="cours">Cours</button><button data-tab="exercices">Exercices</button><button data-tab="calculatrice"><span class="nl">Calculatrice</span><span class="ns">Calcul</span></button><button data-tab="fonctions">Fonctions</button><button data-tab="programme">Programme</button><button data-tab="pdfs" id="navPdf" class="hide">PDFs</button>
+<button data-tab="cours">Cours</button><button data-tab="exercices">Exercices</button><button data-tab="calculatrice"><span class="nl">Calculatrice</span><span class="ns">Calcul</span></button><button data-tab="fonctions">Fonctions</button><button data-tab="sufonctions"><span class="nl">Su/Se Fonctions</span><span class="ns">Su/Se</span></button><button data-tab="programme">Programme</button><button data-tab="pdfs" id="navPdf" class="hide">PDFs</button>
 </nav>
 <button class="theme" id="theme" aria-label="Changer de thème">Mode sombre</button>
-<button class="theme hide" id="logout"></button>
+<button class="theme hide" id="logout" type="button" aria-label="Déconnexion" title="Déconnexion"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></button>
 </div></header>
 
 <main>
@@ -242,6 +246,21 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <div class="grid hide" id="pdfList"></div>
 </section>
 
+<section id="sufonctions" class="view hide">
+<h1>Suites et séries de fonctions</h1>
+<p class="lead">Saisissez le terme général fn(x) d’une suite de fonctions, ou un(x) d’une série de fonctions, et un intervalle [a ; b]. Le site étudie la convergence simple, la fonction limite (ou la somme), la convergence uniforme (et, pour une série, absolue et normale), le rayon de convergence d’une série entière, et rappelle les théorèmes utilisables. Le bouton « Générer le PDF » rassemble tout dans une fiche.</p>
+<div class="card gz">
+<div class="chips" id="sfmode" role="group" aria-label="Type d’objet"><button type="button" class="chip" data-m="seq" aria-pressed="true">Suite de fonctions (fn)</button><button type="button" class="chip" data-m="ser" aria-pressed="false">Série de fonctions Σ un</button></div>
+<div class="gzin" style="margin-top:12px"><label for="sff" id="sflab">fn(x) =</label><input id="sff" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" placeholder="Ex. : x^n"><button class="cta" id="sfgo" type="button">Analyser</button></div>
+<p class="gzn" id="sfhint" style="margin:6px 0 0"></p>
+<div class="gzwin" style="margin-top:10px;grid-template-columns:repeat(auto-fit,minmax(120px,1fr))"><label>a (borne gauche)<input id="sfa" inputmode="decimal" value="0"></label><label>b (borne droite)<input id="sfb" inputmode="decimal" value="1"></label><label id="sfw0" class="hide">Premier indice n₀<select id="sfn0" style="font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)"><option value="0">0</option><option value="1">1</option></select></label></div>
+<div id="sferr" class="gzerr" role="alert"></div>
+<div class="chips" id="sfex" aria-label="Exemples"></div>
+<div id="sfcw" class="hide"><canvas id="sfc" role="img" aria-label="Graphe des fonctions" style="width:100%;height:260px;display:block;color:var(--ink);margin-top:12px"></canvas></div>
+<div id="sfinfo" class="gzinfo" aria-live="polite"></div>
+<div class="gzbar hide" id="sfbar"><button type="button" class="gzpdfb" id="sfpdf">Générer le PDF</button><span id="sfpst" role="status"></span></div>
+</div>
+</section>
 <section id="fonctions" class="view hide">
 <h1>Fonctions : tracer et étudier</h1>
 <p class="lead">Saisissez une fonction de x : le site trace sa courbe. Activez ensuite, parmi les boutons sous le graphique, les informations que vous voulez voir : zéros, dérivée, variations, asymptotes, tangente… Une fois la courbe tracée, le bouton « Générer le PDF » crée une fiche complète de la fonction (toutes les informations, quelles que soient les options affichées).</p>
@@ -364,11 +383,11 @@ var EXOS=[
 var $=function(s){return document.querySelector(s)};
 var curTab="",pos={};
 function setTab(t,push){
- if(["cours","exercices","programme","calculatrice","fonctions","pdfs"].indexOf(t)<0)t="cours";if(t==="pdfs"&&!PDFOK)t="cours";if(t===curTab)return;pos[curTab]=window.scrollY;
+ if(["cours","exercices","programme","calculatrice","fonctions","sufonctions","pdfs"].indexOf(t)<0)t="cours";if(t==="pdfs"&&!PDFOK)t="cours";if(t===curTab)return;pos[curTab]=window.scrollY;
  document.querySelectorAll(".view").forEach(function(v){v.classList.toggle("hide",v.id!==t)});
  document.querySelectorAll("nav button").forEach(function(b){if(b.dataset.tab===t)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
  if(push&&location.hash!=="#"+t)location.hash=t;
- curTab=t;window.scrollTo(0,pos[t]||0);if(t==="fonctions"&&window.GR)GR.show();
+ curTab=t;window.scrollTo(0,pos[t]||0);if(t==="fonctions"&&window.GR)GR.show();if(t==="sufonctions"&&window.SF)SF.show();
 }
 document.addEventListener("click",function(e){
  var b=e.target.closest("[data-tab],[data-go]");if(!b)return;
@@ -536,7 +555,7 @@ pupdate(lg(KP,P0));
 var AH="c67e20d5be6d171d7b7fb94024191731fd87f5066a708612e7b5cabb6137a4dc",PH="00a9289487c52eb0367e7978bdeb0e3480d898a20e76320dff8390cd4cce4790",ALLOWED=[];
 async function sha(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("")}
 function norm(n){return n.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ")}
-function unlock(n,adm){ADM=!!adm;pstart();document.body.classList.remove("locked");var l=$("#logout");l.classList.remove("hide");l.textContent="Déconnexion";var sp=document.createElement("span");sp.className="nm";sp.textContent=" ("+n+")";l.appendChild(sp);window.scrollTo(0,0)}
+function unlock(n,adm){ADM=!!adm;pstart();document.body.classList.remove("locked");var l=$("#logout");l.classList.remove("hide");window.scrollTo(0,0)}
 function lock(){pstop();ADM=false;pupdate(lg(KP,P0));document.body.classList.add("locked");$("#logout").classList.add("hide");$("#lu").value="";$("#lp").value="";$("#lu").focus()}
 function SKset(u,a){SK.forEach(function(k){try{sessionStorage.setItem(k,u);if(a)sessionStorage.setItem(k+"-adm","1");else sessionStorage.removeItem(k+"-adm")}catch(x){}})}
 function SKclr(){SK.forEach(function(k){try{sessionStorage.removeItem(k);sessionStorage.removeItem(k+"-adm")}catch(x){}})}
@@ -1546,6 +1565,436 @@ window.GR={show:show,trace:trace,report:function(){return reportHTML()},_lim:fun
 
 
 if(location.hash==="#fonctions"&&window.GR)GR.show();
+</script>
+<script>
+(function(){
+"use strict";
+/*PDFK*/
+var H2C="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",JSP="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",libs={},DL=null;
+try{if(window.claude&&claude.use)claude.use("downloads").then(function(d){DL=d}).catch(function(){})}catch(x){}
+function loadJS(u){return libs[u]||(libs[u]=new Promise(function(ok,ko){var e=document.createElement("script");e.src=u;e.onload=ok;e.onerror=function(){delete libs[u];ko(new Error("load"))};document.head.appendChild(e)}))}
+function saveFile(name,blob){
+ if(DL)return DL.save({filename:name,data:blob});
+ var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},4000);return Promise.resolve()}
+var RCSS=".gzr{font-size:15px;line-height:1.5;padding:0 56px 8px!important;color:#0b1e3d}.gzr .blk{margin:0 0 14px}.gzr h1{font-size:25px;margin:2px 0 6px;line-height:1.25}.gzr h3{font-size:16px;margin:0 0 6px;color:#1456d6;border-bottom:2px solid #cfe0f7;padding-bottom:3px}.gzr .brand{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#4a5f82;font-weight:700}.gzr .meta{font-size:13px;color:#4a5f82}.gzr code{background:#e4eeff;border-radius:5px;padding:1px 6px;font-size:.95em}.gzr img{width:100%;display:block;border:1px solid #cfe0f7;border-radius:8px}.gzr .cap{font-size:12.5px;color:#4a5f82;margin-top:4px}.gzr .gzp{color:#0d7a4a;font-weight:700}.gzr .gzm{color:#b3261e;font-weight:700}.gzr .gzn{display:block;color:#4a5f82;font-size:12.5px;margin-top:4px}.gzr table.gzv{border-collapse:collapse;width:100%;margin:6px 0;font-size:14.5px}.gzr table.gzv th,.gzr table.gzv td{border:1px solid #9db4d8;padding:5px 6px;text-align:center}.gzr table.gzv th{background:#e4eeff;width:70px}.gzr .vp{color:#0d7a4a;font-weight:700}.gzr .vm{color:#b3261e;font-weight:700}.gzr .va{font-size:18px}.gzr .lg span{display:inline-block;margin-right:14px}.gzr .lg i{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:5px}"+".gzr table.gzv td.l{text-align:left}.gzr table.gzv th.w{width:auto}.gzr sub,.gzr sup{line-height:0}";
+function slugf(t){return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"fiche"}
+async function mkPdf(html,foot,fname,btn,st){
+ var lab=btn.textContent,box=null;btn.disabled=true;btn.textContent="Création du PDF…";st.textContent="";
+ try{
+  await loadJS(H2C);await loadJS(JSP);
+  box=document.createElement("div");box.className="pdfdoc gzr";box.innerHTML="<style>"+RCSS+"</style>"+html;document.body.appendChild(box);
+  var imgs=[].slice.call(box.querySelectorAll("img"));
+  await Promise.all(imgs.map(function(im){return im.decode?im.decode().catch(function(){}):0}));
+  var blks=[].slice.call(box.children).filter(function(e){return e.classList.contains("blk")}),PH=1017,pages=[],start=0;
+  blks.forEach(function(b){var top=b.offsetTop,bot=top+b.offsetHeight;if(bot>start+PH&&top>start){pages.push([start,top]);start=top}});
+  pages.push([start,box.scrollHeight]);
+  var cv2=await html2canvas(box,{scale:2,backgroundColor:"#ffffff",logging:false,onclone:function(dd){var e=dd.querySelector(".gzr");e.style.left="0";e.style.top="0"}});
+  var pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4",compress:true}),k=cv2.width/794,mm=cv2.width/210;
+  pages.forEach(function(r,n){
+   if(n)pdf.addPage();
+   var y0=Math.round(r[0]*k),h=Math.min(cv2.height-y0,Math.round((r[1]-r[0])*k));if(h<=0)return;
+   var c=document.createElement("canvas");c.width=cv2.width;c.height=h;var x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,h);x.drawImage(cv2,0,y0,cv2.width,h,0,0,c.width,h);
+   pdf.addImage(c.toDataURL("image/jpeg",0.93),"JPEG",0,12,210,h/mm);
+   pdf.setFontSize(9);pdf.setTextColor(120);pdf.text(foot+" - page "+(n+1)+"/"+pages.length,105,291,{align:"center"});
+  });
+  await saveFile(fname,pdf.output("blob"));
+  st.textContent="PDF prêt.";
+ }catch(e){
+  st.textContent=e&&e.code==="declined"?"Téléchargement annulé.":"Impossible de créer le PDF. Vérifiez votre connexion et réessayez.";
+ }finally{if(box)box.remove();btn.disabled=false;btn.textContent=lab}
+}
+function dateFr(){return new Date().toLocaleDateString("fr-FR")}
+
+var $=function(s){return document.querySelector(s)};
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()||"#888"}
+function fin(v){return typeof v==="number"&&isFinite(v)}
+function fmt(v,d){d=d===undefined?4:d;if(v===Infinity)return"+∞";if(v===-Infinity)return"−∞";if(v!==v)return"indéfini";var k=Math.pow(10,d),r=Math.round(v*k)/k;if(r===0)r=0;var s=String(r);if(/e/.test(s))s=v.toExponential(2);return s.replace("-","−").replace(".",",")}
+function fr(v){if(!fin(v))return fmt(v);if(Math.abs(v-Math.round(v))<1e-9*Math.max(1,Math.abs(v)))return fmt(Math.round(v),0);for(var q=2;q<=40;q++){var p=Math.round(v*q);if(Math.abs(v-p/q)<1e-7*Math.max(1,Math.abs(v)))return(p<0?"−":"")+Math.abs(p)+"/"+q}return fmt(v,4)}
+function sg(v){return v>0?1:v<0?-1:0}
+function close(a,b,t){return Math.abs(a-b)<=(t||1e-9)*(1+Math.abs(a)+Math.abs(b))}
+/* ---------- parser (variables n et x) */
+var NAMES=["arctan","sqrt","sinh","cosh","tanh","fact","atan","exp","abs","sin","cos","tan","log","ln","pi","sh","ch","th","n","x","e"];
+var FN={arctan:1,atan:1,sqrt:1,sinh:1,cosh:1,tanh:1,sh:1,ch:1,th:1,fact:1,exp:1,abs:1,sin:1,cos:1,tan:1,log:1,ln:1};
+function tokenize(src){
+ var s=src.toLowerCase().replace(/\s+/g,"").replace(/[−–—]/g,"-").replace(/[×·]/g,"*").replace(/÷/g,"/").replace(/²/g,"^2").replace(/³/g,"^3").replace(/√/g,"sqrt").replace(/π/g,"pi").replace(/,/g,".");
+ s=s.replace(/^[fu]_?n?\(?x?\)?=/,"").replace(/^[fu]_n\(x\)=/,"");
+ if(!s)throw new Error("Saisissez une expression.");
+ var out=[],i=0,m;
+ while(i<s.length){
+  var ch=s[i];
+  if(/[0-9.]/.test(ch)){m=/^(\d+\.?\d*|\.\d+)/.exec(s.slice(i));if(!m)throw new Error("Nombre incorrect.");out.push({k:"n",v:parseFloat(m[1])});i+=m[1].length;continue}
+  if(/[a-z]/.test(ch)){var nm=null;for(var q=0;q<NAMES.length;q++)if(s.indexOf(NAMES[q],i)===i){nm=NAMES[q];break}
+   if(!nm)throw new Error("Symbole inconnu : « "+ch+" ». Variables : n et x. Fonctions : exp, ln, sin, cos, atan, sh, ch, th, sqrt, abs, fact.");
+   out.push({k:"id",v:nm});i+=nm.length;continue}
+  if("+-*/^()!".indexOf(ch)>=0){out.push({k:"op",v:ch});i++;continue}
+  throw new Error("Caractère non reconnu : « "+ch+" ».");
+ }
+ var r=[];
+ out.forEach(function(t){var p=r[r.length-1];
+  if(p){var pe=p.k==="n"||(p.k==="id"&&!FN[p.v])||(p.k==="op"&&(p.v===")"||p.v==="!")),cs=t.k==="n"||t.k==="id"||(t.k==="op"&&t.v==="(");if(pe&&cs)r.push({k:"op",v:"*"})}
+  r.push(t)});
+ return r;
+}
+function parse(src){
+ var T=tokenize(src),p=0,used={};
+ function isOp(v){return T[p]&&T[p].k==="op"&&T[p].v===v}
+ function expr(){var a=term();while(isOp("+")||isOp("-")){var o=T[p++].v,b=term();a={t:o==="+"?"add":"sub",a:a,b:b}}return a}
+ function term(){var a=unary();while(isOp("*")||isOp("/")){var o=T[p++].v,b=unary();a={t:o==="*"?"mul":"div",a:a,b:b}}return a}
+ function unary(){if(isOp("-")){p++;return{t:"neg",a:unary()}}if(isOp("+")){p++;return unary()}return pw()}
+ function pw(){var a=post();if(isOp("^")){p++;return{t:"pow",a:a,b:unary()}}return a}
+ function post(){var a=atom();while(isOp("!")){p++;a={t:"f",n:"fact",a:a}}return a}
+ function atom(){var t=T[p];if(!t)throw new Error("Expression incomplète.");
+  if(t.k==="n"){p++;return{t:"c",v:t.v}}
+  if(t.k==="id"){p++;
+   if(FN[t.v]){if(!isOp("("))throw new Error("Il manque des parenthèses après « "+t.v+" ».");p++;var a=expr();if(!isOp(")"))throw new Error("Parenthèse fermante manquante.");p++;return{t:"f",n:t.v,a:a}}
+   if(t.v==="e")return{t:"c",v:Math.E};if(t.v==="pi")return{t:"c",v:Math.PI};used[t.v]=1;return{t:"v",n:t.v}}
+  if(t.v==="("){p++;var b=expr();if(!isOp(")"))throw new Error("Parenthèse fermante manquante.");p++;return b}
+  throw new Error("Expression incorrecte près de « "+t.v+" ».")}
+ var tree=expr();if(p<T.length)throw new Error("Expression incorrecte près de « "+T[p].v+" ».");
+ return{tree:tree,used:used};
+}
+function fact(x){if(x<0||x%1)return NaN;if(x>170)return Infinity;var r=1;for(var i=2;i<=x;i++)r*=i;return r}
+var FNS={sqrt:Math.sqrt,exp:Math.exp,abs:Math.abs,sin:Math.sin,cos:Math.cos,tan:Math.tan,ln:Math.log,log:Math.log10,fact:fact,atan:Math.atan,arctan:Math.atan,sinh:Math.sinh,sh:Math.sinh,cosh:Math.cosh,ch:Math.cosh,tanh:Math.tanh,th:Math.tanh};
+function comp(n){
+ switch(n.t){
+  case"c":return function(){return n.v};
+  case"v":return n.n==="n"?function(a,b){return a}:function(a,b){return b};
+  case"neg":var a0=comp(n.a);return function(a,b){return-a0(a,b)};
+  case"f":var a1=comp(n.a),fn=FNS[n.n];return function(a,b){return fn(a1(a,b))};
+  default:var l=comp(n.a),r=comp(n.b);
+   if(n.t==="add")return function(a,b){return l(a,b)+r(a,b)};
+   if(n.t==="sub")return function(a,b){return l(a,b)-r(a,b)};
+   if(n.t==="mul")return function(a,b){return l(a,b)*r(a,b)};
+   if(n.t==="div")return function(a,b){return l(a,b)/r(a,b)};
+   return function(a,b){var u=l(a,b),v=r(a,b);if(u<0&&v%1!==0)return NaN;return Math.pow(u,v)};
+ }
+}
+/* ---------- état */
+var mode="seq",F=null,LC=[],A0=0,B0=1,N0=0,LST=null;
+var EX={
+ seq:[["x^n",0,1],["x^n",0,0.9],["x^n*(1-x)",0,1],["n*x*exp(-n*x)",0,1],["x/(1+n*x)",0,1],["sin(n*x)/n",0,3],["(1+x/n)^n",0,2],["atan(n*x)",0,1],["n*x/(1+n^2*x^2)",0,1],["x^2*exp(-n*x)",0,5]],
+ ser:[["x^n",0,0.5],["x^n/n",1,0.9],["x^n/fact(n)",0,2],["sin(n*x)/n^2",1,3],["(-1)^n*x^n/n",1,1],["x^n*(1-x)",0,1],["x*exp(-n*x)",0,1],["1/(n^2+x^2)",1,3],["x/(n*(1+n*x^2))",1,2]]
+};
+var HINT={seq:"fn(x) : variables n (entier) et x. Ex. : x^n, n*x*exp(-n*x), sin(n*x)/n.",ser:"un(x) : terme général de la série Σ un(x). Ex. : x^n/n, (-1)^n*x^n/n, sin(n*x)/n^2."};
+function card(t,h){LC.push([t,h]);return'<div class="gzcard"><h4>'+t+'</h4><div>'+h+'</div></div>'}
+function code(s){return"<code>"+s.replace(/</g,"&lt;")+"</code>"}
+/* ---------- utilitaires numériques */
+function gridPts(M,a,b,tbl){
+ var s=[],i,sp=b-a;for(i=0;i<M;i++)s.push(a+sp*i/(M-1));
+ for(var j=0;j<=40;j++){var t=sp*Math.pow(10,-3.5+3.5*j/40);s.push(a+t);s.push(b-t)}
+ for(i=0;i<=tbl;i++)s.push(a+sp*i/tbl);
+ s.sort(function(p,q){return p-q});var o=[s[0]];for(i=1;i<s.length;i++)if(s[i]-o[o.length-1]>1e-12*(1+Math.abs(s[i])))o.push(s[i]);return o}
+function tblIdx(xs,tbl){var o=[];for(var i=0;i<=tbl;i++){var v=A0+(B0-A0)*i/tbl,k=0,bd=Infinity;for(var j=0;j<xs.length;j++){var d=Math.abs(xs[j]-v);if(d<bd){bd=d;k=j}}o.push(k)}return o}
+function nice(v,step){var r=Math.round(v*100)/100;return Math.abs(r-v)<=1.5*step?r:v}
+function pv(v){var x=Math.round(v*1e6)/1e6,q;for(q=1;q<=8;q++){var p=Math.round(v/Math.PI*q);if(p&&Math.abs(v-p*Math.PI/q)<2e-4){return(p<0?"−":"")+(Math.abs(p)===1?"":Math.abs(p))+"π"+(q===1?"":"/"+q)}}return fr(x)}
+function setTxt(xs,flag,closed){
+ var out=[],i=0,n=xs.length,st=(B0-A0)/1200;
+ while(i<n){if(!flag(i)){i++;continue}var j=i;while(j+1<n&&flag(j+1))j++;
+  var lo=i===0?xs[0]:(xs[i-1]+xs[i])/2,hi=j===n-1?xs[n-1]:(xs[j]+xs[j+1])/2,l=fr(nice(lo,st)),h=fr(nice(hi,st));
+  if(i===j||l===h)out.push("{"+fr(nice(xs[i],st))+"}");
+  else{var lo_=i>0&&Math.abs(nice(lo,st)-xs[i-1])<1e-9,hi_=j<n-1&&Math.abs(nice(hi,st)-xs[j+1])<1e-9,lc=i===0?true:(lo_?false:closed),hc=j===n-1?true:(hi_?false:closed);
+   out.push((lc?"[":"]")+l+" ; "+h+(hc?"]":"["))}
+  i=j+1}
+ return out.join(" ∪ ")||"∅"}
+function sampleIdx(M,k){var o=[];for(var i=0;i<k;i++)o.push(Math.round(i*(M-1)/(k-1)));return o}
+var CAND=[["x²",function(x){return x*x}],["x³",function(x){return x*x*x}],["|x|",Math.abs],["exp(x)",Math.exp],["exp(−x)",function(x){return Math.exp(-x)}],["sin(x)",Math.sin],["cos(x)",Math.cos],["1/(1+x)",function(x){return 1/(1+x)}],["1/x",function(x){return 1/x}],["√x",Math.sqrt],["ln(x)",Math.log],["arctan(x)",Math.atan],["1/(1+x²)",function(x){return 1/(1+x*x)}],["x·exp(−x)",function(x){return x*Math.exp(-x)}],["x/(1+x²)",function(x){return x/(1+x*x)}]];
+function fitPiece(X,Y){
+ var n=X.length,i,sy=0,mx=0;for(i=0;i<n;i++){sy+=Y[i]}sy/=n;
+ var sc=0;for(i=0;i<n;i++)sc=Math.max(sc,Math.abs(Y[i]));var tol=1e-4*(1+sc);
+ var c=true;for(i=0;i<n;i++)if(Math.abs(Y[i]-sy)>tol)c=false;if(c)return pv(sy);
+ function lin(C){var m=n,sx=0,sxx=0,sxy=0,sY=0,k;for(k=0;k<m;k++){sx+=C[k];sxx+=C[k]*C[k];sxy+=C[k]*Y[k];sY+=Y[k]}var d=m*sxx-sx*sx;if(Math.abs(d)<1e-12)return null;var a=(m*sxy-sx*sY)/d,b=(sY-a*sx)/m,e=0;for(k=0;k<m;k++)e=Math.max(e,Math.abs(Y[k]-(a*C[k]+b)));return e<tol?[a,b]:null}
+ function show(a,b,nm){a=Math.round(a*1e4)/1e4;b=Math.round(b*1e4)/1e4;var s=(Math.abs(a-1)<1e-9?"":Math.abs(a+1)<1e-9?"−":fr(a)+"·")+nm;if(Math.abs(b)>1e-4)s+=(b<0?" − ":" + ")+fr(Math.abs(b));return s}
+ var r=lin(X);if(r)return show(r[0],r[1],"x");
+ for(var q=0;q<CAND.length;q++){var C=X.map(CAND[q][1]);if(C.some(function(v){return!fin(v)}))continue;r=lin(C);if(r)return show(r[0],r[1],CAND[q][0])}
+ return null;
+}
+function describeLimit(xs,L,ok){
+ // morceaux : coupure aux sauts de L ou aux points non convergents
+ var idx=[],i;for(i=0;i<xs.length;i++)if(ok[i])idx.push(i);
+ if(!idx.length)return{txt:"Aucune limite : la suite diverge pour tout x de l’intervalle.",jump:false};
+ var mn=Infinity,mx=-Infinity;idx.forEach(function(k){mn=Math.min(mn,L[k]);mx=Math.max(mx,L[k])});
+ var R=mx-mn,jt=Math.max(0.25*R,1e-6),pieces=[],cur=[idx[0]];
+ for(i=1;i<idx.length;i++){var k=idx[i],pk=idx[i-1];if(k!==pk+1||Math.abs(L[k]-L[pk])>jt){pieces.push(cur);cur=[k]}else cur.push(k)}
+ pieces.push(cur);
+ var parts=[],jump=false,step=(B0-A0)/1200;
+ pieces.forEach(function(pc,pi){
+  var X=pc.map(function(k){return xs[k]}),Y=pc.map(function(k){return L[k]});
+  var lo=X[0],hi=X[X.length-1],desc;
+  if(pc.length<3){desc="f("+fr(nice(lo,step))+") = "+pv(Y[0]);parts.push("<li>"+desc+"</li>");return}
+  var ex=fitPiece(X,Y);
+    var left=pi>0&&pc[0]===pieces[pi-1][pieces[pi-1].length-1]+1?"]"+fr(nice((xs[pc[0]-1]+lo)/2,step)):"["+fr(nice(lo,step));
+  var right=pi<pieces.length-1&&pieces[pi+1][0]===pc[pc.length-1]+1?(pieces[pi+1].length<3?fr(nice(hi+step,step))+"[":fr(nice((hi+xs[pc[pc.length-1]+1])/2,step))+"["):fr(nice(hi,step))+"]";
+  if(pi>0&&pc[0]===pieces[pi-1][pieces[pi-1].length-1]+1)jump=true;
+  parts.push("<li>pour x ∈ "+left+" ; "+right+" : f(x) = "+(ex===null?"<i>forme non identifiée</i> (valeurs : "+pv(Y[0])+" … "+pv(Y[Y.length-1])+")":ex)+"</li>");
+ });
+ if(pieces.length>1)jump=true;
+ return{txt:"<ul style=\"margin:4px 0 0 18px;padding:0\">"+parts.join("")+"</ul>",jump:jump,pieces:pieces.length};
+}
+/* ---------- verdict uniforme */
+function verdict(D){ // D : sup aux rangs doublés successifs
+ var k=D.length,d7=D[k-1],d6=D[k-2],d3=D[k-5];
+ if(!fin(d7))return{u:false,v:d7};
+ if(d7<1e-12)return{u:true,a:Infinity};
+ var r=d7/d6;
+ if(r<0.85&&d7<0.5*d3)return{u:true,a:Math.log2(d6/d7)};
+ return{u:false,v:d7};
+}
+function rateTxt(a){return a===Infinity?"":a>6?" (décroissance géométrique)":" (décroissance en n<sup>−"+fmt(a,2)+"</sup> environ)"}
+function supOn(f,xs,idx){var m=0,am=idx[0],k,d,inS={};for(k=0;k<idx.length;k++)inS[idx[k]]=1;
+ for(k=0;k<idx.length;k++){d=Math.abs(f(xs[idx[k]],idx[k]));if(d!==d)continue;if(!isFinite(d))return{m:Infinity,x:xs[idx[k]]};if(d>m){m=d;am=idx[k]}}
+ var bx=xs[am];if(am>0&&am<xs.length-1&&inS[am-1]&&inS[am+1]){var l=xs[am-1],r=xs[am+1];for(k=0;k<=40;k++){var x=l+(r-l)*k/40;d=Math.abs(f(x,-1));if(fin(d)&&d>m){m=d;bx=x}}}
+ return{m:m,x:bx}}
+/* ---------- suites de fonctions */
+function seqAnalyze(){
+ var M=1201,xs=gridPts(M,A0,B0,6),N=xs.length,i,L=[],ok=[],out=[],NB=1e8;
+ for(i=0;i<N;i++){var x=xs[i],v1=F(NB,x),v2=F(NB+1,x),v3=F(NB/2,x);
+  var c=fin(v1)&&fin(v2)&&fin(v3)&&Math.abs(v1-v2)<=1e-5*(1+Math.abs(v1))&&Math.abs(v1-v3)<=2e-3*(1+Math.abs(v1));
+  ok.push(c);L.push(c?v1:NaN)}
+ var allOK=ok.every(Boolean),noneOK=!ok.some(Boolean);
+ out.push(card("Suite étudiée","fn(x) = "+code($("#sff").value)+"<br>sur l’intervalle I = ["+fr(A0)+" ; "+fr(B0)+"]"));
+ var ni=[1,2,5,10,100,1000],xi=tblIdx(xs,6),t='<table class="gzv" style="width:100%"><tr><th>x</th>'+ni.map(function(n){return"<th>n = "+n+"</th>"}).join("")+"<th>limite</th></tr>";
+ xi.forEach(function(k){t+="<tr><td>"+fr(Math.round(xs[k]*1e6)/1e6)+"</td>"+ni.map(function(n){var v=F(n,xs[k]);return"<td>"+(fin(v)?fmt(v,4):"—")+"</td>"}).join("")+"<td><b>"+(ok[k]?fmt(L[k],4):"—")+"</b></td></tr>"});
+ out.push(card("Valeurs de fn(x)",t+"</table>"));
+ var simple;
+ if(allOK)simple="La suite (fn) <b class=\"gzp\">converge simplement sur tout I</b> = ["+fr(A0)+" ; "+fr(B0)+"].";
+ else if(noneOK)simple="La suite (fn(x)) <b class=\"gzm\">diverge pour tous les x de I</b> : pas de convergence simple.";
+ else simple="Convergence simple sur <b>"+setTxt(xs,function(k){return ok[k]},true)+"</b> ; divergence sur "+setTxt(xs,function(k){return!ok[k]},false)+".";
+ out.push(card("Convergence simple",simple));
+ var lim=describeLimit(xs,L,ok);
+ out.push(card("Fonction limite f",lim.txt+(lim.jump&&!noneOK?"<small class=\"gzn\">Si la limite est discontinue alors que chaque fn est continue, la convergence ne peut pas être uniforme (théorème de continuité de la limite uniforme).</small>":"")));
+ var uni="";
+ if(noneOK)uni="Pas de convergence simple, donc pas de convergence uniforme.";
+ else{
+  var ns=[10,20,40,80,160,320,640,1280],Dn=[],Xn=[],idxs=[];
+  for(i=0;i<N;i++)if(ok[i])idxs.push(i);
+  ns.forEach(function(n){var r=supOn(function(x,k){return F(n,x)-(k>=0?L[k]:F(NB,x))},xs,idxs);Dn.push(r.m);Xn.push(r.x)});
+  var vd=verdict(Dn),what=allOK?"I":"l’ensemble de convergence";
+  var tb='<table class="gzv" style="width:100%"><tr><th>n</th>'+ns.slice(2).map(function(n){return"<th>"+n+"</th>"}).join("")+"</tr><tr><th>sup|fn − f|</th>"+Dn.slice(2).map(function(d){return"<td>"+(fin(d)?fmt(d,4):"+∞")+"</td>"}).join("")+"</tr><tr><th>atteint en x ≈</th>"+Xn.slice(2).map(function(x){return"<td>"+fmt(x,3)+"</td>"}).join("")+"</tr></table>";
+  if(vd.u)uni="sup|fn − f| tend vers 0 : <b class=\"gzp\">convergence uniforme sur "+what+"</b>"+rateTxt(vd.a)+"."+tb;
+  else{
+   uni="sup|fn − f| ne tend pas vers 0 (valeur ≈ <b>"+(fin(vd.v)?fmt(vd.v,4):"+∞")+"</b> pour n = 1280) : <b class=\"gzm\">pas de convergence uniforme sur "+what+"</b>."+tb;
+   var p=Xn[Xn.length-1],p2=Xn[Xn.length-2],span=B0-A0,dl=span/20;
+   if(Math.abs(p-p2)<0.03*span||Math.abs(p-A0)<0.02*span||Math.abs(p-B0)<0.02*span){
+    var sides=[],cand=[];if(p-dl>A0+1e-9)cand.push([A0,p-dl]);if(p+dl<B0-1e-9)cand.push([p+dl,B0]);
+    cand.forEach(function(c){var ii=idxs.filter(function(k){return xs[k]>=c[0]-1e-12&&xs[k]<=c[1]+1e-12});if(ii.length<5)return;
+     var Ds=ns.map(function(n){return supOn(function(x,k){return F(n,x)-(k>=0?L[k]:F(NB,x))},xs,ii).m});var v=verdict(Ds);
+     sides.push("sur ["+fr(nice(c[0],span/1200))+" ; "+fr(nice(c[1],span/1200))+"] : "+(v.u?"<b class=\"gzp\">uniforme</b>":"<b class=\"gzm\">non uniforme</b>"))});
+    uni+="Le défaut d’uniformité se concentre autour de <b>x ≈ "+fmt(p,3)+"</b>. Essais sur des segments qui l’évitent : "+(sides.length?sides.join(" ; "):"aucun segment testable")+".";
+   }
+  }
+  if(!allOK)uni+="<small class=\"gzn\">Calcul fait sur l’ensemble de convergence simple.</small>";
+ }
+ out.push(card("Convergence uniforme",uni));
+ var cons=[];
+ if(!noneOK)cons.push("Si la convergence est uniforme sur un segment [α ; β] ⊂ I et si les fn sont continues, alors f est continue sur [α ; β] et ∫<sub>α</sub><sup>β</sup> fn → ∫<sub>α</sub><sup>β</sup> f (interversion limite-intégrale).");
+ cons.push("La convergence simple seule ne permet ni de transmettre la continuité, ni d’intervertir limite et intégrale (contre-exemple classique : x<sup>n</sup> sur [0 ; 1]).");
+ out.push(card("À retenir",cons.join("<br>")));
+ LST={xs:xs,L:L,ok:ok};
+ $("#sfinfo").innerHTML=out.join("");
+}
+/* ---------- séries de fonctions */
+function serAnalyze(){
+ var M=801,xs=gridPts(M,A0,B0,6),N=xs.length,i,out=[],n0=N0,NMAX=8000,W=40;
+ var CK=[10,20,40,80,160,320,640];
+ var cls=[],SV=new Array(N),SN=new Array(N),alp=[],SR=[];
+ for(i=0;i<N;i++){
+  var x=xs[i],s=0,arr=[],bad=-1,e1=0,e2=0,fl=0,s4=0,lastT=0,t,prev=0,n;
+  for(n=n0;n<n0+NMAX;n++){
+   t=F(n,x);var cnt=n-n0+1;
+   if(!fin(t)){bad=cnt;break}
+   s+=t;lastT=t;if(CK.indexOf(cnt)>=0)arr.push(s);
+   if(cnt>=4000&&cnt<4800){e1=Math.max(e1,Math.abs(t));if(cnt<4040&&cnt>4000&&prev*t<0)fl++}
+   if(cnt>=7200)e2=Math.max(e2,Math.abs(t));
+   if(cnt===4000)s4=s;prev=t}
+  var c="DV",al=0,est=s;
+  if(bad>0){
+   while(arr.length<CK.length)arr.push(s);
+   if(bad>60&&Math.abs(lastT)<1e-12*(1+Math.abs(s))){c="CVA";al=Infinity}else c="DV"}
+  else if(e1<1e-300){c="CVA";al=Infinity}
+  else if(e2<1e-3*e1){c="CVA";al=Infinity}
+  else{al=Math.log(e1/Math.max(e2,1e-300))/Math.log(1.8);
+   if(al>1.02){c="CVA";var u2=F(n0+NMAX,x);if(fl===0&&fin(u2)&&u2*lastT>0)est+=u2*NMAX/(al-1)}
+   else if(al>0.05&&Math.abs(s-s4)<=100*e1){c="CVS";est+=F(n0+NMAX,x)/2}
+   else c="DV"}
+  cls.push(c);alp.push(al);SV[i]=c==="DV"?NaN:est;SN[i]=c==="DV"?null:arr;SR.push([s,arr]);
+ }
+ var span0=B0-A0;
+ for(i=1;i<N-1;i++){var dd=Math.min(xs[i]-A0,B0-xs[i]);if(cls[i]==="DV"&&dd>0&&dd<2e-3*span0){var nb=(xs[i]-A0<B0-xs[i])?i+1:i-1;if(cls[nb]!=="DV"){cls[i]="CVA";SV[i]=SR[i][0];SN[i]=SR[i][1]}}}
+ for(i=N-2;i>=1;i--){var dd2=Math.min(xs[i]-A0,B0-xs[i]);if(cls[i]==="DV"&&dd2>0&&dd2<2e-3*span0){var nb2=(xs[i]-A0<B0-xs[i])?i+1:i-1;if(cls[nb2]!=="DV"){cls[i]="CVA";SV[i]=SR[i][0];SN[i]=SR[i][1]}}}
+ var anyOK=cls.some(function(c){return c!=="DV"}),allCVA=cls.every(function(c){return c==="CVA"}),allOK=cls.every(function(c){return c!=="DV"});
+ out.push(card("Série étudiée","Σ<sub>n≥"+n0+"</sub> un(x) avec un(x) = "+code($("#sff").value)+"<br>sur I = ["+fr(A0)+" ; "+fr(B0)+"]"));
+ var xi=tblIdx(xs,6),t='<table class="gzv" style="width:100%"><tr><th>x</th><th>nature en ce point</th><th>somme S(x) ≈</th></tr>';
+ var NAT={CVA:"converge absolument",CVS:"converge (non absolument)",DV:"diverge"};
+ xi.forEach(function(k){t+="<tr><td>"+fr(Math.round(xs[k]*1e6)/1e6)+"</td><td class=\"l\">"+NAT[cls[k]]+"</td><td>"+(cls[k]==="DV"?"—":fmt(SV[k],4))+"</td></tr>"});
+ out.push(card("Quelques valeurs",t+"</table><small class=\"gzn\">Sommes estimées avec un reste approché : précision limitée près des points où la convergence est très lente.</small>"));
+ var s1;
+ if(!anyOK)s1="La série <b class=\"gzm\">diverge en tout point de I</b> (terme général qui ne tend pas vers 0, ou décroissance trop lente).";
+ else{
+  var hasCVS=cls.some(function(c){return c==="CVS"});
+  s1="<b>Convergence simple</b> : "+(allOK?"<b class=\"gzp\">sur tout I</b>":"sur <b>"+setTxt(xs,function(k){return cls[k]!=="DV"},true)+"</b> ; divergence sur "+setTxt(xs,function(k){return cls[k]==="DV"},false))+".<br><b>Convergence absolue</b> : "+(allCVA?"<b class=\"gzp\">sur tout I</b>":"sur <b>"+setTxt(xs,function(k){return cls[k]==="CVA"},true)+"</b>")+(hasCVS?" ; convergence simple <i>non absolue</i> sur "+setTxt(xs,function(k){return cls[k]==="CVS"},true)+" (série dont les termes changent de signe : critère des séries alternées ou d’Abel-Dirichlet)":"")+".";
+ }
+ out.push(card("Convergence simple et absolue",s1));
+ var rad="";
+ function pairN(){var cand=[4000,1000,100,30];for(var q=0;q<cand.length;q++){var a=F(cand[q],1),b=F(cand[q]*2,1),c2=F(cand[q]+1,1);if(fin(a)&&a!==0&&fin(b)&&b!==0&&fin(c2)&&c2!==0)return cand[q]}return 0}
+ var t1=F(30,1),t2=F(30,2),t3=F(30,3);
+ if(fin(t1)&&t1!==0&&close(t2/t1,Math.pow(2,30),1e-6)&&close(t3/t1,Math.pow(3,30),1e-6)){
+  var pn=pairN();
+  if(pn){
+   var qa=Math.abs(F(pn+1,1)/F(pn,1)),qb=Math.abs(F(2*pn+1,1)/F(2*pn,1)),q=qb<0.7*qa?0:qb,R=q>1e-300?1/q:Infinity;
+   rad="La série est une <b>série entière</b> Σ c<sub>n</sub>x<sup>n</sup> avec c<sub>n</sub> = un(1). Règle de d’Alembert : |c<sub>n+1</sub>/c<sub>n</sub>| → "+(q===0?"0":fr(Math.round(q*1e3)/1e3))+", donc rayon de convergence <b>R "+(R>1e6?"= +∞":"≈ "+fr(Math.round(R*100)/100))+"</b>. Elle converge normalement sur tout segment [−r ; r] avec r &lt; R."}
+ }
+ var okIdx=[];for(i=0;i<N;i++)if(cls[i]!=="DV")okIdx.push(i);
+ var cvn="",cvu="",cons=[],pw=function(a){return a>6?"décroît géométriquement":"décroît comme n<sup>−"+fmt(a,2)+"</sup>"};
+ if(!anyOK){cvn="Sans convergence simple, il n’y a ni convergence normale ni convergence uniforme.";cvu=cvn}
+ else{
+  var nl=[100,200,400,800,1600,3200],ms=nl.map(function(n){return supOn(function(x){return F(n,x)},xs,okIdx).m});
+  var m4=ms[4],m5=ms[5],aN=m5>1e-300?Math.log2(m4/m5):Infinity,cvN=false;
+  var f4=function(m){return!fin(m)?"+∞":(m<1e-4&&m>0?m.toExponential(1).replace(".",","):fmt(m,4))};
+  var mt='<table class="gzv" style="width:100%"><tr><th>n</th>'+nl.map(function(n){return"<th>"+n+"</th>"}).join("")+"</tr><tr><th>sup<sub>I</sub>|un|</th>"+ms.map(function(m){return"<td>"+f4(m)+"</td>"}).join("")+"</tr></table>";
+  if(!allOK)cvn="Pas de convergence simple sur tout I, donc pas de convergence normale sur I (le tableau est calculé sur l’ensemble de convergence).";
+  else if(m5<1e-300||aN>1.05){cvN=true;cvn="sup<sub>I</sub>|un| "+pw(aN)+" : la série <b class=\"gzp\">converge normalement sur I</b> (donc uniformément et absolument)."}
+  else if(m5<0.7*m4&&aN>0.05)cvn="sup<sub>I</sub>|un| décroît comme n<sup>−"+fmt(aN,2)+"</sup> seulement : Σ sup|un| diverge, la série <b class=\"gzm\">ne converge pas normalement sur I</b>.";
+  else cvn="sup<sub>I</sub>|un| ne tend pas vers 0 (≈ "+f4(m5)+") : la série <b class=\"gzm\">ne converge pas normalement</b> et, le terme général ne tendant pas uniformément vers 0, <b class=\"gzm\">pas uniformément</b> sur I.";
+  cvn+=mt;
+  var Rn=[],Xn=[];
+  CK.forEach(function(n,j){var r=supOn(function(x,k){if(k<0){var s=0,v;for(var q=n0;q<n0+n;q++)s+=F(q,x);return NaN===s?NaN:0}return SV[k]-SN[k][j]},xs,okIdx);Rn.push(r.m);Xn.push(r.x)});
+  var vd=verdict(Rn);
+  var rt='<table class="gzv" style="width:100%"><tr><th>N</th>'+CK.slice(2).map(function(n){return"<th>"+n+"</th>"}).join("")+"</tr><tr><th>sup|S − S<sub>N</sub>|</th>"+Rn.slice(2).map(function(d){return"<td>"+f4(d)+"</td>"}).join("")+"</tr><tr><th>atteint en x ≈</th>"+Xn.slice(2).map(function(x){return"<td>"+fmt(x,3)+"</td>"}).join("")+"</tr></table>";
+  var CVU=allOK&&(cvN||vd.u);
+  if(!allOK)cvu="La série ne converge pas simplement sur tout I : pas de convergence uniforme sur I.<br>Sur l’ensemble de convergence : les restes "+(vd.u?"tendent uniformément vers 0 (<b class=\"gzp\">uniforme</b>).":"ne tendent pas uniformément vers 0 (<b class=\"gzm\">non uniforme</b>).")+rt;
+  else if(CVU)cvu="sup|S − S<sub>N</sub>| tend vers 0 : <b class=\"gzp\">convergence uniforme sur I</b>"+(cvN?" (conséquence de la convergence normale)":" <i>sans convergence normale</i>")+"."+rt;
+  else{
+   cvu="sup|S − S<sub>N</sub>| ne tend pas vers 0 (≈ "+f4(vd.v)+" pour N = 640) : <b class=\"gzm\">pas de convergence uniforme sur I</b>."+rt;
+   var span=B0-A0,p=Xn[Xn.length-1],p2=Xn[Xn.length-2];
+   if(Math.abs(p-p2)<0.03*span||Math.abs(p-A0)<0.02*span||Math.abs(p-B0)<0.02*span){
+    var dl=span/20,sides=[],cand=[];if(p-dl>A0+1e-9)cand.push([A0,p-dl]);if(p+dl<B0-1e-9)cand.push([p+dl,B0]);
+    cand.forEach(function(c){var ii=okIdx.filter(function(k){return xs[k]>=c[0]-1e-12&&xs[k]<=c[1]+1e-12});if(ii.length<5)return;
+     var Ds=CK.map(function(n,j){return supOn(function(x,k){return k<0?0:SV[k]-SN[k][j]},xs,ii).m});var v=verdict(Ds);
+     sides.push("sur ["+fr(nice(c[0],span/1200))+" ; "+fr(nice(c[1],span/1200))+"] : "+(v.u?"<b class=\"gzp\">uniforme</b>":"<b class=\"gzm\">non uniforme</b>"))});
+    cvu+="Le défaut se concentre autour de <b>x ≈ "+fmt(p,3)+"</b>. Essais sur des segments qui l’évitent : "+(sides.length?sides.join(" ; "):"aucun segment testable")+"."}
+  }
+  var cont=true;
+  for(var nn=n0+2;nn<n0+8&&cont;nn++){var yy=xs.map(function(x){return F(nn,x)}),mn=Math.min.apply(null,yy),mx=Math.max.apply(null,yy),rg=mx-mn,jm=0;for(i=1;i<N;i++)if(xs[i]-xs[i-1]>span/1500)jm=Math.max(jm,Math.abs(yy[i]-yy[i-1]));if(!fin(rg)||(rg>1e-9&&jm>0.3*rg))cont=false}
+  cons.push(CVU?(cont?"Les un sont continus sur I et la série converge uniformément : la <b>somme S est continue sur I</b>.":"La série converge uniformément, mais les un ne semblent pas tous continus sur I : la continuité de S n’est pas garantie par ce critère."):"Sans convergence uniforme sur I, le théorème de continuité ne s’applique pas directement sur I (il s’applique sur tout segment où la convergence est uniforme).");
+  if(CVU)cons.push("La convergence étant uniforme sur le segment I : <b>intégration terme à terme</b> possible, ∫<sub>"+fr(A0)+"</sub><sup>"+fr(B0)+"</sup> S = Σ ∫ un.");
+  var dn=[800,1600,3200].map(function(n){return supOn(function(x){var hh=1e-5*(1+Math.abs(x));return(F(n,x+hh)-F(n,x-hh))/(2*hh)},xs,okIdx).m});
+  var ad=dn[2]>1e-300&&dn[1]>0?Math.log2(dn[1]/dn[2]):Infinity;
+  if(allOK&&(dn[2]<1e-300||ad>1.05))cons.push("Les dérivées un′ vérifient : sup|un′| "+pw(ad)+" (série des dérivées normalement convergente) : si les un sont de classe C¹, la <b>somme S est de classe C¹ sur I</b> et S′ = Σ un′ (dérivation terme à terme).");
+  else cons.push("La série des dérivées Σ un′ ne converge pas normalement sur I (sup|un′| ≈ "+f4(dn[2])+" pour n = 3200) : on ne peut pas conclure à la dérivation terme à terme par ce critère.");
+ }
+ out.push(card("Convergence normale",cvn));
+ out.push(card("Convergence uniforme",cvu));
+ if(rad)out.push(card("Série entière",rad));
+ out.push(card("Conséquences (théorèmes)",cons.length?cons.join("<br>"):"Sans convergence, aucune conséquence."));
+ LST={xs:xs,SV:SV,cls:cls,SN:SN,CK:CK};
+ $("#sfinfo").innerHTML=out.join("");
+}
+/* ---------- graphes */
+function curves(c,W,H,pal,series,pts,yr){
+ var dpr=pal?1:Math.max(1,Math.min(3,window.devicePixelRatio||1));
+ c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);
+ var g=c.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);if(pal){g.fillStyle="#fff";g.fillRect(0,0,W,H)}
+ var ink=pal?pal.ink:getComputedStyle(c).color,line=pal?pal.line:css("--line"),muted=pal?pal.muted:css("--muted"),acc=pal?pal.acc:css("--accent");
+ var ys=[];series.forEach(function(s){s.y.forEach(function(v){if(fin(v)&&Math.abs(v)<1e6)ys.push(v)})});
+ if(!ys.length)return;ys.sort(function(a,b){return a-b});
+ var lo=ys[Math.floor(ys.length*0.005)],hi=ys[Math.ceil(ys.length*0.995)-1];
+ if(yr){lo=Math.min(lo,yr[0]);hi=Math.max(hi,yr[1])}
+ if(hi-lo<1e-9){hi+=1;lo-=1}var pd=(hi-lo)*0.1;lo-=pd;hi+=pd;
+ g.font="11px Segoe UI,system-ui,Arial,sans-serif";var Lm=12,k;
+ for(k=0;k<=4;k++)Lm=Math.max(Lm,g.measureText(fmt(lo+(hi-lo)*k/4,2)).width+12);
+ var R=14,T=10,B=24,pw=W-Lm-R,ph=H-T-B,x0=A0,x1=B0;
+ function X(v){return Lm+(v-x0)/(x1-x0)*pw}function Y(v){return T+(hi-v)/(hi-lo)*ph}
+ g.lineWidth=1;g.strokeStyle=line;g.fillStyle=muted;g.textAlign="right";
+ for(k=0;k<=4;k++){var v=lo+(hi-lo)*k/4;g.beginPath();g.moveTo(Lm,Y(v));g.lineTo(W-R,Y(v));g.stroke();g.fillText(fmt(v,2),Lm-5,Y(v)+4)}
+ g.textAlign="center";for(k=0;k<=4;k++){var xv=x0+(x1-x0)*k/4;g.fillText(fmt(xv,2),X(xv),H-7)}
+ if(lo<0&&hi>0){g.strokeStyle=ink;g.beginPath();g.moveTo(Lm,Y(0));g.lineTo(W-R,Y(0));g.stroke()}
+ g.save();g.beginPath();g.rect(Lm,T,pw,ph);g.clip();
+ series.forEach(function(s){g.strokeStyle=s.c;g.lineWidth=s.w||1.6;g.setLineDash(s.d||[]);g.beginPath();var pen=false,prev=null;
+  for(var i=0;i<s.x.length;i++){var yv=s.y[i];if(!fin(yv)||Math.abs(yv)>1e6){pen=false;continue}
+   if(pen&&s.jump&&Math.abs(yv-prev)>s.jump){pen=false}
+   if(!pen){g.moveTo(X(s.x[i]),Y(yv));pen=true}else g.lineTo(X(s.x[i]),Y(yv));prev=yv}
+  g.stroke()});
+ g.restore();g.setLineDash([]);
+ (pts||[]).forEach(function(p){g.fillStyle=p.c;g.beginPath();g.arc(X(p.x),Y(p.y),4,0,7);g.fill()});
+ // légende
+ var lx=Lm+8,ly=T+12;g.textAlign="left";g.font="11.5px Segoe UI,system-ui,Arial,sans-serif";
+ series.forEach(function(s){if(!s.name)return;g.strokeStyle=s.c;g.lineWidth=2.4;g.setLineDash(s.d||[]);g.beginPath();g.moveTo(lx,ly-4);g.lineTo(lx+16,ly-4);g.stroke();g.setLineDash([]);g.fillStyle=ink;g.fillText(s.name,lx+20,ly);lx+=g.measureText(s.name).width+34;if(lx>W-90){lx=Lm+8;ly+=15}});
+}
+var PAL=["#9fbcf0","#6c9be8","#3d78dd","#1456d6","#0b3a99"];
+function seqSeries(){
+ var xs=gridPts(500,A0,B0),S=[],ns=[1,2,5,10,30];
+ ns.forEach(function(n,i){S.push({x:xs,y:xs.map(function(x){return F(n,x)}),c:PAL[i],name:"n = "+n,w:1.5})});
+ var jt=null;
+ if(LST){var xl=[],yl=[];for(var i=0;i<LST.xs.length;i+=2){xl.push(LST.xs[i]);yl.push(LST.ok[i]?LST.L[i]:NaN)}
+  var mn=Infinity,mx=-Infinity;yl.forEach(function(v){if(fin(v)){mn=Math.min(mn,v);mx=Math.max(mx,v)}});
+  S.push({x:xl,y:yl,c:"#d97706",name:"limite f",w:2.4,d:[6,4],jump:Math.max(0.25*(mx-mn),1e-6)})}
+ return S;
+}
+function serSeries(){
+ var xs=LST.xs,S=[],ord=[],i,j;
+ var CKi=[0,2,4]; // N=10,40,160
+ CKi.forEach(function(j,q){S.push({x:xs,y:xs.map(function(x,i){return LST.cls[i]==="DV"||!LST.SN[i]?NaN:LST.SN[i][j]}),c:PAL[q+1],name:"S"+LST.CK[j]+" (N = "+LST.CK[j]+")",w:1.5})});
+ S.push({x:xs,y:LST.SV.map(function(v,i){return LST.cls[i]==="DV"?NaN:v}),c:"#d97706",name:"somme S",w:2.4,d:[6,4]});
+ return S;
+}
+function drawSeq(c,W,H,pal){c=c||$("#sfc");if(!c)return;if(!W){if(!c.clientWidth)return;W=c.clientWidth;H=c.clientHeight}
+ if(mode!=="seq"||!LST||!LST.L)return;curves(c,W,H,pal||null,seqSeries(),[],null)}
+function drawSer(c,W,H,pal){c=c||$("#sfc");if(!c)return;if(!W){if(!c.clientWidth)return;W=c.clientWidth;H=c.clientHeight}
+ if(mode!=="ser"||!LST||!LST.SV)return;curves(c,W,H,pal||null,serSeries(),[],null)}
+function redraw(){if(mode==="seq")drawSeq();else drawSer()}
+/* ---------- PDF */
+function reportSF(){
+ var B=[],tmp=document.createElement("canvas"),pal={ink:"#0b1e3d",line:"#cfe0f7",muted:"#4a5f82",acc:"#1456d6",ok:"#0d7a4a"};
+ function blk(h){B.push('<div class="blk">'+h+'</div>')}
+ var sq=mode==="seq";
+ blk('<div class="brand">Fiche d’étude – '+(sq?"suite":"série")+' de fonctions</div><h1>'+(sq?"fn(x) = ":"Σ un(x),  un(x) = ")+code($("#sff").value)+'</h1><div class="meta">Générée le '+dateFr()+' · intervalle I = ['+fr(A0)+' ; '+fr(B0)+']'+(sq?"":" · sommation à partir de n = "+N0)+'</div>');
+ LC.forEach(function(c,i){
+  if(i===0)return;
+  blk("<h3>"+c[0]+"</h3><div>"+c[1]+"</div>");
+  if(i===(sq?2:1)){if(sq)drawSeq(tmp,700,300,pal);else drawSer(tmp,700,300,pal);blk('<h3>'+(sq?"Courbes de fn et de la limite":"Sommes partielles et somme")+'</h3><img alt="Graphe" src="'+tmp.toDataURL("image/png")+'"><div class="cap">'+(sq?"Bleus : fn pour n = 1, 2, 5, 10, 30 ; pointillés orange : fonction limite.":"Bleus : sommes partielles S<sub>N</sub> ; pointillés orange : somme S estimée.")+'</div>')}
+ });
+ blk('<div class="meta">Analyse numérique (grille de points, grandes valeurs de n) : les conclusions sont des indications fortes à justifier par un calcul (majoration de sup|fn − f|, de sup|un| ou du reste).</div>');
+ return B.join("");
+}
+function makePdfSF(){if(!LC.length)return;mkPdf(reportSF(),"Fiche d'etude "+(mode==="seq"?"suite":"serie")+" de fonctions",(mode==="seq"?"suite":"serie")+"-fonctions-"+slugf($("#sff").value)+".pdf",$("#sfpdf"),$("#sfpst"))}
+/* ---------- UI */
+function readInputs(){A0=parseFloat(String($("#sfa").value).replace(",",".").replace("−","-"));B0=parseFloat(String($("#sfb").value).replace(",",".").replace("−","-"));N0=parseInt($("#sfn0").value,10)||0;
+ if(!fin(A0)||!fin(B0))throw new Error("Les bornes de l’intervalle doivent être des nombres.");
+ if(!(B0>A0))throw new Error("Il faut a < b pour l’intervalle [a ; b].");
+ if(B0-A0>1e4||Math.abs(A0)>1e4||Math.abs(B0)>1e4)throw new Error("Choisissez un intervalle borné de taille raisonnable (|x| ≤ 10 000).")}
+function analyze(){
+ var err=$("#sferr");err.textContent="";LC=[];
+ try{
+  readInputs();
+  var P=parse($("#sff").value);
+  if(!P.used.x)throw new Error("L’expression doit dépendre de x.");
+  if(!P.used.n)throw new Error("L’expression doit dépendre de n.");
+  F=comp(P.tree);
+  if(!fin(F(3,(A0+B0)/2))&&!fin(F(7,B0))&&!fin(F(5,A0)))throw new Error("L’expression n’est pas définie sur l’intervalle choisi.");
+  if(mode==="seq")seqAnalyze();else serAnalyze();
+  $("#sfcw").classList.remove("hide");$("#sfbar").classList.remove("hide");$("#sfpst").textContent="";redraw();
+ }catch(e){err.textContent=e.message;$("#sfinfo").innerHTML="";$("#sfcw").classList.add("hide");$("#sfbar").classList.add("hide")}
+}
+function setMode(m){
+ mode=m;document.querySelectorAll("#sfmode .chip").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.m===m))});
+ $("#sflab").textContent=m==="seq"?"fn(x) =":"un(x) =";$("#sfhint").textContent=HINT[m];$("#sfw0").classList.toggle("hide",m==="seq");
+ var ex=$("#sfex");ex.innerHTML="";
+ EX[m].forEach(function(e){var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=e[0];b.onclick=function(){load(e)};ex.appendChild(b)});
+}
+function load(e){$("#sff").value=e[0];$("#sfn0").value=String(e[1]);$("#sfa").value="0";$("#sfb").value=String(e[2]);analyze()}
+var first=true;
+function wire(){
+ document.querySelectorAll("#sfmode .chip").forEach(function(b){b.onclick=function(){setMode(b.dataset.m);load(EX[b.dataset.m][0])}});
+ $("#sfgo").onclick=analyze;$("#sfpdf").onclick=makePdfSF;
+ ["sff","sfa","sfb"].forEach(function(id){$("#"+id).addEventListener("keydown",function(e){if(e.key==="Enter")analyze()})});
+ $("#sfn0").addEventListener("change",analyze);
+ if(window.ResizeObserver)new ResizeObserver(redraw).observe($("#sfc"));
+ new MutationObserver(redraw).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+}
+function show(){if(first){first=false;wire();setMode("seq");load(EX.seq[0])}else redraw()}
+if(location.hash==="#sufonctions"&&document.getElementById("sufonctions"))setTimeout(show,0);
+window.SF={show:show,run:function(m,expr,n0,a,b){setMode(m);$("#sff").value=expr;$("#sfn0").value=String(n0||0);$("#sfa").value=String(a);$("#sfb").value=String(b);analyze();return $("#sferr").textContent||$("#sfinfo").innerText}};
+})();
 </script>
 </body>
 </html>

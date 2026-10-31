@@ -133,3 +133,20 @@ L'onglet **Exercices** contient : **Exos QCM** (une centaine de questions, un th
 - **SpeMathsA.html** : l’onglet Exercices › « Exos Usuels » contient maintenant les 72 exercices des chapitres 8 (séries numériques), 9 (suites et séries de fonctions) et 10 (séries entières), avec une correction proposée dépliable.
 - **Onglet « Fonctions »** désormais présent dans les trois sites (`index.html`, `SpeMathsA.html`, `SpeMathsB.html`).
 - **Bouton « Générer le PDF »** : visible après le tracé d’une fonction. Il crée une fiche A4 complète (courbe, domaine, parité, ordonnée à l’origine, zéros et signe, dérivée, tableau de variations, extremums, limites, asymptotes, tangente, valeur, intégrale, second graphique avec f′), quelles que soient les options cochées. Il utilise html2canvas et jsPDF, chargés à la demande (connexion requise).
+
+## Onglet « Suites » (QCM B et Spé Maths B uniquement)
+- Trois modes de saisie : **Un en fonction de n**, **Un+1 en fonction de Un** (avec le premier terme), **Un+2 en fonction de Un+1 et Un** (avec les deux premiers termes). Variables : `n`, `u` (= Un), `v` (= Un+1).
+- Le site indique la nature (constante, arithmétique, géométrique, arithmético-géométrique, récurrente linéaire d'ordre 2 avec équation caractéristique), le sens de variation, l'expression de Un en fonction de n (ou la relation de récurrence déduite en mode 1), la limite en +∞ et un graphique des premiers termes.
+- Les sens de variation et limites des suites non classiques sont constatés numériquement : à démontrer sur la copie.
+
+## Déconnexion
+Le bouton « Déconnexion (prénom) » est remplacé par une icône de sortie (info-bulle « Déconnexion »).
+
+## Bouton « Générer le PDF » de l'onglet Suites
+Après l'analyse d'une suite, le bouton crée une fiche A4 (suite étudiée, premiers termes, graphique, nature, variations, expression, limite).
+
+## Onglet « Su/Se Fonctions » (Spé Maths A uniquement)
+- Deux modes : **suite de fonctions** fn(x) et **série de fonctions** Σ un(x), sur un intervalle [a ; b] choisi, avec variables `n` et `x`.
+- Suite : convergence simple, fonction limite (formes usuelles identifiées, sauts repérés), convergence uniforme (sup|fn − f| pour n croissant, point où se concentre le défaut, essais sur des segments qui l'évitent), rappel des théorèmes.
+- Série : convergence simple, absolue, normale, uniforme (restes), rayon de convergence d'une série entière, continuité, intégration et dérivation terme à terme, valeurs de la somme.
+- Bouton « Générer le PDF » après le résultat. Analyse numérique : les conclusions sont à justifier sur la copie (précision limitée là où la convergence est très lente).
