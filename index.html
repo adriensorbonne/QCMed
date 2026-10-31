@@ -168,6 +168,20 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 @media (max-width:760px){#sqmode,#sqex{flex-wrap:wrap;overflow-x:visible}}
 .geo{width:100%;border-collapse:collapse;margin:12px 0}.geo th,.geo td{border:1px solid var(--line);padding:8px;vertical-align:middle}.geo th{background:var(--soft);font-size:.92rem}.geo td.fig{width:44%;text-align:center}.geo .shp{width:100%;max-width:190px;height:auto;display:block;margin:0 auto}.geo .nm{font-weight:700;color:var(--accent);font-size:.92rem}.geo .fo{font-weight:700;font-size:1.05rem}.geo small{display:block;color:var(--muted);margin-top:4px;font-size:.82rem;line-height:1.35}.geo-lg{display:flex;gap:18px;flex-wrap:wrap;font-size:.9rem;margin:6px 0}.geo-lg i{display:inline-block;width:22px;height:12px;border-radius:3px;vertical-align:middle;margin-right:6px}.geo-lg .k1{border:3px solid var(--accent);background:transparent}.geo-lg .k2{background:rgba(245,158,11,.45);border:1px solid #f59e0b}@media (max-width:600px){.geo td,.geo th{padding:5px}.geo td.fig{width:40%}}
 .trap{margin:26px 0 8px;padding:14px 16px;border:1px solid var(--line);border-left:5px solid var(--ko);border-radius:12px;background:color-mix(in srgb,var(--ko) 7%,var(--surface))}.trap h3{margin:0 0 4px;color:var(--ko)}.trap .tlead{margin:0 0 10px;font-size:.9rem;color:var(--muted)}.trap .ti{margin:10px 0;padding-top:10px;border-top:1px dashed var(--line)}.trap .ti:first-of-type{border-top:0;padding-top:0}.trap .tg{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:2px 9px;margin-bottom:4px;color:#fff}.trap .tl{background:#b45309}.trap .tc{background:var(--ko)}.trap .tq{font-weight:600}.trap .tr{margin-top:3px}
+/*MATHXCSS*/
+.tx{display:inline}
+.tx .katex{white-space:normal}
+.tx .katex-html{white-space:normal}
+#lesson,.card,.gzcard,.opts button{overflow-wrap:anywhere}
+
+.tx .katex{font-size:1.06em;color:inherit}
+.tx:not([data-done]) sup,.tx:not([data-done]) sub{font-size:.75em}
+foreignObject.mxfo{overflow:visible;pointer-events:none}
+foreignObject.mxfo .katex{font-size:1em}
+svg .mxorig{opacity:1}
+.tx[data-done="1"]{font-family:inherit}
+@media print{.tx .katex{font-size:1em}}
+foreignObject .tx .katex,foreignObject .tx .katex-html{white-space:nowrap}
 </style>
 </head>
 <body class="locked">
@@ -2534,6 +2548,340 @@ function show(){
 }
 if(location.hash==="#suites"&&document.getElementById("suites"))setTimeout(show,0);
 window.SQ={show:show,run:function(m,expr,n,u0,u1){setMode(m);$("#sqf").value=expr;$("#sqn0").value=String(n||0);if(u0!==undefined)$("#squ0").value=String(u0);if(u1!==undefined)$("#squ1").value=String(u1);syncLabels();analyze();return $("#sqerr").textContent||$("#sqinfo").textContent}};
+})();
+</script>
+<script>
+/*MATHX*/
+(function(){
+"use strict";
+var KV="0.16.9",KB="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/"+KV+"/";
+var SPC="[\\u00a0\\u202f\\u2009 ]";
+var GREEK={"α":"\\alpha","β":"\\beta","γ":"\\gamma","δ":"\\delta","ε":"\\varepsilon","θ":"\\theta","λ":"\\lambda","μ":"\\mu","π":"\\pi","ρ":"\\rho","σ":"\\sigma","τ":"\\tau","φ":"\\varphi","ω":"\\omega","Δ":"\\Delta","Σ":"\\sum\\limits","Π":"\\prod\\limits","Ω":"\\Omega","Γ":"\\Gamma","Φ":"\\Phi","Θ":"\\Theta","Λ":"\\Lambda","η":"\\eta","κ":"\\kappa","ν":"\\nu","ξ":"\\xi","ψ":"\\psi","χ":"\\chi","ζ":"\\zeta"};
+var SYMS={"∫":"\\int\\limits","∬":"\\iint\\limits","∮":"\\oint\\limits","√":"\\sqrt","∞":"\\infty","∂":"\\partial","∅":"\\varnothing","∀":"\\forall","∃":"\\exists","ℝ":"\\mathbb{R}","ℕ":"\\mathbb{N}","ℤ":"\\mathbb{Z}","ℚ":"\\mathbb{Q}","ℂ":"\\mathbb{C}","°":"^{\\circ}","…":"\\ldots","∇":"\\nabla","∧":"\\wedge","∨":"\\vee","¬":"\\neg","⊥":"\\perp","∥":"\\parallel","∠":"\\angle","′":"'","″":"''","‖":"\\Vert ","≡":"\\equiv","∼":"\\sim","≃":"\\simeq","∝":"\\propto","∣":"\\mid ","⌊":"\\lfloor ","⌋":"\\rfloor ","⌈":"\\lceil ","⌉":"\\rceil ","∖":"\\setminus ","∘":"\\circ ","ℓ":"\\ell ","ℏ":"\\hbar "};
+var OPS={"+":"+","−":"-","×":"\\times ","÷":"\\div ","·":"\\cdot ","⋅":"\\cdot ","±":"\\pm ","∓":"\\mp ","*":"\\ast "};
+var RELS={"=":"=","≠":"\\neq ","≈":"\\approx ","≤":"\\leq ","≥":"\\geq ","⩽":"\\leq ","⩾":"\\geq ","<":"<",">":">","∈":"\\in ","∉":"\\notin ","⊂":"\\subset ","⊄":"\\not\\subset ","⊆":"\\subseteq ","∪":"\\cup ","∩":"\\cap ","→":"\\to ","⇒":"\\Rightarrow ","⇔":"\\iff ","⟹":"\\Longrightarrow ","⟺":"\\iff ","↔":"\\leftrightarrow ","↦":"\\mapsto ","⟶":"\\longrightarrow ","≪":"\\ll ","≫":"\\gg "};
+var SUPU={"⁰":"0","¹":"1","²":"2","³":"3","⁴":"4","⁵":"5","⁶":"6","⁷":"7","⁸":"8","⁹":"9","ⁿ":"n","⁺":"+","⁻":"-","⁽":"(","⁾":")","ᵏ":"k","ˣ":"x"};
+var SUBU={"₀":"0","₁":"1","₂":"2","₃":"3","₄":"4","₅":"5","₆":"6","₇":"7","₈":"8","₉":"9","ₙ":"n","ₖ":"k","ₐ":"a","ₓ":"x","ᵢ":"i","ⱼ":"j","ₘ":"m","₊":"+","₋":"-"};
+var FUNCS={sin:"\\sin ",cos:"\\cos ",tan:"\\tan ",ln:"\\ln ",log:"\\log ",exp:"\\exp ",lim:"\\lim\\limits ",arctan:"\\arctan ",cot:"\\cot ",
+ min:"\\min ",max:"\\max ",pgcd:"\\operatorname{pgcd}",ppcm:"\\operatorname{ppcm}",PGCD:"\\mathrm{PGCD}",PPCM:"\\mathrm{PPCM}",det:"\\det ",ker:"\\ker ",Var:"\\mathrm{Var}",Cov:"\\mathrm{Cov}"};
+var NEEDP={min:1,max:1,pgcd:1,ppcm:1,PGCD:1,PPCM:1,det:1,ker:1,Var:1,Cov:1};
+var UNITS={mm:1,cm:1,dm:1,km:1,m:1,ha:1,kg:1,g:1,L:1,mL:1,cL:1,dL:1,s:1,h:1};
+var ISO=/[bcdefgklmnpqrstuvwxzBCDEFGHIJKLMNPQRSTUVWXZ]/;
+var BIGOP={"∫":1,"∬":1,"∮":1,"Σ":1,"Π":1,"lim":1};
+function esc(t){return t.replace(/\\/g,"\\textbackslash ").replace(/([#$%&_{}])/g,"\\$1")}
+/* ---------- lexer */
+function lex(items,inner){
+ var T=[],i,k;
+ function push(t,v,x,raw){var o={t:t,v:v,raw:raw===undefined?v:raw};if(x)for(var q in x)o[q]=x[q];T.push(o);return o}
+ for(i=0;i<items.length;i++){
+  var it=items[i];
+  if(it.k!=="text"){push(it.k==="sup"?"SUP":"SUB",it.s);continue}
+  var s=it.s,p=0,m;
+  while(p<s.length){
+   var c=s[p],rest=s.slice(p);
+   if(/[    \t\n]/.test(c)){m=/^[    \t\n]+/.exec(rest);push("WS",m[0]);p+=m[0].length;continue}
+   m=/^[\[\]][\u00a0 ]*[−+\-]?[\u00a0 ]*(?:∞|\d+(?:[.,]\d+)?|[a-z])[\u00a0\u202f ]*;[\u00a0\u202f ]*[−+\-]?[\u00a0 ]*(?:∞|\d+(?:[.,]\d+)?|[a-z])[\u00a0 ]*[\[\]]/.exec(rest);
+   if(!inner&&m){var iv=m[0],tx=iv.replace(/[\u00a0\u202f ]+/g,"").replace(/−/g,"-").replace(/∞/g,"\\infty ").replace(/(\d),(\d)/g,"$1{,}$2").replace(";","\\,;\\,");push("INTV",tx,null,iv);p+=iv.length;continue}
+   if(/\d/.test(c)){
+    m=new RegExp("^\\d+(?:"+SPC+"\\d{3}(?!\\d))*(?:[.,]\\d+)?").exec(rest);
+    push("NUM",m[0].replace(",","{,}").replace(/\./,"{,}").replace(new RegExp(SPC,"g"),"\\,"),null,m[0]);p+=m[0].length;continue}
+   if(SUPU[c]!==undefined){m=/^[⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ⁺⁻⁽⁾ᵏˣ]+/.exec(rest);push("SUP",m[0].split("").map(function(z){return SUPU[z]}).join(""));p+=m[0].length;continue}
+   if(SUBU[c]!==undefined){m=/^[₀₁₂₃₄₅₆₇₈₉ₙₖₐₓᵢⱼₘ₊₋]+/.exec(rest);push("SUB",m[0].split("").map(function(z){return SUBU[z]}).join(""));p+=m[0].length;continue}
+   if(/[A-Za-zÀ-ÖØ-öø-ÿ]/.test(c)){
+    m=/^[A-Za-zÀ-ÖØ-öø-ÿ]+/.exec(rest);var w=m[0],nx=rest[w.length];
+    var prev=T.length?T[T.length-1]:null,prev2=T.length>1?T[T.length-2]:null;
+    if(inner){ // dans un exposant ou un indice : tout est mathématique
+     if(w.length===1)push("LET",w);else if(FUNCS[w]&&!NEEDP[w])push("FUNC",w);else push("TXT",w);
+     p+=w.length;continue}
+    if(FUNCS[w]&&(!NEEDP[w]||nx==="(")){push("FUNC",w);p+=w.length;continue}
+    if(/^d[xtyz]$/.test(w)){push("DIFF",w);p+=2;continue}
+    if(UNITS[w]&&(prev&&prev.t==="NUM"||prev&&prev.t==="WS"&&prev2&&prev2.t==="NUM")&&w.length<=2){
+      push("UNIT",w);p+=w.length;continue}
+    if(w.length===1&&/[A-Za-z]/.test(w)){
+     if((nx==="'"||nx==="’")&&/[A-Za-zÀ-ÿ]/.test(rest[2]||"")){m=/^[A-Za-zÀ-ÿ]+['’][A-Za-zÀ-ÿ]+/.exec(rest);push("WORD",m?m[0]:w);p+=m?m[0].length:1;continue}
+     var adj=prev&&(prev.t==="NUM"||prev.t==="LET"||prev.t==="CLOSE"||prev.t==="SYM"&&prev.v==="π"||prev.t==="SUP");
+     if(ISO.test(w)||adj||(nx==="("&&/[af]/.test(w))||/[AaYy]/.test(w)&&false){push("LET",w);p++;continue}
+     push("LET_AMB",w);p++;continue}
+    if(w.length<=3&&prev&&prev.t==="NUM"&&/^[a-z]+$/.test(w)&&!/^(er|e|ème|eme|es|èmes)$/.test(w)&&!/^(ha|kg|cm|dm|mm|km)$/.test(w)){w.split("").forEach(function(z){push("LET",z)});p+=w.length;continue}
+    if(/^[A-Z]{2,3}$/.test(w)&&nx!=="("&&false){}
+    m=/^[A-Za-zÀ-ÿ]+(?:['’][A-Za-zÀ-ÿ]+)*/.exec(rest);push("WORD",m[0]);p+=m[0].length;continue}
+   if(GREEK[c]){push(c==="Σ"||c==="Π"?"SYM":"SYM",c);p++;continue}
+   if(c==="°"&&!(T.length&&T[T.length-1].t==="NUM")){push("OTHER",c);p++;continue}
+   if(SYMS[c]){push("SYM",c);p++;continue}
+   if(OPS[c]){push("OP",c);p++;continue}
+   if(c==="-"&&T.length&&T[T.length-1].t==="WS"&&/^-\s/.test(rest)){push("OP","−");p++;continue}
+   if(RELS[c]){push("REL",c);p++;continue}
+   if(c==="("||c==="["||c==="{"){push("OPEN",c);p++;continue}
+   if(c===")"||c==="]"||c==="}"){push("CLOSE",c);p++;continue}
+   if(c===","||c===";"){push("SEP",c);p++;continue}
+   if(c==="|"){push("BAR",c);p++;continue}
+   if(c==="/"){push("SLASH",c);p++;continue}
+   if(c==="!"&&T.length&&/^(NUM|LET|CLOSE)$/.test(T[T.length-1].t)){push("POST","!");p++;continue}
+   if(c===":"){push("COLON",c);p++;continue}
+   push("OTHER",c);p++;
+  }
+ }
+ return T;
+}
+/* ---------- conversion jetons -> TeX */
+function atomEnd(T,i){ // fin d'un atome commençant en i (pour \sqrt)
+ var t=T[i];if(!t)return i;
+ if(t.t==="OPEN"){var d=0;for(var j=i;j<T.length;j++){if(T[j].t==="OPEN")d++;if(T[j].t==="CLOSE"){d--;if(d===0)return j+1}}return T.length}
+ if(t.t==="SYM"&&t.v==="√")return atomEnd(T,i+1);
+ return i+1;
+}
+function innerTex(s){ // contenu d'un exposant/indice
+ var T=lex([{k:"text",s:s}],true);return toTex(T,0,T.length,true)}
+function toTex(T,a,b,inner){
+ var o="",i=a;
+ function one(i){
+  var t=T[i];
+  switch(t.t){
+   case "NUM":case "INTV":return t.v;
+   case "LET":case "LET_AMB":return t.v;
+   case "FUNC":return FUNCS[t.v];
+   case "TXT":return "\\text{"+esc(t.v)+"}";
+   case "UNIT":return "\\mathrm{"+t.v+"}";
+   case "DIFF":return "\\,\\mathrm{d}"+t.v[1];
+   case "WS":return " ";
+   case "SYM":
+    if(GREEK[t.v])return GREEK[t.v]+" ";
+    return SYMS[t.v]+(/[a-z]$/.test(SYMS[t.v])?" ":"");
+   case "OP":return OPS[t.v];
+   case "REL":return RELS[t.v];
+   case "OPEN":return t.v==="{"?"\\{":t.v;
+   case "CLOSE":return t.v==="}"?"\\}":t.v;
+   case "SEP":return t.v===";"?"\\,;\\,":",\\,";
+   case "BAR":return "|";
+   case "SLASH":return "/";
+   case "POST":return t.v;
+   case "COLON":return ":";
+   case "SUP":return "^{"+innerTex(t.v)+"}";
+   case "SUB":return "_{"+innerTex(t.v)+"}";
+   default:return esc(t.v||"");
+  }
+ }
+ while(i<b){
+  var t=T[i];
+  if(t.t==="SYM"&&t.v==="√"){
+   var e=atomEnd(T,i+1);if(e>b)e=b;
+   var body=toTex(T,i+1,e,inner);
+   if(T[i+1]&&T[i+1].t==="OPEN"&&T[e-1]&&T[e-1].t==="CLOSE")body=toTex(T,i+2,e-1,inner);
+   o+="\\sqrt{"+body+"}";i=e;continue}
+  if((t.t==="SUP"||t.t==="SUB")&&(i===a||/^(WS|OP|REL|OPEN|SEP)$/.test(T[i-1].t)))o+="{}";
+  if(t.t==="WS"){var nx=T[i+1],pv=T[i-1];if(pv&&pv.t==="NUM"&&nx&&nx.t==="UNIT")o+="\\,";else o+=" ";i++;continue}
+  o+=one(i);i++;
+ }
+ return o;
+}
+/* ---------- détection des segments mathématiques */
+var MATHISH={INTV:1,NUM:1,LET:1,FUNC:1,SYM:1,OP:1,REL:1,SUP:1,SUB:1,OPEN:1,CLOSE:1,BAR:1,POST:1,SLASH:1,UNIT:1,DIFF:1,COLON:1,SEP:1,LET_AMB:1,WS:1};
+function bigBefore(T,j,lo){var k=j;while(k>=lo&&(T[k].t==="SUP"||T[k].t==="SUB"))k--;return k<j&&k>=lo&&((T[k].t==="SYM"&&BIGOP[T[k].v])||(T[k].t==="FUNC"&&T[k].v==="lim"))}
+function isOperand(t){return t&&(t.t==="NUM"||t.t==="LET"||t.t==="LET_AMB"||t.t==="CLOSE"||t.t==="FUNC"||t.t==="UNIT"||t.t==="SYM"||t.t==="POST"||t.t==="SUP"||t.t==="SUB")}
+function nextNonWS(T,i,lim){for(var j=i+1;j<lim;j++)if(T[j].t!=="WS")return T[j];return null}
+function prevNonWS(T,i,lo){for(var j=i-1;j>=lo;j--)if(T[j].t!=="WS")return T[j];return null}
+function findSpans(T,svg){
+ var spans=[],n=T.length,i=0;
+ while(i<n){
+  var t=T[i];
+  if(!MATHISH[t.t]||t.t==="WS"||t.t==="SEP"||t.t==="COLON"||t.t==="SLASH"||t.t==="POST"||(t.t==="CLOSE"&&false)){i++;continue}
+  if(t.t==="LET_AMB"){ // lettre ambiguë (a, y, A…) : seulement collée à un autre signe mathématique
+   var nx=T[i+1];if(!(nx&&(nx.t==="SUP"||nx.t==="SUB"||nx.t==="NUM"&&false||nx.t==="OPEN"&&T[i+1].v==="("))){
+    var pv=T[i-1];if(!(pv&&(pv.t==="NUM"||pv.t==="LET"||pv.t==="SUP")&&false)){/* peut tout de même rejoindre un segment par la suite */}}}
+  var j=i,depth=0,last=i;
+  while(j<n){
+   var u=T[j];
+   if(!MATHISH[u.t])break;
+   if(u.t==="OPEN")depth++;
+   if(u.t==="CLOSE"&&depth>0)depth--;
+   if(u.t==="WS"){
+    var pn=prevNonWS(T,j,i),nn=nextNonWS(T,j,n);
+    var ok=depth>0||!nn||(pn&&/^(OP|REL|SEP|SLASH|OPEN|COLON)$/.test(pn.t))||(nn&&/^(OP|REL|SEP|SLASH|CLOSE|COLON|DIFF|UNIT|SUP|SUB)$/.test(nn.t))||(pn&&pn.t==="FUNC")||(pn&&pn.t==="SYM"&&BIGOP[pn.v])||(pn&&pn.t==="NUM"&&nn&&nn.t==="UNIT")||bigBefore(T,j-1,i);
+    if(!ok)break;
+    j++;continue}
+   if(u.t==="SEP"&&depth===0&&!(T[j-1]&&T[j-1].t==="WS"&&false)){ // virgule/point-virgule hors parenthèses : coupe
+    break}
+   if(u.t==="LET_AMB"&&j===i&&(T[j+1]&&(T[j+1].t==="SUP"||T[j+1].t==="SUB")||(function(){var q=nextNonWS(T,j,n);return q&&q.t==="REL"&&q.v!==":"})())){j++;continue}
+   if(u.t==="LET_AMB"){var q=T[j-1];if(!(q&&/^(NUM|LET|SUP|SUB|OP|REL|OPEN|WS|SYM|CLOSE|UNIT|FUNC)$/.test(q.t)&&(q.t!=="WS"||j-2>=i)))break;}
+   if(u.t==="COLON"&&!(T[j-1]&&T[j-1].t==="WS"&&T[j+1]&&T[j+1].t==="WS"))break;
+   if(u.t==="SLASH"){var nx2=T[j+1];if(!(nx2&&nx2.t!=="WS"&&T[j-1]&&T[j-1].t!=="WS"))break}
+   j++;
+  }
+  // rognage
+  var a=i,b=j;
+  while(b>a&&/^(WS|SEP|OP|REL|SLASH|COLON|OPEN|CLOSE)$/.test(T[b-1].t)){
+   if(T[b-1].t==="CLOSE"){var d=0,op=false;for(var z=a;z<b;z++){if(T[z].t==="OPEN")d++;if(T[z].t==="CLOSE")d--}if(d<0)b--;else break}
+   else b--;}
+  while(a<b&&/^(WS|SEP|REL|SLASH|COLON|CLOSE)$/.test(T[a].t))a++;
+  while(a<b&&T[a].t==="OP"&&!(T[a].v==="−"||T[a].v==="+"||T[a].v==="±")){a++}
+  while(a<b&&T[a].t==="OP"&&(!T[a+1]||T[a+1].t==="WS"))a++;
+  if(b>a)spans.push([a,b]);
+  i=Math.max(j,i+1);
+ }
+ // validation
+ var out=[];
+ spans.forEach(function(sp){
+  var a=sp[0],b=sp[1],strong=false,rel=false,opn=0,operands=0,calls=false,amb=0,let_=0,onlyAmb=true;
+  for(var k=a;k<b;k++){var t=T[k];
+   if(t.t==="SYM"||t.t==="SUP"||t.t==="SUB"||t.t==="FUNC"||t.t==="DIFF"||t.t==="INTV")strong=true;
+   if(t.t==="REL"||t.t==="OP"||t.t==="BAR"&&false)opn++;
+   if(t.t==="LET"||t.t==="NUM"||t.t==="LET_AMB"||t.t==="UNIT")operands++;
+   if(t.t==="LET"&&T[k+1]&&T[k+1].t==="OPEN"&&T[k+1].v==="(")calls=true;
+   if(t.t==="LET_AMB")amb++;else if(t.t!=="WS")onlyAmb=false;
+  }
+  var cnt=0;for(var k2=a;k2<b;k2++)if(T[k2].t!=="WS")cnt++;
+  if(cnt===1&&T[a].t==="NUM")return;
+  if(onlyAmb&&!svg)return;
+  if(cnt===1&&(T[a].t==="LET"||T[a].t==="LET_AMB"||T[a].t==="UNIT")&&!svg)return;
+  if(svg&&(onlyAmb||cnt===1&&(T[a].t==="LET"||T[a].t==="LET_AMB"))){out.push([a,b]);return}
+  if(cnt===1&&/^(OPEN|CLOSE|OP|REL|POST|SEP|SLASH|BAR|COLON)$/.test(T[a].t))return;
+  var ok=strong||(opn>0&&operands>=2)||calls;
+  // un « (x) » seul ou « (a) » n'est pas mathématique
+  if(!ok)return;
+  // un signe + ou − collé à rien
+  out.push([a,b]);
+ });
+ return out;
+}
+/* ---------- API : transformer une suite d'éléments en morceaux */
+function convert(items,svg){
+ var T=lex(items,false),spans=findSpans(T,svg),res=[],pos=0;
+ spans.forEach(function(sp){
+  if(sp[0]>pos)res.push({t:"plain",a:pos,b:sp[0]});
+  var tx=toTex(T,sp[0],sp[1],false);if(/\\(sum|prod|int|iint|oint)\\limits/.test(tx))tx="\\displaystyle "+tx;res.push({t:"math",a:sp[0],b:sp[1],tex:tx});
+  pos=sp[1]});
+ if(pos<T.length)res.push({t:"plain",a:pos,b:T.length});
+ return{T:T,R:res};
+}
+window.MXconvert=convert;
+
+/* ---------- rendu DOM */
+var SKIP=/^(SCRIPT|STYLE|TEXTAREA|INPUT|SELECT|OPTION|CANVAS|CODE|PRE|SVG|HEADER|NAV|TITLE|NOSCRIPT)$/i;
+function skipEl(e){
+ for(;e&&e.nodeType===1;e=e.parentNode){
+  if(SKIP.test(e.nodeName)||e.classList&&(e.classList.contains("tx")||e.classList.contains("katex")||e.classList.contains("pdfdoc")||e.classList.contains("gzr")||e.classList.contains("tocbtn")||e.classList.contains("chip")||e.classList.contains("gzt")||e.classList.contains("gzopt")||e.classList.contains("nomx"))||e.id==="toc"||e.isContentEditable)return true}
+ return false}
+function rawOf(t){return t.t==="SUP"||t.t==="SUB"?null:t.raw}
+function mkSpan(tex,nodes,disp){
+ var sp=document.createElement("span");sp.className="tx";sp.setAttribute("data-tex",tex);
+ nodes.forEach(function(n){sp.appendChild(n)});return sp}
+function processParent(p){
+ var kids=Array.prototype.slice.call(p.childNodes),i=0;
+ while(i<kids.length){
+  var n=kids[i];
+  if(!(n.nodeType===3||(n.nodeType===1&&/^(SUP|SUB)$/.test(n.nodeName)&&!n.children.length))){i++;continue}
+  var run=[];
+  while(i<kids.length&&(kids[i].nodeType===3||(kids[i].nodeType===1&&/^(SUP|SUB)$/.test(kids[i].nodeName)&&!kids[i].children.length)||(kids[i].nodeType===1&&kids[i].nodeName==="WBR")))run.push(kids[i++]);
+  run=run.filter(function(x){return x.nodeName!=="WBR"});
+  if(!run.length)continue;
+  var items=run.map(function(x){return x.nodeType===3?{k:"text",s:x.nodeValue}:{k:x.nodeName.toLowerCase(),s:x.textContent}});
+  var joined=items.map(function(x){return x.s}).join("");
+  if(!/[0-9²³⁰-⁹₀-₉√∫ΣπΔℝℕ∞≠≤≥×÷±′∈∪∩→⇒⇔αβγθλμσφω=<>+−\-]/.test(joined)&&!items.some(function(x){return x.k!=="text"}))continue;
+  var r=window.MXconvert(items);
+  if(!r.R.some(function(x){return x.t==="math"}))continue;
+  // reconstruit nœuds : on recoupe par jetons -> on se sert des offsets de caractères
+  // chaque jeton garde .raw ; pour SUP/SUB on conserve l'élément d'origine
+  var T=r.T,frag=document.createDocumentFragment(),ti=0;
+  // associe chaque jeton à son nœud source via parcours des longueurs
+  var cum=[],pos=0;items.forEach(function(x,ix){cum.push(pos);pos+=x.s.length});
+  function nodesFor(a,b){ // nœuds de remplacement (texte + clones sup/sub) pour jetons a..b
+   var out=[],k=a;
+   while(k<b){
+    var t=T[k];
+    if(t.t==="SUP"||t.t==="SUB"){var e=document.createElement(t.t==="SUP"?"sup":"sub");e.textContent=origSupSub(t,k);out.push(e);k++;continue}
+    var txt="";while(k<b&&T[k].t!=="SUP"&&T[k].t!=="SUB"){txt+=T[k].raw;k++}
+    out.push(document.createTextNode(txt))}
+   return out}
+  function origSupSub(t,k){ // texte d'origine du sup/sub : on le retrouve par ordre
+   return t._o!==undefined?t._o:t.v}
+  // retrouve le texte d'origine des sup/sub dans l'ordre
+  var so=[];items.forEach(function(x){if(x.k!=="text")so.push(x.s)});var sc=0;T.forEach(function(t){if(t.t==="SUP"||t.t==="SUB")t._o=so[sc++]});
+  r.R.forEach(function(seg){
+   var ns=nodesFor(seg.a,seg.b);
+   if(seg.t==="plain")ns.forEach(function(q){frag.appendChild(q)});
+   else frag.appendChild(mkSpan(seg.tex,ns))});
+  var after=run[run.length-1].nextSibling;
+  p.insertBefore(frag,run[0]);
+  run.forEach(function(x){p.removeChild(x)});
+  kids=Array.prototype.slice.call(p.childNodes);
+  i=after?kids.indexOf(after):kids.length;if(i<0)i=kids.length;
+ }
+}
+function walk(root){
+ if(root.nodeType===3){if(root.parentNode&&!skipEl(root.parentNode))processParent(root.parentNode);return}
+ if(root.nodeType!==1||skipEl(root))return;
+ var ps=[root];Array.prototype.forEach.call(root.querySelectorAll("*"),function(e){ps.push(e)});
+ ps.forEach(function(e){if(!skipEl(e)&&!e.closest(".tx"))processParent(e)});
+ Array.prototype.forEach.call(root.querySelectorAll("svg"),svgFix);
+ if(root.nodeName==="svg"||root.nodeName==="SVG")svgFix(root);
+}
+function svgFix(svg){
+ if(svg.closest(".pdfdoc,.gzr,.nomx"))return;
+ Array.prototype.forEach.call(svg.querySelectorAll("text"),function(t){
+  if(t.getAttribute("data-mx"))return;t.setAttribute("data-mx","1");
+  if(t.children.length&&!Array.prototype.every.call(t.children,function(c){return /^(sup|sub)$/i.test(c.nodeName)}))return;
+  var txt=t.textContent;if(!txt.trim())return;
+  var items=[{k:"text",s:txt}];
+  if(t.children.length){items=[];Array.prototype.forEach.call(t.childNodes,function(c){items.push(c.nodeType===3?{k:"text",s:c.nodeValue}:{k:c.nodeName.toLowerCase(),s:c.textContent})})}
+  var r=window.MXconvert(items,true);
+  if(!r.R.some(function(x){return x.t==="math"}))return;
+  var fs=+t.getAttribute("font-size")||(parseFloat(getComputedStyle(t).fontSize)||12);
+  var x=+t.getAttribute("x")||0,y=+t.getAttribute("y")||0,an=t.getAttribute("text-anchor")||"start";
+  var w=Math.max(60,txt.length*fs*0.75+20),h=fs*1.7;
+  var fo=document.createElementNS("http://www.w3.org/2000/svg","foreignObject");
+  var left=an==="middle"?x-w/2:an==="end"?x-w:x;
+  fo.setAttribute("x",left);fo.setAttribute("y",y-fs*1.15);fo.setAttribute("width",w);fo.setAttribute("height",h);fo.setAttribute("overflow","visible");
+  fo.setAttribute("class","mxfo");
+  var d=document.createElement("div");d.setAttribute("xmlns","http://www.w3.org/1999/xhtml");
+  d.style.cssText="font-size:"+fs+"px;line-height:"+h+"px;white-space:nowrap;text-align:"+(an==="middle"?"center":an==="end"?"right":"left")+";color:"+(t.getAttribute("fill")&&t.getAttribute("fill")!=="none"?t.getAttribute("fill"):"currentColor")+(t.getAttribute("font-weight")?";font-weight:"+t.getAttribute("font-weight"):"")+(t.getAttribute("font-style")==="italic"?";font-style:italic":"");
+  var T2=r.T,so=[];items.forEach(function(q){if(q.k!=="text")so.push(q.s)});var sc=0;T2.forEach(function(q){if(q.t==="SUP"||q.t==="SUB")q._o=so[sc++]});
+  r.R.forEach(function(seg){
+   if(seg.t==="plain"){var tx="";for(var k=seg.a;k<seg.b;k++)tx+=T2[k].t==="SUP"||T2[k].t==="SUB"?T2[k]._o:T2[k].raw;d.appendChild(document.createTextNode(tx))}
+   else{var sp=document.createElement("span");sp.className="tx";sp.setAttribute("data-tex",seg.tex);var tx2="";for(var k2=seg.a;k2<seg.b;k2++)tx2+=T2[k2].t==="SUP"?"^"+T2[k2]._o:T2[k2].t==="SUB"?"_"+T2[k2]._o:T2[k2].raw;sp.textContent=tx2;d.appendChild(sp)}});
+  fo.appendChild(d);
+  // le texte d'origine reste (masqué) tant que KaTeX n'est pas chargé ; il disparaît ensuite
+  t.setAttribute("class",((t.getAttribute("class")||"")+" mxorig").trim());
+  t.parentNode.insertBefore(fo,t.nextSibling);
+  fo.setAttribute("data-pending","1");
+ });
+}
+/* ---------- chargement KaTeX */
+var state=0,queue=false;
+function renderPending(root){
+ if(!window.katex)return;
+ Array.prototype.forEach.call((root||document).querySelectorAll(".tx[data-tex]:not([data-done])"),function(sp){
+  try{window.katex.render(sp.getAttribute("data-tex"),sp,{throwOnError:true,strict:false,output:"htmlAndMathml"});sp.setAttribute("data-done","1")}
+  catch(e){sp.setAttribute("data-done","0")}});
+ Array.prototype.forEach.call((root||document).querySelectorAll("foreignObject[data-pending]"),function(fo){
+  if(!fo.querySelector(".tx[data-done='1']"))return;
+  fo.removeAttribute("data-pending");var o=fo.previousElementSibling;if(o&&o.classList.contains("mxorig"))o.style.display="none"});
+}
+function loadK(cb){
+ if(window.katex)return cb();
+ if(state===1)return;state=1;
+ var l=document.createElement("link");l.rel="stylesheet";l.href=KB+"katex.min.css";document.head.appendChild(l);
+ var s=document.createElement("script");s.src=KB+"katex.min.js";s.async=true;
+ s.onload=function(){state=2;cb()};s.onerror=function(){state=3};document.head.appendChild(s)}
+var pend=false;
+function schedule(){
+ if(pend)return;pend=true;
+ requestAnimationFrame(function(){pend=false;run(document.body)})}
+var busy=false;
+function run(root){
+ busy=true;
+ try{walk(root);}catch(e){if(window.console)console.warn("mathx",e)}
+ busy=false;
+ if(document.querySelector(".tx[data-tex]:not([data-done])")||document.querySelector("foreignObject[data-pending]"))loadK(function(){busy=true;renderPending(document);busy=false})}
+window.MXrun=function(){run(document.body)};
+function init(){
+ run(document.body);
+ new MutationObserver(function(ms){
+  if(busy)return;
+  var ok=false;ms.forEach(function(m){if(m.type==="childList"&&m.addedNodes.length){for(var k=0;k<m.addedNodes.length;k++){var a=m.addedNodes[k];if(a.nodeType===1&&(a.classList&&(a.classList.contains("tx")||a.classList.contains("katex")||a.classList.contains("mxfo"))||a.nodeName==="LINK"||a.nodeName==="SCRIPT"||(a.closest&&a.closest(".tx"))))continue;ok=true}}if(m.type==="characterData"&&!(m.target.parentNode&&m.target.parentNode.closest&&m.target.parentNode.closest(".tx,.katex")))ok=true});
+  if(ok)schedule()
+ }).observe(document.body,{childList:true,subtree:true,characterData:true});
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 })();
 </script>
 </body>
