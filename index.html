@@ -132,6 +132,37 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 .sec b{display:block;font-size:1.1rem;color:var(--accent);margin-bottom:4px}
 .sec span{color:var(--muted);font-size:.95rem}
 @media (prefers-reduced-motion:no-preference){.view{animation:in .25s ease}@keyframes in{from{opacity:0}to{opacity:1}}}
+.gz .gzin{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.gzin label{font-weight:600}
+.gzin input{flex:1 1 220px;min-width:0;font:inherit;font-size:1.05rem;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.gzin .cta{margin:0}
+.gzerr{color:var(--ko);min-height:1.3em;font-size:.92rem;margin:6px 0 2px}
+#gzc{width:100%;height:min(56vh,440px);display:block;touch-action:none;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);cursor:grab;margin:8px 0 4px}
+.gztr{min-height:1.4em;color:var(--muted);font-size:.9rem}
+#gzcur{font-size:1.02rem;margin:8px 0 0}
+.gzbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.gzbar button{font:inherit;font-size:.9rem;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);cursor:pointer}
+.gzbar button:hover{background:var(--soft)}
+.gzwin{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.gzwin label{font-size:.8rem;color:var(--muted);display:grid;gap:2px}
+.gzwin input,.gzsub input{font:inherit;width:100%;min-width:0;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.gzopt{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.gzt{position:relative;display:inline-block}
+.gzt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.gzt span{display:inline-block;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:.9rem}
+.gzt input:checked+span{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.gzt input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.gzsub{display:none;align-items:center;gap:6px;font-size:.88rem;color:var(--muted)}
+.gzsub input{width:76px}
+.gzinfo{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:14px}
+.gzcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;line-height:1.55}
+.gzcard h4{margin:0 0 6px;font-size:.95rem;color:var(--accent)}
+.gzcard code{background:var(--soft);border-radius:6px;padding:1px 6px;font-size:.92em;word-break:break-word}
+.gzp{color:var(--ok);font-weight:600}.gzm{color:var(--ko);font-weight:600}
+.gzn{display:block;color:var(--muted);font-size:.8rem;margin-top:6px}
+.gzhelp{margin-top:16px}.gzhelp summary{cursor:pointer;font-weight:600}
+@media (max-width:600px){.gzwin{grid-template-columns:repeat(2,1fr)}}
+.gzbar .gzpdfb{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}.gzbar .gzpdfb:hover{background:var(--accent);filter:brightness(1.12)}.gzbar .gzpdfb:disabled{opacity:.65;cursor:wait}#gzpst{font-size:.88rem;color:var(--muted);align-self:center}
 </style>
 </head>
 <body class="locked">
@@ -148,7 +179,7 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <header><div class="bar">
 <div class="logo">QCM <span>B</span> · Maths</div>
 <nav aria-label="Navigation principale">
-<button data-tab="cours">Cours</button><button data-tab="exercices">Exercices</button><button data-tab="calculatrice"><span class="nl">Calculatrice</span><span class="ns">Calcul</span></button><button data-tab="programme">Programme</button><button data-tab="pdfs" id="navPdf" class="hide">PDFs</button>
+<button data-tab="cours">Cours</button><button data-tab="exercices">Exercices</button><button data-tab="calculatrice"><span class="nl">Calculatrice</span><span class="ns">Calcul</span></button><button data-tab="fonctions">Fonctions</button><button data-tab="programme">Programme</button><button data-tab="pdfs" id="navPdf" class="hide">PDFs</button>
 </nav>
 <button class="theme" id="theme" aria-label="Changer de thème">Mode sombre</button>
 <button class="theme hide" id="logout"></button>
@@ -214,6 +245,34 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <h1>Cours en PDF</h1>
 <p class="lead">Un PDF par chapitre, à télécharger pour réviser hors connexion ou à imprimer. Le fichier est généré à la demande, en quelques secondes.</p>
 <div class="grid hide" id="pdfList"></div>
+</section>
+
+<section id="fonctions" class="view hide">
+<h1>Fonctions : tracer et étudier</h1>
+<p class="lead">Saisissez une fonction de x : le site trace sa courbe. Activez ensuite, parmi les boutons sous le graphique, les informations que vous voulez voir : zéros, dérivée, variations, asymptotes, tangente… Une fois la courbe tracée, le bouton « Générer le PDF » crée une fiche complète de la fonction (toutes les informations, quelles que soient les options affichées).</p>
+<div class="card gz">
+<div class="gzin"><label for="gzf">f(x) =</label><input id="gzf" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" placeholder="Ex. : (x-1)(x-3)  ou  x*exp(x)"><button class="cta" id="gzgo" type="button">Tracer</button></div>
+<div id="gzerr" class="gzerr" role="alert"></div>
+<div class="chips" id="gzex" aria-label="Exemples de fonctions"></div>
+<div id="gzcur"></div>
+<canvas id="gzc" tabindex="0" role="img" aria-label="Graphe de la fonction"></canvas>
+<div id="gztr" class="gztr" aria-live="polite"></div>
+<div class="gzbar"><button type="button" id="gzzi">Zoom +</button><button type="button" id="gzzo">Zoom −</button><button type="button" id="gzor">Repère orthonormé</button><button type="button" id="gzay">Ajuster y</button><button type="button" id="gzrs">Réinitialiser</button><button type="button" id="gzpdf" class="gzpdfb hide">Générer le PDF</button><span id="gzpst" role="status"></span></div>
+<div class="gzwin"><label>x min<input id="gzx0" inputmode="decimal"></label><label>x max<input id="gzx1" inputmode="decimal"></label><label>y min<input id="gzy0" inputmode="decimal"></label><label>y max<input id="gzy1" inputmode="decimal"></label></div>
+<div class="gzopt" id="gzopt" role="group" aria-label="Informations à afficher">
+<label class="gzt"><input type="checkbox" data-o="dom"><span>Ensemble de définition</span></label><label class="gzt"><input type="checkbox" data-o="zeros"><span>Zéros et signe</span></label><label class="gzt"><input type="checkbox" data-o="y0"><span>Ordonnée à l’origine</span></label><label class="gzt"><input type="checkbox" data-o="par"><span>Parité</span></label><label class="gzt"><input type="checkbox" data-o="der"><span>Dérivée f′</span></label><label class="gzt"><input type="checkbox" data-o="dcv"><span>Courbe de f′</span></label><label class="gzt"><input type="checkbox" data-o="vr"><span>Variations et extremums</span></label><label class="gzt"><input type="checkbox" data-o="asy"><span>Asymptotes</span></label><label class="gzt"><input type="checkbox" data-o="tan"><span>Tangente</span></label><span class="gzsub" data-for="tan">en a = <input id="gza" inputmode="decimal" aria-label="Abscisse a de la tangente"></span><label class="gzt"><input type="checkbox" data-o="val"><span>Valeur</span></label><span class="gzsub" data-for="val">en x₀ = <input id="gzx" inputmode="decimal" aria-label="Abscisse x0"></span><label class="gzt"><input type="checkbox" data-o="int"><span>Intégrale</span></label><span class="gzsub" data-for="int">de <input id="gzia" inputmode="decimal" aria-label="Borne inférieure"> à <input id="gzib" inputmode="decimal" aria-label="Borne supérieure"></span><label class="gzt"><input type="checkbox" data-o="grid"><span>Quadrillage</span></label>
+</div>
+</div>
+<div id="gzinfo" class="gzinfo"></div>
+<details class="gzhelp"><summary>Comment saisir une fonction ?</summary>
+<ul>
+<li>Puissance : <code>x^2</code>, <code>x^3</code> ; produit : <code>2x</code>, <code>x(x-3)</code>, <code>(x-1)*(x-3)</code> ; quotient : <code>(4x-5)/(2x+1)</code>.</li>
+<li>Fonctions usuelles : <code>sqrt(x)</code> (racine carrée), <code>exp(x)</code> ou <code>e^x</code>, <code>ln(x)</code>, <code>abs(x)</code>, <code>sin(x)</code>, <code>cos(x)</code>, <code>tan(x)</code>. Constantes : <code>e</code> et <code>pi</code>.</li>
+<li>Les décimaux s’écrivent avec une virgule ou un point. Les parenthèses sont obligatoires pour les arguments (<code>ln(x+1)</code>).</li>
+<li>Sur le graphique : faites glisser pour déplacer le repère, molette ou pincement pour zoomer ; flèches du clavier et touches + / − quand le graphique est sélectionné.</li>
+<li>Les informations (zéros, extremums, asymptotes, domaine) sont calculées numériquement sur l’intervalle [−60 ; 60] au minimum ; la dérivée est calculée formellement.</li>
+<li>Bouton « Générer le PDF » : il apparaît après le tracé et enregistre une fiche A4 (courbe, domaine, parité, zéros et signe, dérivée, tableau de variations, limites, asymptotes, tangente, valeur, intégrale). Réglez d’abord, si besoin, l’abscisse de la tangente, x₀ et les bornes de l’intégrale.</li>
+</ul></details>
 </section>
 
 <section id="programme" class="view hide">
@@ -609,11 +668,11 @@ var EXOS=[
 var $=function(s){return document.querySelector(s)};
 var curTab="",pos={};
 function setTab(t,push){
- if(["cours","exercices","programme","calculatrice","pdfs"].indexOf(t)<0)t="cours";if(t==="pdfs"&&!PDFOK)t="cours";if(t===curTab)return;pos[curTab]=window.scrollY;
+ if(["cours","exercices","programme","calculatrice","fonctions","pdfs"].indexOf(t)<0)t="cours";if(t==="pdfs"&&!PDFOK)t="cours";if(t===curTab)return;pos[curTab]=window.scrollY;
  document.querySelectorAll(".view").forEach(function(v){v.classList.toggle("hide",v.id!==t)});
  document.querySelectorAll("nav button").forEach(function(b){if(b.dataset.tab===t)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
  if(push&&location.hash!=="#"+t)location.hash=t;
- curTab=t;window.scrollTo(0,pos[t]||0);
+ curTab=t;window.scrollTo(0,pos[t]||0);if(t==="fonctions"&&window.GR)GR.show();
 }
 document.addEventListener("click",function(e){
  var b=e.target.closest("[data-tab],[data-go]");if(!b)return;
@@ -806,6 +865,990 @@ try{var s=localStorage.getItem("qcmb-theme");if(s)root.dataset.theme=s}catch(e){
 label();
 tb.onclick=function(){var n=dark()?"light":"dark";root.dataset.theme=n;try{localStorage.setItem("qcmb-theme",n)}catch(e){}label()};
 setTab(location.hash.slice(1),false);
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s)};
+function isDark(){var t=document.documentElement.dataset.theme;return t?t==="dark":matchMedia("(prefers-color-scheme:dark)").matches}
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()||"#888"}
+
+/* ------------------------------------------------------------ formatting */
+function fmt(v,d){
+ d=d===undefined?4:d;
+ if(v===Infinity)return"+∞";if(v===-Infinity)return"−∞";if(isNaN(v))return"indéfini";
+ var k=Math.pow(10,d),r=Math.round(v*k)/k;if(r===0)r=0;
+ var s=String(r);if(/e/.test(s))s=r.toExponential(3);
+ return s.replace("-","−").replace(".",",");
+}
+function fnum(v){
+ var s=Number.isInteger(v)?String(v):String(parseFloat(v.toPrecision(6)));
+ return s.replace("-","−").replace(".",",");
+}
+
+/* ------------------------------------------------------------ parser */
+var NAMES=["sqrt","exp","abs","sin","cos","tan","log","ln","pi","x","e"];
+var FN={sqrt:1,exp:1,abs:1,sin:1,cos:1,tan:1,log:1,ln:1};
+function N(v){return{t:"n",v:v}}
+function mk(t,a,b){return b===undefined?{t:t,a:a}:{t:t,a:a,b:b}}
+function Fn(n,a){return{t:"f",n:n,a:a}}
+function tokenize(src){
+ var s=src.toLowerCase().replace(/\s+/g,"").replace(/[−–—]/g,"-").replace(/[×·]/g,"*").replace(/÷/g,"/")
+  .replace(/²/g,"^2").replace(/³/g,"^3").replace(/√/g,"sqrt").replace(/π/g,"pi").replace(/,/g,".").replace(/^(f\(x\)|y)=/,"");
+ if(!s)throw new Error("Saisissez une expression, par exemple x^2 + 3x + 4.");
+ var out=[],i=0,m;
+ while(i<s.length){
+  var ch=s[i];
+  if(/[0-9.]/.test(ch)){
+   m=/^(\d+\.?\d*|\.\d+)/.exec(s.slice(i));
+   if(!m)throw new Error("Nombre incorrect près de « "+s.slice(i,i+4)+" ».");
+   out.push({k:"n",v:parseFloat(m[1])});i+=m[1].length;continue}
+  if(/[a-z]/.test(ch)){
+   var nm=null;for(var q=0;q<NAMES.length;q++){if(s.indexOf(NAMES[q],i)===i){nm=NAMES[q];break}}
+   if(!nm)throw new Error("Symbole inconnu : « "+ch+" ». Utilisez x, e, pi, sqrt, exp, ln, abs, sin, cos, tan.");
+   out.push({k:"id",v:nm});i+=nm.length;continue}
+  if("+-*/^()".indexOf(ch)>=0){out.push({k:"op",v:ch});i++;continue}
+  throw new Error("Caractère non reconnu : « "+ch+" ».");
+ }
+ var r=[];
+ out.forEach(function(t){
+  var p=r[r.length-1];
+  if(p){
+   var pe=p.k==="n"||(p.k==="id"&&!FN[p.v])||(p.k==="op"&&p.v===")");
+   var cs=t.k==="n"||t.k==="id"||(t.k==="op"&&t.v==="(");
+   if(pe&&cs)r.push({k:"op",v:"*"});
+  }
+  r.push(t);
+ });
+ return r;
+}
+function parse(src){
+ var T=tokenize(src),p=0;
+ function isOp(v){return T[p]&&T[p].k==="op"&&T[p].v===v}
+ function expr(){var a=term();while(isOp("+")||isOp("-")){var o=T[p++].v,b=term();a=mk(o==="+"?"add":"sub",a,b)}return a}
+ function term(){var a=unary();while(isOp("*")||isOp("/")){var o=T[p++].v,b=unary();a=mk(o==="*"?"mul":"div",a,b)}return a}
+ function unary(){if(isOp("-")){p++;return mk("neg",unary())}if(isOp("+")){p++;return unary()}return pw()}
+ function pw(){var a=atom();if(isOp("^")){p++;return mk("pow",a,unary())}return a}
+ function atom(){
+  var t=T[p++];if(!t)throw new Error("Expression incomplète.");
+  if(t.k==="n")return N(t.v);
+  if(t.k==="id"){
+   if(t.v==="x")return{t:"x"};
+   if(t.v==="e")return{t:"c",n:"e",v:Math.E};
+   if(t.v==="pi")return{t:"c",n:"pi",v:Math.PI};
+   var a;
+   if(isOp("(")){p++;a=expr();if(!isOp(")"))throw new Error("Parenthèse fermante manquante.");p++}else a=atom();
+   return Fn(t.v,a);
+  }
+  if(t.v==="("){var b=expr();if(!isOp(")"))throw new Error("Parenthèse fermante manquante.");p++;return b}
+  throw new Error("Symbole inattendu : « "+t.v+" ».");
+ }
+ var r=expr();
+ if(p<T.length)throw new Error("Expression incorrecte près de « "+T[p].v+" ».");
+ return r;
+}
+
+/* ------------------------------------------------------------ evaluation */
+function pwr(u,v){if(Number.isInteger(v))return Math.pow(u,v);if(u<0)return NaN;return Math.pow(u,v)}
+function comp(n){
+ var a,b;
+ switch(n.t){
+ case"n":case"c":var v=n.v;return function(){return v};
+ case"x":return function(x){return x};
+ case"neg":a=comp(n.a);return function(x){return -a(x)};
+ case"add":a=comp(n.a);b=comp(n.b);return function(x){return a(x)+b(x)};
+ case"sub":a=comp(n.a);b=comp(n.b);return function(x){return a(x)-b(x)};
+ case"mul":a=comp(n.a);b=comp(n.b);return function(x){return a(x)*b(x)};
+ case"div":a=comp(n.a);b=comp(n.b);return function(x){return a(x)/b(x)};
+ case"pow":a=comp(n.a);b=comp(n.b);return function(x){return pwr(a(x),b(x))};
+ case"f":a=comp(n.a);
+  switch(n.n){
+  case"sqrt":return function(x){var u=a(x);return u<0?NaN:Math.sqrt(u)};
+  case"exp":return function(x){return Math.exp(a(x))};
+  case"ln":return function(x){var u=a(x);return u>0?Math.log(u):(u===0?-Infinity:NaN)};
+  case"log":return function(x){var u=a(x);return u>0?Math.log10(u):(u===0?-Infinity:NaN)};
+  case"abs":return function(x){return Math.abs(a(x))};
+  case"sin":return function(x){return Math.sin(a(x))};
+  case"cos":return function(x){return Math.cos(a(x))};
+  case"tan":return function(x){return Math.tan(a(x))};
+  }
+ }
+ throw new Error("Expression non gérée.");
+}
+function hasX(a){
+ switch(a.t){case"x":return true;case"n":case"c":return false;case"neg":case"f":return hasX(a.a);default:return hasX(a.a)||hasX(a.b)}
+}
+
+/* ------------------------------------------------------------ printing */
+function frac(v){
+ for(var q=2;q<=12;q++){var p=Math.round(v*q);if(Math.abs(v*q-p)<1e-8)return fnum(p)+"/"+q}
+ return null;
+}
+function mf2(n,out){if(n.t==="mul"){mf2(n.a,out);mf2(n.b,out)}else out.push(n)}
+function cls(n){
+ if(n.t==="n")return n.v>=0?"N":"O";
+ if(n.t==="x"||n.t==="add"||n.t==="sub")return"P";
+ if(n.t==="pow"&&(n.a.t==="x"||n.a.t==="add"||n.a.t==="sub"))return"P";
+ return"O";
+}
+function imp(u,v){var a=cls(u);return(a==="N"||a==="P")&&cls(v)==="P"}
+function pr(n,par){
+ par=par||0;var s,q;
+ switch(n.t){
+ case"n":s=fnum(n.v);q=n.v<0?3:5;break;
+ case"c":s=n.n==="pi"?"π":"e";q=5;break;
+ case"x":s="x";q=5;break;
+ case"neg":s="−"+pr(n.a,2);q=3;break;
+ case"add":s=pr(n.a,1)+" + "+pr(n.b,1);q=1;break;
+ case"sub":s=pr(n.a,1)+" − "+pr(n.b,2);q=1;break;
+ case"mul":{var fs=[];mf2(n,fs);s="";
+  for(var k=0;k<fs.length;k++){if(k>0)s+=imp(fs[k-1],fs[k])?"":" × ";s+=pr(fs[k],3)}
+  q=2;break}
+ case"div":s=pr(n.a,2)+" / "+pr(n.b,3);q=2;break;
+ case"pow":{var es=(n.b.t==="n"&&!Number.isInteger(n.b.v))?frac(n.b.v):null;
+  s=pr(n.a,5)+"^"+(es?"("+es+")":pr(n.b,5));q=4;break}
+ case"f":s=n.n+"("+pr(n.a,0)+")";q=5;break;
+ }
+ return q<par?"("+s+")":s;
+}
+
+/* ------------------------------------------------------------ simplification */
+function isN(a,v){return a.t==="n"&&(v===undefined||a.v===v)}
+function terms(n,sg,out){
+ if(n.t==="add"){terms(n.a,sg,out);terms(n.b,sg,out)}
+ else if(n.t==="sub"){terms(n.a,sg,out);terms(n.b,-sg,out)}
+ else if(n.t==="neg")terms(n.a,-sg,out);
+ else if(n.t==="n")out.push({c:sg*n.v,r:null});
+ else if(n.t==="mul"&&n.a.t==="n")out.push({c:sg*n.a.v,r:n.b});
+ else out.push({c:sg,r:n});
+}
+function addSimp(a,b,minus){
+ var ts=[];terms(a,1,ts);terms(b,minus?-1:1,ts);
+ var keys=[],map={};
+ ts.forEach(function(t){
+  var k=t.r===null?"#":pr(t.r);
+  if(map[k]===undefined){map[k]={c:t.c,r:t.r};keys.push(k)}else map[k].c+=t.c;
+ });
+ var res=null;
+ keys.forEach(function(k){
+  var t=map[k];if(Math.abs(t.c)<1e-12)return;
+  var neg=t.c<0,ac=Math.abs(t.c);
+  var node=t.r===null?N(ac):(ac===1?t.r:mk("mul",N(ac),t.r));
+  if(res===null)res=neg?(t.r===null?N(-ac):mk("neg",node)):node;
+  else res=mk(neg?"sub":"add",res,node);
+ });
+ return res===null?N(0):res;
+}
+function mfl(n,sg,out){
+ if(n.t==="mul"){mfl(n.a,sg,out);mfl(n.b,sg,out)}
+ else if(n.t==="div"){mfl(n.a,sg,out);mfl(n.b,-sg,out)}
+ else out.push({n:n,s:sg});
+}
+function mulSimp(a,b){
+ var work=[],c=1,rest=[];
+ mfl(a,1,work);mfl(b,1,work);
+ while(work.length){
+  var it=work.shift(),f=it.n;
+  if(f.t==="n"){c=it.s>0?c*f.v:c/f.v}
+  else if(f.t==="neg"){c*=-1;var tmp=[];mfl(f.a,it.s,tmp);work=tmp.concat(work)}
+  else rest.push(it);
+ }
+ if(c===0)return N(0);
+ var list=[],map={};
+ rest.forEach(function(it){
+  var base=it.n,e=it.s;
+  if(base.t==="pow"&&base.b.t==="n"){e=it.s*base.b.v;base=base.a}
+  var k=pr(base);
+  if(map[k]===undefined){map[k]={base:base,e:e};list.push(k)}else map[k].e+=e;
+ });
+ var num=null,den=null;
+ list.forEach(function(k){
+  var m=map[k];if(Math.abs(m.e)<1e-12)return;
+  var e=Math.abs(m.e),f=e===1?m.base:mk("pow",m.base,N(e));
+  if(m.e>0)num=num===null?f:mk("mul",num,f);else den=den===null?f:mk("mul",den,f);
+ });
+ var neg=c<0,ac=Math.abs(c);
+ var top=num===null?N(ac):(ac===1?num:mk("mul",N(ac),num));
+ var res=den===null?top:mk("div",top,den);
+ return neg?mk("neg",res):res;
+}
+function simp(n){
+ var a,b;
+ switch(n.t){
+ case"n":case"x":case"c":return n;
+ case"neg":a=simp(n.a);if(isN(a))return N(-a.v);if(a.t==="neg")return a.a;return mk("neg",a);
+ case"f":
+  a=simp(n.a);
+  if(n.n==="ln"&&a.t==="c"&&a.n==="e")return N(1);
+  if(n.n==="ln"&&isN(a,1))return N(0);
+  if(n.n==="exp"&&isN(a,0))return N(1);
+  if(n.n==="sqrt"&&isN(a)&&a.v>=0&&Number.isInteger(Math.sqrt(a.v)))return N(Math.sqrt(a.v));
+  return Fn(n.n,a);
+ case"add":return addSimp(simp(n.a),simp(n.b),false);
+ case"sub":return addSimp(simp(n.a),simp(n.b),true);
+ case"mul":return mulSimp(simp(n.a),simp(n.b));
+ case"div":return mulSimp(simp(n.a),mk("div",N(1),simp(n.b)));
+ case"pow":
+  a=simp(n.a);b=simp(n.b);
+  if(isN(b,1))return a;
+  if(isN(b,0))return N(1);
+  if(isN(a,1))return N(1);
+  if(a.t==="pow"&&a.b.t==="n"&&b.t==="n")return mk("pow",a.a,N(a.b.v*b.v));
+  if(isN(a)&&isN(b)){var v=Math.pow(a.v,b.v);if(isFinite(v)&&Number.isInteger(v))return N(v)}
+  return mk("pow",a,b);
+ }
+ return n;
+}
+
+/* ------------------------------------------------------------ derivative */
+function dif(n){
+ var a=n.a,b=n.b,da,db;
+ switch(n.t){
+ case"n":case"c":return N(0);
+ case"x":return N(1);
+ case"neg":return mk("neg",dif(a));
+ case"add":return mk("add",dif(a),dif(b));
+ case"sub":return mk("sub",dif(a),dif(b));
+ case"mul":return mk("add",mk("mul",dif(a),b),mk("mul",a,dif(b)));
+ case"div":return mk("div",mk("sub",mk("mul",dif(a),b),mk("mul",a,dif(b))),mk("pow",b,N(2)));
+ case"pow":
+  if(!hasX(b))return mk("mul",mk("mul",b,mk("pow",a,mk("sub",b,N(1)))),dif(a));
+  if(!hasX(a))return mk("mul",mk("mul",n,Fn("ln",a)),dif(b));
+  return mk("mul",n,mk("add",mk("mul",dif(b),Fn("ln",a)),mk("div",mk("mul",b,dif(a)),a)));
+ case"f":
+  da=dif(a);
+  switch(n.n){
+  case"sqrt":return mk("div",da,mk("mul",N(2),n));
+  case"exp":return mk("mul",da,n);
+  case"ln":return mk("div",da,a);
+  case"log":return mk("div",da,mk("mul",a,N(Math.LN10)));
+  case"abs":return mk("mul",da,mk("div",a,n));
+  case"sin":return mk("mul",da,Fn("cos",a));
+  case"cos":return mk("neg",mk("mul",da,Fn("sin",a)));
+  case"tan":return mk("mul",da,mk("add",N(1),mk("pow",n,N(2))));
+  }
+ }
+ throw new Error("Dérivée non gérée.");
+}
+
+/* ------------------------------------------------------------ analysis */
+var NS=24000;
+function fin(v){return typeof v==="number"&&isFinite(v)}
+function sgn(v){return v>0?1:v<0?-1:0}
+function snap(b){var s=Math.round(b*1e6)/1e6;return Math.abs(s-b)<2e-6?s:b}
+
+function rootsOf(g,xs,vals,opts){
+ var r=[],n=xs.length-1;opts=opts||{};
+ function addR(x){for(var i=0;i<r.length;i++)if(Math.abs(r[i]-x)<1e-4)return;r.push(x)}
+ for(var i=0;i<n;i++){
+  var a=vals[i],b=vals[i+1];
+  if(isNaN(a)||isNaN(b))continue;
+  if(a===0){if((i===0||vals[i-1]!==0)&&b!==0)addR(xs[i]);continue}
+  if(a*b<0){
+   var lo=xs[i],hi=xs[i+1],glo=a;
+   for(var k=0;k<70;k++){var m=(lo+hi)/2,gm=g(m);if(isNaN(gm))break;if(gm*glo<=0)hi=m;else{lo=m;glo=gm}}
+   var x=(lo+hi)/2,gx=g(x);
+   if(Math.abs(gx)<1e-6*(1+Math.max(Math.abs(a),Math.abs(b))))addR(x);
+   else if(opts.kink&&opts.cont&&opts.cont(x))addR(x);
+  }
+ }
+ if(!opts.noTouch){
+  for(var j=1;j<n;j++){
+   var v0=vals[j-1],v1=vals[j],v2=vals[j+1];
+   if(isNaN(v0)||isNaN(v1)||isNaN(v2))continue;
+   var A=Math.abs(v1);
+   if(v1!==0&&A<=Math.abs(v0)&&A<=Math.abs(v2)&&A<0.05){
+    var lo2=xs[j-1],hi2=xs[j+1];
+    for(var k2=0;k2<80;k2++){var m1=lo2+(hi2-lo2)/3,m2=hi2-(hi2-lo2)/3;
+     var g1=Math.abs(g(m1)),g2=Math.abs(g(m2));if(isNaN(g1)||isNaN(g2))break;if(g1<g2)hi2=m2;else lo2=m1}
+    var xm=(lo2+hi2)/2,gv=g(xm);
+    if(Math.abs(gv)<1e-9)addR(xm);
+   }
+  }
+ }
+ r.sort(function(p,q){return p-q});
+ return r.map(function(x){return Math.abs(x)<1e-9?0:snap(x)});
+}
+
+function bisectBound(f,bad,good){
+ for(var k=0;k<70;k++){var m=(bad+good)/2;if(fin(f(m)))good=m;else bad=m}
+ return(bad+good)/2;
+}
+
+function analyze(S,ra){
+ var f=S.f,fp=S.fp,N0=NS,st=2*ra/N0;
+ var xs=new Float64Array(N0+1),ys=new Float64Array(N0+1),ds=new Float64Array(N0+1);
+ for(var i=0;i<=N0;i++){
+  var x=-ra+i*st;xs[i]=x;
+  var y=f(x);ys[i]=fin(y)?(Math.abs(y)<1e-200?0:y):NaN;
+  var d=fp(x);ds[i]=fin(d)?(Math.abs(d)<1e-200?0:d):NaN;
+ }
+ var A={ra:ra};
+ /* holes : poles and excluded points */
+ var holes=[];
+ function addHole(x){x=snap(x);for(var i=0;i<holes.length;i++)if(Math.abs(holes[i]-x)<1e-4)return;holes.push(x)}
+ S.dens.forEach(function(dn){
+  var dv=new Float64Array(N0+1);
+  for(var i=0;i<=N0;i++){var v=dn(xs[i]);dv[i]=fin(v)?v:NaN}
+  rootsOf(dn,xs,dv,{}).forEach(addHole);
+ });
+ for(var i2=1;i2<N0;i2++){
+  if(isNaN(ys[i2])&&!isNaN(ys[i2-1])&&!isNaN(ys[i2+1]))addHole(xs[i2]);
+  var v=ys[i2];
+  if(!isNaN(v)&&Math.abs(v)>50&&!isNaN(ys[i2-1])&&!isNaN(ys[i2+1])&&Math.abs(v)>=Math.abs(ys[i2-1])&&Math.abs(v)>=Math.abs(ys[i2+1])){
+   var lo=xs[i2-1],hi=xs[i2+1];
+   var mm=function(z){var w=f(z);return fin(w)?Math.abs(w):1e300};
+   for(var k=0;k<80;k++){var m1=lo+(hi-lo)/3,m2=hi-(hi-lo)/3;if(mm(m1)<mm(m2))lo=m1;else hi=m2}
+   var xm=(lo+hi)/2;
+   if(mm(xm)>1e7)addHole(xm);
+  }
+ }
+ holes.sort(function(a,b){return a-b});
+ /* classify holes: vertical asymptote or removable/excluded point */
+ A.poles=[];A.holes=[];
+ holes.forEach(function(h){
+  var big=false;
+  [1e-8,1e-6].forEach(function(d){[h-d,h+d].forEach(function(z){var w=f(z);if(!fin(w)||Math.abs(w)>1e5)big=big||(!fin(w)?false:true)})});
+  var w1=f(h+1e-8),w2=f(h-1e-8);
+  if((fin(w1)&&Math.abs(w1)>1e5)||(fin(w2)&&Math.abs(w2)>1e5))A.poles.push(h);
+  A.holes.push(h);
+ });
+ /* domain */
+ var runs=[],i3=0;
+ while(i3<=N0){
+  if(isNaN(ys[i3])){i3++;continue}
+  var j=i3;while(j+1<=N0&&!isNaN(ys[j+1]))j++;
+  var run={};
+  if(i3===0){run.a=-ra;run.aInf=true;run.aC=false}
+  else{run.a=snap(bisectBound(f,xs[i3-1],xs[i3]));run.aC=fin(f(run.a));run.aInf=false}
+  if(j===N0){run.b=ra;run.bInf=true;run.bC=false}
+  else{run.b=snap(bisectBound(f,xs[j+1],xs[j]));run.bC=fin(f(run.b));run.bInf=false}
+  runs.push(run);i3=j+1;
+ }
+ var dom=[];
+ runs.forEach(function(r){
+  var cur={a:r.a,aC:r.aC,aInf:r.aInf};
+  A.holes.forEach(function(h){
+   if(h>cur.a+1e-4&&h<r.b-1e-4){
+    dom.push({a:cur.a,aC:cur.aC,aInf:cur.aInf,b:h,bC:false,bInf:false});
+    cur={a:h,aC:false,aInf:false};
+   }else if(Math.abs(h-r.a)<=1e-4&&!r.aInf)r.aC=cur.aC=false;
+   else if(Math.abs(h-r.b)<=1e-4&&!r.bInf)r.bC=false;
+  });
+  dom.push({a:cur.a,aC:cur.aC,aInf:cur.aInf,b:r.b,bC:r.bC,bInf:r.bInf});
+ });
+ A.dom=dom;
+ function inDom(x){for(var i=0;i<dom.length;i++){var d=dom[i];if((d.aInf||x>d.a-1e-9)&&(d.bInf||x<d.b+1e-9))return true}return false}
+ /* zeros */
+ A.zeros=rootsOf(f,xs,ys,{}).filter(inDom);
+ /* critical points of f' */
+ var cont=function(x){var a=f(x-1e-9),b=f(x+1e-9);return fin(a)&&fin(b)&&Math.abs(a-b)<1e-6*(1+Math.abs(a))};
+ var cr=rootsOf(fp,xs,ds,{kink:true,cont:cont});
+ for(var i4=1;i4<N0;i4++){
+  if(isNaN(ds[i4])&&!isNaN(ys[i4])&&!isNaN(ds[i4-1])&&!isNaN(ds[i4+1])&&ds[i4-1]*ds[i4+1]<0){
+   var c=snap(xs[i4]);if(!cr.some(function(q){return Math.abs(q-c)<1e-4}))cr.push(c);
+  }
+ }
+ cr.sort(function(a,b){return a-b});
+ A.crit=[];
+ cr.forEach(function(c){
+  if(!fin(f(c))||!inDom(c))return;
+  var dl=2e-4*(1+Math.abs(c)),l=fp(c-dl),r=fp(c+dl),cv=fp(c),type;
+  if(isNaN(l)||isNaN(r)){var yl=f(c-dl),yr=f(c+dl),y0=f(c);type=(yl>y0&&yr>y0)?"min":(yl<y0&&yr<y0)?"max":"flat"}
+  else if(l<0&&r>0)type="min";else if(l>0&&r<0)type="max";else type="flat";
+  A.crit.push({x:c,y:f(c),type:type,kink:isNaN(cv)||Math.abs(cv)>1e-3});
+ });
+ /* parity */
+ var ev=0,od=0,tot=0;
+ [0.37,0.9,1.7,2.9,5.3].forEach(function(t){
+  var a=f(t),b=f(-t);if(!fin(a)||!fin(b))return;tot++;
+  if(Math.abs(a-b)<1e-9*(1+Math.abs(a)))ev++;
+  if(Math.abs(a+b)<1e-9*(1+Math.abs(a)))od++;
+ });
+ A.parity=tot<2?"none":(ev===tot&&od===tot)?"zero":ev===tot?"even":od===tot?"odd":"none";
+ /* asymptotes */
+ var asy=[];
+ A.vert=A.poles.slice();
+ dom.forEach(function(d){
+  [["a",d.a,d.aInf,1],["b",d.b,d.bInf,-1]].forEach(function(e){
+   if(e[2])return;var b=e[1],dir=e[3];
+   var v12=Math.abs(f(b+dir*1e-12)),v6=Math.abs(f(b+dir*1e-6));
+   if(fin(v12)&&fin(v6)&&v12>10&&v12>1.5*v6&&!A.vert.some(function(q){return Math.abs(q-b)<1e-4}))A.vert.push(b);
+  });
+ });
+ A.vert.sort(function(a,b){return a-b});
+ function isSelf(a,b,sg){
+  var ok=0,cnt=0;
+  [0.5,1.3,2.2,3.7,0.8,7.1].forEach(function(t){t*=sg;var y=f(t);if(fin(y)){cnt++;if(Math.abs(y-(a*t+b))<1e-9*(1+Math.abs(y)))ok++}});
+  return cnt>=2&&ok===cnt;
+ }
+ function farLine(sign){
+  var X1=sign*1e5,X2=sign*1e6,X3=sign*1e7,y1=f(X1),y2=f(X2),y3=f(X3);
+  if(!fin(y1)||!fin(y2)||!fin(y3))return null;
+  var tol=1e-3*Math.max(1,Math.abs(y3));
+  if(Math.abs(y2-y1)<tol&&Math.abs(y3-y2)<tol){
+   var L=Math.abs(y3-Math.round(y3*1e4)/1e4)<2e-5?Math.round(y3*1e4)/1e4:parseFloat(y3.toPrecision(6));
+   if(Math.abs(L)<1e-4)L=0;
+   return{a:0,b:L};
+  }
+  var a=(y2-y1)/(X2-X1),b=y2-a*X2;
+  var tb=1e-3*Math.max(1,Math.abs(b));
+  if(Math.abs(y3-(a*X3+b))>tb||Math.abs(y1-(a*X1+b))>tb)return null;
+  if(Math.abs(a)>1e4)return null;
+  a=parseFloat(a.toPrecision(8));if(Math.abs(a)<1e-4)return null;
+  b=parseFloat(b.toPrecision(8));if(Math.abs(b)<1e-4)b=0;
+  if(isSelf(a,b,sign))return null;
+  return{a:a,b:b};
+ }
+ A.lines=[];
+ var pL=farLine(1),mL=farLine(-1);
+ if(pL&&mL&&Math.abs(pL.a-mL.a)<1e-6&&Math.abs(pL.b-mL.b)<1e-6)A.lines.push({a:pL.a,b:pL.b,at:"±∞"});
+ else{if(pL)A.lines.push({a:pL.a,b:pL.b,at:"+∞"});if(mL)A.lines.push({a:mL.a,b:mL.b,at:"−∞"})}
+ return A;
+}
+
+/* ------------------------------------------------------------ state */
+var S=null,A=null,V={xmin:-6,xmax:6,ymin:-4,ymax:8},cv,ctx,dpr=1,hover=null,raf=0;
+var O={zeros:true,y0:false,dom:true,par:false,der:true,dcv:false,vr:true,asy:true,tan:false,val:false,int:false,grid:true};
+var P={a:1,x0:2,ia:0,ib:2};
+
+function setExpr(src){
+ var tree=parse(src);
+ var f=comp(tree);
+ var dtree=simp(simp(dif(tree)));
+ var fp=comp(dtree);
+ var dens=[];
+ (function walk(n){
+  if(n.t==="n"||n.t==="x"||n.t==="c")return;
+  if(n.t==="neg"||n.t==="f"){walk(n.a);return}
+  walk(n.a);walk(n.b);
+  if(n.t==="div"&&hasX(n.b))dens.push(comp(n.b));
+  if(n.t==="pow"&&n.b.t==="n"&&n.b.v<0&&hasX(n.a))dens.push(comp(n.a));
+ })(tree);
+ var f0=f(0.5);
+ if(!tree||(!hasX(tree)&&!fin(f0)))throw new Error("Expression non valable.");
+ S={src:src,tree:tree,f:f,fp:fp,dtree:dtree,dens:dens,text:pr(simp(tree)),dtext:pr(dtree)};
+ A=null;
+}
+function ensureAnalysis(){
+ var ra=Math.min(2000,Math.max(60,Math.abs(V.xmin),Math.abs(V.xmax)));
+ if(!A||A.ra<ra*0.999)A=analyze(S,Math.max(ra,A?A.ra:0));
+ return A;
+}
+
+/* ------------------------------------------------------------ intervals text */
+function ivText(a,aC,aInf,b,bC,bInf){
+ return(aInf?"]−∞":(aC?"[":"]")+fmt(a))+" ; "+(bInf?"+∞[":fmt(b)+(bC?"]":"["));
+}
+function domainText(A){
+ var d=A.dom;
+ if(!d.length)return"∅ (aucun point où f est définie)";
+ if(d.length===1&&d[0].aInf&&d[0].bInf)return"ℝ";
+ var gap=true;
+ if(!d[0].aInf||!d[d.length-1].bInf)gap=false;
+ for(var i=0;i<d.length-1;i++)if(Math.abs(d[i].b-d[i+1].a)>1e-4||d[i].bC||d[i+1].aC)gap=false;
+ if(gap){var hs=d.slice(0,-1).map(function(x){return fmt(x.b)});return"ℝ ∖ {"+(hs.length>6?hs.slice(0,6).join(" ; ")+" ; …":hs.join(" ; "))+"}"}
+ return d.map(function(x){return ivText(x.a,x.aC,x.aInf,x.b,x.bC,x.bInf)}).join(" ∪ ");
+}
+function splitIntervals(A,breaks){
+ var out=[];
+ A.dom.forEach(function(d){
+  var pts=breaks.filter(function(c){return(d.aInf||c>d.a+1e-9)&&(d.bInf||c<d.b-1e-9)}).sort(function(p,q){return p-q});
+  var seq=[{x:d.a,C:d.aC,inf:d.aInf}];
+  pts.forEach(function(c){seq.push({x:c,C:true,inf:false,mid:true})});
+  seq.push({x:d.b,C:d.bC,inf:d.bInf});
+  for(var i=0;i<seq.length-1;i++)out.push({L:seq[i],R:seq[i+1],dom:d});
+ });
+ return out;
+}
+function testPts(it){
+ var a=it.L.x,b=it.R.x;
+ return[0.5,0.9,0.99,0.1,0.01,0.75,0.25].map(function(r){return a+(b-a)*r});
+}
+function variationLines(A,f,fp){
+ var segs=splitIntervals(A,A.crit.map(function(c){return c.x}));
+ var res=[];
+ segs.forEach(function(s){
+  var d=NaN;
+  testPts(s).forEach(function(t){if(!fin(d)||d===0){var v=fp(t);if(fin(v))d=v}});
+  var dir=fin(d)?sgn(d):sgn(f(s.R.x)-f(s.L.x));
+  var last=res[res.length-1];
+  if(last&&last.dir===dir&&last.R.mid&&last.dom===s.dom){last.R=s.R}
+  else res.push({L:s.L,R:s.R,dir:dir,dom:s.dom});
+ });
+ return res;
+}
+function signLines(A,f){
+ var br=A.zeros.slice();
+ var segs=splitIntervals(A,br);
+ function strict(p){if(!p.inf&&A.zeros.some(function(z){return Math.abs(z-p.x)<1e-6}))return{x:p.x,C:false,inf:false};return p}
+ return segs.map(function(s){
+  var y=NaN;
+  testPts(s).forEach(function(t){if(!fin(y)||y===0){var v=f(t);if(fin(v))y=v}});
+  return{L:strict(s.L),R:strict(s.R),sg:fin(y)?sgn(y):0};
+ });
+}
+function segText(s){
+ return ivText(s.L.x,s.L.C,s.L.inf,s.R.x,s.R.C,s.R.inf);
+}
+
+/* ------------------------------------------------------------ info panel */
+function sup(t){return t.replace(/\^(\([^()]*\)|[−\d,]+|x|e)/g,function(m,g){var inner=g[0]==="("?g.slice(1,-1):g;return"<sup>"+sup(inner)+"</sup>"})}
+function code(x){return"<code>"+sup(x.replace(/</g,"&lt;"))+"</code>"}
+function lineEq(a,b){
+ var s="y = ";
+ if(a===0)return s+fmt(b);
+ var ax=a===1?"x":a===-1?"−x":fmt(a)+"x";
+ if(b===0)return s+ax;
+ return s+ax+(b<0?" − ":" + ")+fmt(Math.abs(b));
+}
+function infoHTML(){
+ $("#gzinfo").innerHTML=cardsFor(O).map(function(c){return'<div class="gzcard"><h4>'+c.t+'</h4><div>'+c.h+'</div></div>'}).join("");
+}
+function cardsFor(O){
+ var out=[],cur="";
+ function card(t,h){out.push({id:cur,t:t,h:h})}
+ var A=ensureAnalysis(),f=S.f,fp=S.fp;
+ cur="dom";if(O.dom)card("Ensemble de définition","D = "+domainText(A)+'<small class="gzn">Estimé numériquement sur [−'+fmt(A.ra,0)+" ; "+fmt(A.ra,0)+"].</small>");
+ cur="par";if(O.par){
+  var p=A.parity;
+  card("Parité",p==="even"?"f est <b>paire</b> : f(−x) = f(x). La courbe est symétrique par rapport à l’axe des ordonnées.":p==="odd"?"f est <b>impaire</b> : f(−x) = −f(x). La courbe est symétrique par rapport à l’origine.":p==="zero"?"f est à la fois paire et impaire (fonction nulle).":"f n’est ni paire ni impaire (ou son ensemble de définition n’est pas symétrique).");
+ }
+ cur="y0";if(O.y0){var y0=f(0);card("Ordonnée à l’origine",fin(y0)?"f(0) = <b>"+fmt(y0)+"</b> : la courbe coupe l’axe des ordonnées en (0 ; "+fmt(y0)+").":"0 n’appartient pas à l’ensemble de définition : pas d’intersection avec l’axe des ordonnées.")}
+ cur="zeros";if(O.zeros){
+  var z=A.zeros,h=z.length?"f(x) = 0 pour "+z.slice(0,12).map(function(x){return"x = <b>"+fmt(x)+"</b>"}).join(" ; ")+(z.length>12?" …":""):"Aucun zéro repéré : la courbe ne coupe pas l’axe des abscisses.";
+  var sl=signLines(A,f),pos=[],neg=[];
+  sl.forEach(function(s){if(s.sg>0)pos.push(segText(s));else if(s.sg<0)neg.push(segText(s))});
+  var lim=function(l){return l.length>10?l.slice(0,10).join(" ∪ ")+" ∪ …":l.join(" ∪ ")};
+  if(pos.length)h+='<br><span class="gzp">f(x) &gt; 0</span> sur '+lim(pos);
+  if(neg.length)h+='<br><span class="gzm">f(x) &lt; 0</span> sur '+lim(neg);
+  card("Zéros et signe",h);
+ }
+ cur="der";if(O.der)card("Dérivée","f′(x) = "+code(S.dtext)+'<small class="gzn">Dérivée calculée formellement et simplifiée.</small>');
+ cur="vr";if(O.vr){
+  var vl=variationLines(A,f,fp),h2="";
+  var shown=vl.slice(0,12);
+  shown.forEach(function(s){
+   h2+=(s.dir>0?'<span class="gzp">↗ croissante</span>':s.dir<0?'<span class="gzm">↘ décroissante</span>':"→ constante")+" sur "+segText(s)+"<br>";
+  });
+  if(vl.length>12)h2+="…<br>";
+  var ex=A.crit.slice(0,12);
+  ex.forEach(function(c){
+   h2+=(c.type==="max"?"<b>Maximum local</b>":c.type==="min"?"<b>Minimum local</b>":"Tangente horizontale sans extremum")+" en x = "+fmt(c.x)+" : f("+fmt(c.x)+") = <b>"+fmt(c.y)+"</b>"+(c.kind?" (point anguleux)":"")+"<br>";
+  });
+  if(!ex.length)h2+="Aucun extremum local repéré.";
+  card("Variations et extremums",h2);
+ }
+ cur="asy";if(O.asy){
+  var as=[];
+  A.vert.forEach(function(x){as.push("Verticale : <b>x = "+fmt(x)+"</b>")});
+  A.lines.forEach(function(l){as.push((l.a===0?"Horizontale":"Oblique")+" en "+l.at+" : <b>"+lineEq(l.a,l.b)+"</b>")});
+  card("Asymptotes",as.length?as.join("<br>"):"Aucune asymptote repérée.");
+ }
+ cur="tan";if(O.tan){
+  var a=P.a,ya=f(a),m=fp(a);
+  if(fin(ya)&&fin(m))card("Tangente en x = "+fmt(a),"f("+fmt(a)+") = "+fmt(ya)+" et f′("+fmt(a)+") = "+fmt(m)+".<br>Équation : <b>y = f′(a)(x − a) + f(a)</b>, soit <b>"+lineEq(m,ya-m*a)+"</b>.");
+  else card("Tangente en x = "+fmt(a),"f n’est pas dérivable en ce point (ou n’y est pas définie) : pas de tangente non verticale.");
+ }
+ cur="val";if(O.val){var v=f(P.x0);card("Valeur en x₀ = "+fmt(P.x0),fin(v)?"f("+fmt(P.x0)+") = <b>"+fmt(v,6)+"</b>":"f n’est pas définie en ce point.")}
+ cur="int";if(O.int){
+  var I=integral(P.ia,P.ib);
+  card("Intégrale de "+fmt(P.ia)+" à "+fmt(P.ib),I===null?"Calcul impossible : f n’est pas définie (ou pas bornée) sur tout l’intervalle.":"∫ f(x) dx ≈ <b>"+fmt(I,6)+"</b><small class=\"gzn\">Aire algébrique entre la courbe et l’axe des abscisses (méthode de Simpson).</small>");
+ }
+ return out;
+}
+function integral(a,b){
+ var f=S.f,n=4000,sign=1;if(a===b)return 0;if(a>b){var t=a;a=b;b=t;sign=-1}
+ var h=(b-a)/n,s=0;
+ for(var i=0;i<=n;i++){
+  var y=f(a+i*h);if(!fin(y)||Math.abs(y)>1e8)return null;
+  s+=y*(i===0||i===n?1:(i%2?4:2));
+ }
+ return sign*s*h/3;
+}
+
+/* ------------------------------------------------------------ drawing */
+function niceStep(raw){
+ var p=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/p;
+ return(m<1.5?1:m<3.5?2:m<7.5?5:10)*p;
+}
+function request(){if(!raf)raf=requestAnimationFrame(function(){raf=0;draw()})}
+function draw(){
+ if(!S||!cv||!cv.clientWidth)return;
+ ctx.setTransform(dpr,0,0,dpr,0,0);
+ paint(ctx,cv.clientWidth,cv.clientHeight,O,{dk:isDark(),ink:getComputedStyle(cv).color,line:css("--line"),muted:css("--muted"),acc:css("--accent"),ok:css("--ok"),ko:css("--ko"),surf:css("--surface")},hover);
+}
+function paint(ctx,W,H,O,th,hover){
+ var dk=th.dk,ink=th.ink,line=th.line,muted=th.muted,acc=th.acc,ok=th.ok,ko=th.ko,surf=th.surf;
+ var org=dk?"#ffb347":"#d97706",pur=dk?"#c4a1ff":"#7c3aed";
+ ctx.clearRect(0,0,W,H);
+ var dx=V.xmax-V.xmin,dy=V.ymax-V.ymin;
+ function X(x){return(x-V.xmin)/dx*W}
+ function Y(y){var v=H-(y-V.ymin)/dy*H;return Math.max(-1e6,Math.min(1e6,v))}
+ ctx.font="11px Segoe UI,system-ui,Arial,sans-serif";ctx.lineJoin="round";ctx.lineCap="round";
+ /* grid */
+ var sx=niceStep(dx/(W/75)),sy=niceStep(dy/(H/60));
+ ctx.lineWidth=1;
+ if(O.grid){
+  ctx.strokeStyle=line;ctx.beginPath();
+  for(var gx=Math.ceil(V.xmin/sx)*sx;gx<=V.xmax;gx+=sx){ctx.moveTo(Math.round(X(gx))+.5,0);ctx.lineTo(Math.round(X(gx))+.5,H)}
+  for(var gy=Math.ceil(V.ymin/sy)*sy;gy<=V.ymax;gy+=sy){ctx.moveTo(0,Math.round(Y(gy))+.5);ctx.lineTo(W,Math.round(Y(gy))+.5)}
+  ctx.stroke();
+ }
+ /* axes */
+ var ax0=Math.max(0,Math.min(W,X(0))),ay0=Math.max(0,Math.min(H,Y(0)));
+ ctx.strokeStyle=ink;ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(0,ay0);ctx.lineTo(W,ay0);ctx.moveTo(ax0,0);ctx.lineTo(ax0,H);ctx.stroke();
+ ctx.fillStyle=muted;ctx.textAlign="center";
+ var ly=Math.min(H-4,ay0+14);
+ for(var tx=Math.ceil(V.xmin/sx)*sx;tx<=V.xmax;tx+=sx){
+  if(Math.abs(tx)<sx*1e-6)continue;
+  ctx.fillText(fmt(tx,6),X(tx),ly);
+  ctx.beginPath();ctx.moveTo(X(tx),ay0-3);ctx.lineTo(X(tx),ay0+3);ctx.stroke();
+ }
+ var rightSide=ax0<W-46;ctx.textAlign=rightSide?"left":"right";
+ var lx=rightSide?ax0+6:ax0-6;
+ for(var ty=Math.ceil(V.ymin/sy)*sy;ty<=V.ymax;ty+=sy){
+  if(Math.abs(ty)<sy*1e-6)continue;
+  ctx.fillText(fmt(ty,6),lx,Y(ty)+4);
+ }
+ ctx.textAlign="left";ctx.fillStyle=ink;ctx.fillText("x",W-12,Math.max(12,ay0-6));ctx.fillText("y",Math.min(W-10,ax0+6),12);
+ function label(t,x,y,col,al){
+  ctx.textAlign=al||"left";ctx.lineWidth=4;ctx.strokeStyle=surf;ctx.strokeText(t,x,y);ctx.fillStyle=col||ink;ctx.fillText(t,x,y);ctx.lineWidth=1.4;
+ }
+ var Ao=ensureAnalysis();
+ /* integral shading */
+ if(O.int){
+  var ia=Math.min(P.ia,P.ib),ib=Math.max(P.ia,P.ib),f0=S.f;
+  ctx.fillStyle=dk?"rgba(77,141,255,.28)":"rgba(20,86,214,.2)";
+  ctx.beginPath();var started=false,n0=Math.max(2,Math.ceil((X(ib)-X(ia))/1.5));
+  for(var i=0;i<=n0;i++){var xx=ia+(ib-ia)*i/n0,yy=f0(xx);if(!fin(yy)){started=false;continue}
+   if(!started){ctx.moveTo(X(xx),Y(0));started=true}ctx.lineTo(X(xx),Y(yy))}
+  ctx.lineTo(X(ib),Y(0));ctx.closePath();ctx.fill();
+  ctx.strokeStyle=acc;ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(X(ia),0);ctx.lineTo(X(ia),H);ctx.moveTo(X(ib),0);ctx.lineTo(X(ib),H);ctx.stroke();ctx.setLineDash([]);
+ }
+ /* asymptotes */
+ if(O.asy){
+  ctx.strokeStyle=muted;ctx.lineWidth=1.3;ctx.setLineDash([6,4]);
+  Ao.vert.forEach(function(x){if(x>V.xmin&&x<V.xmax){ctx.beginPath();ctx.moveTo(X(x),0);ctx.lineTo(X(x),H);ctx.stroke();label("x = "+fmt(x),X(x)+5,H-8,muted)}});
+  Ao.lines.forEach(function(l){
+   ctx.beginPath();ctx.moveTo(0,Y(l.a*V.xmin+l.b));ctx.lineTo(W,Y(l.a*V.xmax+l.b));ctx.stroke();
+   var tx=l.at==="−∞"?V.xmin+dx*0.04:V.xmax-dx*0.04;
+   label(lineEq(l.a,l.b),X(tx),Y(l.a*tx+l.b)-7,muted,l.at==="−∞"?"left":"right");
+  });
+  ctx.setLineDash([]);ctx.lineWidth=1.4;
+ }
+ /* curve helper */
+ function plot(fn,color,width,dash,vary){
+  ctx.lineWidth=width;ctx.setLineDash(dash||[]);
+  var px0=null,py0=null,x0=0,cur=null,open=false;
+  function flush(){if(open){ctx.stroke();open=false}}
+  for(var px=0;px<=W;px+=1){
+   var x=V.xmin+px*dx/W,y=fn(x);
+   if(!fin(y)){flush();px0=null;continue}
+   var py=Y(y);
+   if(px0!==null&&Math.abs(py-py0)<H*3){
+    var col=color;
+    if(vary){var d=S.fp((x+x0)/2);col=fin(d)?(d>0?ok:d<0?ko:acc):acc}
+    if(!open||col!==cur){flush();ctx.strokeStyle=col;cur=col;ctx.beginPath();ctx.moveTo(px0,py0);open=true}
+    ctx.lineTo(px,py);
+   }
+   px0=px;py0=py;x0=x;
+  }
+  flush();ctx.setLineDash([]);
+ }
+ if(O.dcv)plot(S.fp,org,2,[7,4],false);
+ plot(S.f,acc,3,null,O.vr);
+ /* tangent */
+ if(O.tan){
+  var a=P.a,ya=S.f(a),m=S.fp(a);
+  if(fin(ya)&&fin(m)){
+   ctx.strokeStyle=pur;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,Y(ya+m*(V.xmin-a)));ctx.lineTo(W,Y(ya+m*(V.xmax-a)));ctx.stroke();
+   ctx.fillStyle=pur;ctx.beginPath();ctx.arc(X(a),Y(ya),5,0,7);ctx.fill();
+   label("tangente",X(a)+8,Y(ya)-9,pur);
+  }
+ }
+ /* special points */
+ function dot(x,y,col,t,dyl){
+  if(!fin(y)||x<V.xmin||x>V.xmax)return;
+  ctx.fillStyle=col;ctx.strokeStyle=surf;ctx.lineWidth=2;ctx.beginPath();ctx.arc(X(x),Y(y),5,0,7);ctx.stroke();ctx.fill();
+  if(t)label(t,X(x),Y(y)+(dyl||-10),ink,"center");
+ }
+ if(O.zeros)Ao.zeros.slice(0,20).forEach(function(z){dot(z,0,ko,"("+fmt(z,3)+" ; 0)",18)});
+ if(O.y0){var y0=S.f(0);dot(0,y0,pur,"(0 ; "+fmt(y0,3)+")",-10)}
+ if(O.vr)Ao.crit.slice(0,20).forEach(function(c){dot(c.x,c.y,c.type==="flat"?muted:acc,"("+fmt(c.x,3)+" ; "+fmt(c.y,3)+")",c.type==="max"?-10:18)});
+ if(O.val){var vv=S.f(P.x0);if(fin(vv)){ctx.strokeStyle=pur;ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(X(P.x0),Y(0));ctx.lineTo(X(P.x0),Y(vv));ctx.lineTo(X(V.xmin),Y(vv));ctx.stroke();ctx.setLineDash([]);dot(P.x0,vv,pur,"("+fmt(P.x0,3)+" ; "+fmt(vv,3)+")",-10)}}
+ if(hover!==null){
+  var hy=S.f(hover);
+  if(fin(hy)){ctx.fillStyle=acc;ctx.beginPath();ctx.arc(X(hover),Y(hy),4.5,0,7);ctx.fill()}
+ }
+}
+function readout(){
+ var el=$("#gztr");
+ if(hover===null){el.textContent="Survolez ou touchez la courbe pour lire les valeurs ; faites glisser pour déplacer le repère ; molette ou pincement pour zoomer.";return}
+ var y=S.f(hover),d=S.fp(hover);
+ el.innerHTML="x = <b>"+fmt(hover,4)+"</b> ; f(x) = <b>"+(fin(y)?fmt(y,4):"indéfini")+"</b>"+(fin(d)?" ; f′(x) = <b>"+fmt(d,4)+"</b>":"");
+}
+
+/* ------------------------------------------------------------ window handling */
+function syncInputs(){
+ $("#gzx0").value=fmt(V.xmin,4);$("#gzx1").value=fmt(V.xmax,4);$("#gzy0").value=fmt(V.ymin,4);$("#gzy1").value=fmt(V.ymax,4);
+}
+function num(s){return parseFloat(String(s).replace(",",".").replace("−","-"))}
+function applyInputs(){
+ var a=num($("#gzx0").value),b=num($("#gzx1").value),c=num($("#gzy0").value),d=num($("#gzy1").value);
+ if(fin(a)&&fin(b)&&b>a){V.xmin=a;V.xmax=b}
+ if(fin(c)&&fin(d)&&d>c){V.ymin=c;V.ymax=d}
+ syncInputs();afterView();
+}
+function afterView(){
+ if(A&&A.ra<Math.min(2000,Math.max(Math.abs(V.xmin),Math.abs(V.xmax)))*0.999){A=null;infoHTML()}
+ request();
+}
+function autoY(){
+ var ys=[],n=400;
+ for(var i=0;i<=n;i++){var y=S.f(V.xmin+(V.xmax-V.xmin)*i/n);if(fin(y)&&Math.abs(y)<1e12)ys.push(y)}
+ if(!ys.length){V.ymin=-5;V.ymax=5;return}
+ ys.sort(function(a,b){return a-b});
+ var lo=ys[Math.floor(ys.length*0.04)],hi=ys[Math.ceil(ys.length*0.96)-1];
+ if(hi-lo<1e-9){lo-=1;hi+=1}
+ var pad=(hi-lo)*0.18;V.ymin=lo-pad;V.ymax=hi+pad;
+ if(V.ymin>0&&V.ymin<(hi-lo)*0.6)V.ymin=-(hi-lo)*0.1;
+ if(V.ymax<0&&-V.ymax<(hi-lo)*0.6)V.ymax=(hi-lo)*0.1;
+}
+function smartView(){
+ A=analyze(S,60);
+ var pts=[0];
+ A.zeros.concat(A.crit.map(function(c){return c.x}),A.vert).forEach(function(x){if(Math.abs(x)<=15)pts.push(x)});
+ pts.sort(function(a,b){return Math.abs(a)-Math.abs(b)});pts=pts.slice(0,10);
+ var lo=Math.min.apply(null,pts),hi=Math.max.apply(null,pts);
+ var span=Math.max(hi-lo,1),pad=Math.max(0.5,span*0.3),c=(lo+hi)/2,half=Math.max(span/2+pad,3);
+ V.xmin=c-half;V.xmax=c+half;
+ var ys=[],n=400;
+ for(var i=0;i<=n;i++){var y=S.f(V.xmin+(V.xmax-V.xmin)*i/n);if(fin(y)&&Math.abs(y)<1e12)ys.push(y)}
+ if(!ys.length){V.ymin=-5;V.ymax=5;return}
+ ys.sort(function(a,b){return a-b});
+ var yl=ys[Math.floor(ys.length*0.08)],yh=ys[Math.min(ys.length-1,Math.ceil(ys.length*0.92)-1)];
+ A.crit.forEach(function(k){if(k.x>=V.xmin&&k.x<=V.xmax){yl=Math.min(yl,k.y);yh=Math.max(yh,k.y)}});
+ if(yh-yl<1e-9){yl-=1;yh+=1}
+ if(yl>0&&yl<0.6*(yh-yl))yl=0;
+ if(yh<0&&-yh<0.6*(yh-yl))yh=0;
+ var p=(yh-yl)*0.15;V.ymin=yl-p;V.ymax=yh+p;
+}
+function ortho(){
+ var W=cv.clientWidth,H=cv.clientHeight,u=(V.xmax-V.xmin)/W,cy=(V.ymin+V.ymax)/2;
+ V.ymin=cy-u*H/2;V.ymax=cy+u*H/2;syncInputs();request();
+}
+function zoom(f,cx,cy){
+ if(cx===undefined)cx=(V.xmin+V.xmax)/2;if(cy===undefined)cy=(V.ymin+V.ymax)/2;
+ V.xmin=cx+(V.xmin-cx)*f;V.xmax=cx+(V.xmax-cx)*f;V.ymin=cy+(V.ymin-cy)*f;V.ymax=cy+(V.ymax-cy)*f;
+ syncInputs();afterView();
+}
+
+/* ------------------------------------------------------------ interaction */
+function wire(){
+ cv=$("#gzc");ctx=cv.getContext("2d");
+ var ptrs={},drag=null,pinch=null;
+ function toX(px){return V.xmin+px/cv.clientWidth*(V.xmax-V.xmin)}
+ function toY(py){return V.ymax-py/cv.clientHeight*(V.ymax-V.ymin)}
+ function pos(e){var r=cv.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+ cv.addEventListener("pointerdown",function(e){
+  cv.setPointerCapture(e.pointerId);ptrs[e.pointerId]=pos(e);
+  var ids=Object.keys(ptrs);
+  if(ids.length===1){drag={x:ptrs[ids[0]].x,y:ptrs[ids[0]].y,moved:false};cv.style.cursor="grabbing"}
+  else if(ids.length===2){var a=ptrs[ids[0]],b=ptrs[ids[1]];pinch={d:Math.hypot(a.x-b.x,a.y-b.y),cx:(a.x+b.x)/2,cy:(a.y+b.y)/2};drag=null}
+ });
+ cv.addEventListener("pointermove",function(e){
+  var p=pos(e);
+  if(ptrs[e.pointerId]){
+   var prev=ptrs[e.pointerId];ptrs[e.pointerId]=p;
+   var ids=Object.keys(ptrs);
+   if(ids.length>=2&&pinch){
+    var a=ptrs[ids[0]],b=ptrs[ids[1]],d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(pinch.d>0&&d>0)zoom(pinch.d/d,toX((a.x+b.x)/2),toY((a.y+b.y)/2));
+    pinch.d=d;return;
+   }
+   if(drag){
+    var ddx=(p.x-drag.x)/cv.clientWidth*(V.xmax-V.xmin),ddy=(p.y-drag.y)/cv.clientHeight*(V.ymax-V.ymin);
+    if(Math.abs(p.x-drag.x)+Math.abs(p.y-drag.y)>0)drag.moved=true;
+    V.xmin-=ddx;V.xmax-=ddx;V.ymin+=ddy;V.ymax+=ddy;drag.x=p.x;drag.y=p.y;
+    hover=toX(p.x);syncInputs();afterView();readout();
+   }
+  }else{hover=toX(p.x);request();readout()}
+ });
+ function up(e){delete ptrs[e.pointerId];drag=null;pinch=null;cv.style.cursor="grab";var ids=Object.keys(ptrs);if(ids.length===1)drag={x:ptrs[ids[0]].x,y:ptrs[ids[0]].y,moved:false}}
+ cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
+ cv.addEventListener("pointerleave",function(e){if(!ptrs[e.pointerId]){hover=null;request();readout()}});
+ cv.addEventListener("wheel",function(e){e.preventDefault();var p=pos(e);zoom(e.deltaY>0?1.15:1/1.15,toX(p.x),toY(p.y))},{passive:false});
+ cv.addEventListener("keydown",function(e){
+  var k=e.key,w=(V.xmax-V.xmin)*0.1,h=(V.ymax-V.ymin)*0.1;
+  if(k==="ArrowLeft"){V.xmin-=w;V.xmax-=w}else if(k==="ArrowRight"){V.xmin+=w;V.xmax+=w}else if(k==="ArrowUp"){V.ymin+=h;V.ymax+=h}else if(k==="ArrowDown"){V.ymin-=h;V.ymax-=h}
+  else if(k==="+"||k==="="){zoom(0.8)}else if(k==="-"){zoom(1.25)}else return;
+  e.preventDefault();syncInputs();afterView();
+ });
+ function resize(){
+  dpr=Math.max(1,Math.min(3,window.devicePixelRatio||1));
+  var w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;
+  cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);request();
+ }
+ if(window.ResizeObserver)new ResizeObserver(resize).observe(cv);else window.addEventListener("resize",resize);
+ new MutationObserver(request).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+ if(matchMedia)matchMedia("(prefers-color-scheme:dark)").addListener&&matchMedia("(prefers-color-scheme:dark)").addListener(request);
+ $("#gzgo").onclick=trace;
+ $("#gzpdf").onclick=makeGrPdf;
+ $("#gzf").addEventListener("keydown",function(e){if(e.key==="Enter")trace()});
+ $("#gzzi").onclick=function(){zoom(0.8)};$("#gzzo").onclick=function(){zoom(1.25)};
+ $("#gzor").onclick=ortho;$("#gzay").onclick=function(){autoY();syncInputs();request()};
+ $("#gzrs").onclick=function(){smartView();syncInputs();afterView()};
+ ["gzx0","gzx1","gzy0","gzy1"].forEach(function(id){$("#"+id).addEventListener("change",applyInputs)});
+ document.querySelectorAll("#gzopt input[type=checkbox]").forEach(function(c){
+  c.checked=!!O[c.dataset.o];
+  c.addEventListener("change",function(){O[c.dataset.o]=c.checked;sub();if(S){infoHTML();request()}});
+ });
+ function sub(){document.querySelectorAll("#gzopt .gzsub").forEach(function(s){var o=s.dataset.for;s.style.display=O[o]?"inline-flex":"none"})}
+ sub();
+ [["gza","a"],["gzx","x0"],["gzia","ia"],["gzib","ib"]].forEach(function(p){
+  var el=$("#"+p[0]);el.value=fmt(P[p[1]]);
+  el.addEventListener("change",function(){var v=num(el.value);if(fin(v)){P[p[1]]=v}el.value=fmt(P[p[1]]);if(S){infoHTML();request()}});
+ });
+ var ex=$("#gzex");
+ ["x^2+3x+4","(x-1)(x-3)","x(x-3)^2","x^3-3x","sqrt(x)","1/x","(4x-5)/(2x+1)","x/(x^2+1)","(x^2+1)/x","exp(x)","x*exp(x)","ln(x)","ln(x)/x","abs(x)","sin(x)"].forEach(function(t){
+  var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=t;
+  b.onclick=function(){$("#gzf").value=t;trace()};ex.appendChild(b);
+ });
+}
+
+/* ------------------------------------------------------------ PDF report */
+var LT={dk:false,ink:"#0b1e3d",line:"#cfe0f7",muted:"#4a5f82",acc:"#1456d6",ok:"#0d7a4a",ko:"#b3261e",surf:"#ffffff"};
+function gimg(o,W,H){
+ var c=document.createElement("canvas"),k=2;c.width=W*k;c.height=H*k;
+ var g=c.getContext("2d");g.setTransform(k,0,0,k,0,0);g.fillStyle="#ffffff";g.fillRect(0,0,W,H);
+ paint(g,W,H,o,LT,null);return c.toDataURL("image/png");
+}
+function cl(v){
+ var n=v.length,L=v[n-1],p=v[n-2],q=v[n-3];
+ for(var i=0;i<n;i++)if(v[i]!==v[i])return null;
+ if(L===Infinity)return"+∞";if(L===-Infinity)return"−∞";
+ if(!fin(L)||!fin(p)||!fin(q))return null;
+ var d1=Math.abs(L-p),d0=Math.abs(p-q);
+ if(Math.abs(L)>1e6&&Math.abs(L)>=Math.abs(p))return L>0?"+∞":"−∞";
+ if(d1<=1e-3*Math.max(1,Math.abs(L))&&d1<=0.5*d0+1e-12)return fmt(L,4);
+ if(Math.abs(L)>Math.abs(p)&&Math.abs(p)>Math.abs(q)&&d1>=0.5*d0&&Math.abs(L)>20&&(L>0)===(p>0))return L>0?"+∞":"−∞";
+ return null;
+}
+var HS=[1e-3,1e-6,1e-9,1e-12],XS=[1e3,1e5,1e7,1e9];
+function limInf(sg){return cl(XS.map(function(t){return S.f(sg*t)}))}
+function limAt(x0,dir){return cl(HS.map(function(h){return S.f(x0+dir*h)}))}
+function ptX(p,isL){return p.inf?(isL?"−∞":"+∞"):fmt(p.x)}
+function ptF(p,isL){
+ if(p.inf)return limInf(isL?-1:1)||"—";
+ if(p.C||p.mid){var y=S.f(p.x);return fin(y)?fmt(y,4):"—"}
+ return limAt(p.x,isL?1:-1)||"—";
+}
+function limitsHTML(A){
+ var rows=[];
+ function row(lbl,v){rows.push("lim<sub>"+lbl+"</sub> f(x) = <b>"+(v===null?"pas de limite repérée":v)+"</b>")}
+ A.dom.forEach(function(d){
+  if(d.aInf)row("x→−∞",limInf(-1));else if(!d.aC)row("x→"+fmt(d.a)+"⁺",limAt(d.a,1));
+  if(d.bInf)row("x→+∞",limInf(1));else if(!d.bC)row("x→"+fmt(d.b)+"⁻",limAt(d.b,-1));
+ });
+ if(rows.length>12)rows=rows.slice(0,12).concat(["…"]);
+ return rows.length?rows.join("<br>"):"Aucune limite à calculer.";
+}
+function varTable(A){
+ var vl=variationLines(A,S.f,S.fp),cols=[],more=false;
+ if(!vl.length)return"";
+ if(vl.length>9){vl=vl.slice(0,9);more=true}
+ function critAt(x){for(var i=0;i<A.crit.length;i++)if(Math.abs(A.crit[i].x-x)<1e-6)return A.crit[i];return null}
+ vl.forEach(function(s,i){
+  var prev=vl[i-1];
+  if(!prev||prev.R!==s.L){
+   if(prev&&!prev.R.inf&&!s.L.inf&&Math.abs(prev.R.x-s.L.x)<1e-4){cols[cols.length-1]={k:"n",x:fmt(s.L.x),d:"‖",f:ptF(prev.R,false)+" ‖ "+ptF(s.L,true)}}
+   else cols.push({k:"n",x:ptX(s.L,true),d:"",f:ptF(s.L,true)});
+  }
+  cols.push({k:"s",d:s.dir>0?"+":s.dir<0?"−":"0",f:s.dir>0?"↗":s.dir<0?"↘":"→",dir:s.dir});
+  var c=s.R.inf?null:critAt(s.R.x);
+  cols.push({k:"n",x:ptX(s.R,false),d:c?(c.kind?"‖":"0"):"",f:ptF(s.R,false)});
+ });
+ var r1="<th>x</th>",r2="<th>f′(x)</th>",r3="<th>f(x)</th>";
+ cols.forEach(function(c){
+  if(c.k==="n"){r1+="<td class=\"vn\">"+c.x+"</td>";r2+="<td class=\"vn\">"+c.d+"</td>";r3+="<td class=\"vn\"><b>"+c.f+"</b></td>"}
+  else{r1+="<td></td>";r2+="<td class=\""+(c.dir>0?"vp":c.dir<0?"vm":"")+"\">"+c.d+"</td>";r3+="<td class=\"va "+(c.dir>0?"vp":c.dir<0?"vm":"")+"\">"+c.f+"</td>"}
+ });
+ return"<table class=\"gzv\"><tr>"+r1+"</tr><tr>"+r2+"</tr><tr>"+r3+"</tr></table>"+(more?"<small class=\"gzn\">Tableau limité aux 9 premiers intervalles.</small>":"");
+}
+var ALL={dom:true,par:true,y0:true,zeros:true,der:true,dcv:false,vr:true,asy:true,tan:true,val:true,int:true,grid:true};
+var RCSS=".gzr{font-size:15px;line-height:1.5;padding:0 56px 8px!important;color:#0b1e3d}.gzr .blk{margin:0 0 14px}.gzr h1{font-size:25px;margin:2px 0 6px;line-height:1.25}.gzr h3{font-size:16px;margin:0 0 6px;color:#1456d6;border-bottom:2px solid #cfe0f7;padding-bottom:3px}.gzr .brand{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#4a5f82;font-weight:700}.gzr .meta{font-size:13px;color:#4a5f82}.gzr code{background:#e4eeff;border-radius:5px;padding:1px 6px;font-size:.95em}.gzr img{width:100%;display:block;border:1px solid #cfe0f7;border-radius:8px}.gzr .cap{font-size:12.5px;color:#4a5f82;margin-top:4px}.gzr .gzp{color:#0d7a4a;font-weight:700}.gzr .gzm{color:#b3261e;font-weight:700}.gzr .gzn{display:block;color:#4a5f82;font-size:12.5px;margin-top:4px}.gzr table.gzv{border-collapse:collapse;width:100%;margin:6px 0;font-size:14.5px}.gzr table.gzv th,.gzr table.gzv td{border:1px solid #9db4d8;padding:5px 6px;text-align:center}.gzr table.gzv th{background:#e4eeff;width:70px}.gzr .vp{color:#0d7a4a;font-weight:700}.gzr .vm{color:#b3261e;font-weight:700}.gzr .va{font-size:18px}.gzr .lg span{display:inline-block;margin-right:14px}.gzr .lg i{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:5px}";
+function reportHTML(){
+ var A=ensureAnalysis(),B=[];
+ function blk(h){B.push('<div class="blk">'+h+'</div>')}
+ var cards=cardsFor(ALL),by={};cards.forEach(function(c){by[c.id]=c});
+ function sec(id,extra){var c=by[id];if(!c)return;blk("<h3>"+c.t+"</h3><div>"+c.h+(extra||"")+"</div>")}
+ var d=new Date().toLocaleDateString("fr-FR");
+ blk('<div class="brand">Fiche d’étude de fonction</div><h1>f(x) = '+code(S.text)+'</h1><div class="meta">Générée le '+d+' · fenêtre du graphique : x ∈ ['+fmt(V.xmin,3)+' ; '+fmt(V.xmax,3)+'], y ∈ ['+fmt(V.ymin,3)+' ; '+fmt(V.ymax,3)+']</div>');
+ blk('<h3>Courbe représentative</h3><img alt="Courbe de f" src="'+gimg({zeros:true,y0:true,vr:true,asy:true,grid:true},700,330)+'"><div class="cap">Zéros et ordonnée à l’origine, extremums locaux et asymptotes. La couleur de la courbe indique le sens de variation (vert : croissante, rouge : décroissante).</div>');
+ sec("dom");sec("par");sec("y0");sec("zeros");sec("der");
+ sec("vr",varTable(A));
+ blk("<h3>Limites aux bornes de l’ensemble de définition</h3><div>"+limitsHTML(A)+"</div>");
+ sec("asy");sec("tan");sec("val");sec("int");
+ blk('<h3>Tangente, aire et courbe de f′</h3><img alt="Tangente, aire et dérivée" src="'+gimg({asy:true,dcv:true,tan:true,val:true,int:true,grid:true},700,330)+'"><div class="cap lg"><span><i style="background:#1456d6"></i>courbe de f</span><span><i style="background:#d97706"></i>courbe de f′ (pointillés)</span><span><i style="background:#7c3aed"></i>tangente en x = '+fmt(P.a)+'</span><span><i style="background:#9fbcf0"></i>aire de '+fmt(Math.min(P.ia,P.ib))+' à '+fmt(Math.max(P.ia,P.ib))+'</span></div>');
+ blk('<div class="meta">Valeurs calculées numériquement (arrondies à 4 décimales). Les paramètres a, x₀ et les bornes de l’intégrale sont ceux saisis dans l’onglet Fonctions.</div>');
+ return"<style>"+RCSS+"</style>"+B.join("");
+}
+async function makeGrPdf(){
+ var btn=$("#gzpdf"),st=$("#gzpst");
+ if(!S)return;
+ btn.disabled=true;var lab=btn.textContent;btn.textContent="Création du PDF…";st.textContent="";
+ var box=null;
+ try{
+  await loadJS(H2C);await loadJS(JSP);
+  box=document.createElement("div");box.className="pdfdoc gzr";box.innerHTML=reportHTML();document.body.appendChild(box);
+  var imgs=[].slice.call(box.querySelectorAll("img"));
+  await Promise.all(imgs.map(function(im){return im.decode?im.decode().catch(function(){}):0}));
+  var blks=[].slice.call(box.children).filter(function(e){return e.classList.contains("blk")}),PH=1017,pages=[],start=0;
+  blks.forEach(function(b){var top=b.offsetTop,bot=top+b.offsetHeight;if(bot>start+PH&&top>start){pages.push([start,top]);start=top}});
+  pages.push([start,box.scrollHeight]);
+  var cv2=await html2canvas(box,{scale:2,backgroundColor:"#ffffff",logging:false,onclone:function(dd){var e=dd.querySelector(".gzr");e.style.left="0";e.style.top="0"}});
+  var pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4",compress:true}),k=cv2.width/794,mm=cv2.width/210;
+  pages.forEach(function(r,n){
+   if(n)pdf.addPage();
+   var y0=Math.round(r[0]*k),h=Math.min(cv2.height-y0,Math.round((r[1]-r[0])*k));if(h<=0)return;
+   var c=document.createElement("canvas");c.width=cv2.width;c.height=h;var x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,h);x.drawImage(cv2,0,y0,cv2.width,h,0,0,c.width,h);
+   pdf.addImage(c.toDataURL("image/jpeg",0.93),"JPEG",0,12,210,h/mm);
+   pdf.setFontSize(9);pdf.setTextColor(120);pdf.text("Fiche d'etude de fonction - page "+(n+1)+"/"+pages.length,105,291,{align:"center"});
+  });
+  var nm=S.text.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"fonction";
+  await saveFile("fonction-"+nm+".pdf",pdf.output("blob"));
+  st.textContent="PDF prêt.";
+ }catch(e){
+  st.textContent=e&&e.code==="declined"?"Téléchargement annulé.":"Impossible de créer le PDF. Vérifiez votre connexion et réessayez.";
+ }finally{if(box)box.remove();btn.disabled=false;btn.textContent=lab}
+}
+var first=true;
+function trace(){
+ var err=$("#gzerr");err.textContent="";
+ try{
+  var src=$("#gzf").value;
+  setExpr(src);
+ }catch(e){err.textContent=e.message;return}
+ smartView();syncInputs();
+ $("#gzc").setAttribute("aria-label","Graphe de f(x) = "+S.text);
+ $("#gzcur").innerHTML="f(x) = "+code(S.text);
+ infoHTML();request();readout();
+ var pb=$("#gzpdf");if(pb){pb.classList.remove("hide");$("#gzpst").textContent=""}
+}
+function show(){
+ if(first){first=false;wire();$("#gzf").value="x^2+3x+4";trace()}
+ else{request()}
+}
+window.GR={show:show,trace:trace,report:function(){return reportHTML()},_lim:function(src){setExpr(src);var a=analyze(S,60);return limitsHTML(a)},
+ _t:function(src){
+  setExpr(src);var a=analyze(S,60);
+  return{text:S.text,d:S.dtext,dom:domainText(a),zeros:a.zeros,crit:a.crit.map(function(c){return c.type+"@"+fmt(c.x)+"="+fmt(c.y)}),vert:a.vert,lines:a.lines.map(function(l){return l.at+": "+lineEq(l.a,l.b)}),par:a.parity,
+   vars:variationLines(a,S.f,S.fp).map(function(s){return(s.dir>0?"up ":"down ")+segText(s)}),
+   signs:signLines(a,S.f).map(function(s){return s.sg+" "+segText(s)})};
+ }};
+})();
+
+
+if(location.hash==="#fonctions"&&window.GR)GR.show();
 </script>
 </body>
 </html>

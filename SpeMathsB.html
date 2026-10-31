@@ -160,6 +160,7 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 .gzn{display:block;color:var(--muted);font-size:.8rem;margin-top:6px}
 .gzhelp{margin-top:16px}.gzhelp summary{cursor:pointer;font-weight:600}
 @media (max-width:600px){.gzwin{grid-template-columns:repeat(2,1fr)}}
+.gzbar .gzpdfb{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}.gzbar .gzpdfb:hover{background:var(--accent);filter:brightness(1.12)}.gzbar .gzpdfb:disabled{opacity:.65;cursor:wait}#gzpst{font-size:.88rem;color:var(--muted);align-self:center}
 /*d6fix*/.layout>*,#lesson,main{min-width:0}.tocbox{display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);border-radius:14px;padding:10px;background:var(--surface)}.tocbox+.tocbox{margin-top:12px}.tocbox h3{margin:0;font-size:.95rem}.tocbox p{margin:0 0 4px;font-size:.8rem;color:var(--muted)}.tocbox.th{border-color:var(--accent)}.tocbox button{width:100%}@media(min-width:761px){.toc{max-height:calc(100vh - 96px);overflow-y:auto}}
 </style>
 </head>
@@ -238,7 +239,7 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 
 <section id="fonctions" class="view hide">
 <h1>Fonctions : tracer et étudier</h1>
-<p class="lead">Saisissez une fonction de x : le site trace sa courbe. Activez ensuite, parmi les boutons sous le graphique, les informations que vous voulez voir : zéros, dérivée, variations, asymptotes, tangente…</p>
+<p class="lead">Saisissez une fonction de x : le site trace sa courbe. Activez ensuite, parmi les boutons sous le graphique, les informations que vous voulez voir : zéros, dérivée, variations, asymptotes, tangente… Une fois la courbe tracée, le bouton « Générer le PDF » crée une fiche complète de la fonction (toutes les informations, quelles que soient les options affichées).</p>
 <div class="card gz">
 <div class="gzin"><label for="gzf">f(x) =</label><input id="gzf" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" placeholder="Ex. : (x-1)(x-3)  ou  x*exp(x)"><button class="cta" id="gzgo" type="button">Tracer</button></div>
 <div id="gzerr" class="gzerr" role="alert"></div>
@@ -246,7 +247,7 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <div id="gzcur"></div>
 <canvas id="gzc" tabindex="0" role="img" aria-label="Graphe de la fonction"></canvas>
 <div id="gztr" class="gztr" aria-live="polite"></div>
-<div class="gzbar"><button type="button" id="gzzi">Zoom +</button><button type="button" id="gzzo">Zoom −</button><button type="button" id="gzor">Repère orthonormé</button><button type="button" id="gzay">Ajuster y</button><button type="button" id="gzrs">Réinitialiser</button></div>
+<div class="gzbar"><button type="button" id="gzzi">Zoom +</button><button type="button" id="gzzo">Zoom −</button><button type="button" id="gzor">Repère orthonormé</button><button type="button" id="gzay">Ajuster y</button><button type="button" id="gzrs">Réinitialiser</button><button type="button" id="gzpdf" class="gzpdfb hide">Générer le PDF</button><span id="gzpst" role="status"></span></div>
 <div class="gzwin"><label>x min<input id="gzx0" inputmode="decimal"></label><label>x max<input id="gzx1" inputmode="decimal"></label><label>y min<input id="gzy0" inputmode="decimal"></label><label>y max<input id="gzy1" inputmode="decimal"></label></div>
 <div class="gzopt" id="gzopt" role="group" aria-label="Informations à afficher">
 <label class="gzt"><input type="checkbox" data-o="dom"><span>Ensemble de définition</span></label><label class="gzt"><input type="checkbox" data-o="zeros"><span>Zéros et signe</span></label><label class="gzt"><input type="checkbox" data-o="y0"><span>Ordonnée à l’origine</span></label><label class="gzt"><input type="checkbox" data-o="par"><span>Parité</span></label><label class="gzt"><input type="checkbox" data-o="der"><span>Dérivée f′</span></label><label class="gzt"><input type="checkbox" data-o="dcv"><span>Courbe de f′</span></label><label class="gzt"><input type="checkbox" data-o="vr"><span>Variations et extremums</span></label><label class="gzt"><input type="checkbox" data-o="asy"><span>Asymptotes</span></label><label class="gzt"><input type="checkbox" data-o="tan"><span>Tangente</span></label><span class="gzsub" data-for="tan">en a = <input id="gza" inputmode="decimal" aria-label="Abscisse a de la tangente"></span><label class="gzt"><input type="checkbox" data-o="val"><span>Valeur</span></label><span class="gzsub" data-for="val">en x₀ = <input id="gzx" inputmode="decimal" aria-label="Abscisse x0"></span><label class="gzt"><input type="checkbox" data-o="int"><span>Intégrale</span></label><span class="gzsub" data-for="int">de <input id="gzia" inputmode="decimal" aria-label="Borne inférieure"> à <input id="gzib" inputmode="decimal" aria-label="Borne supérieure"></span><label class="gzt"><input type="checkbox" data-o="grid"><span>Quadrillage</span></label>
@@ -260,6 +261,7 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
 <li>Les décimaux s’écrivent avec une virgule ou un point. Les parenthèses sont obligatoires pour les arguments (<code>ln(x+1)</code>).</li>
 <li>Sur le graphique : faites glisser pour déplacer le repère, molette ou pincement pour zoomer ; flèches du clavier et touches + / − quand le graphique est sélectionné.</li>
 <li>Les informations (zéros, extremums, asymptotes, domaine) sont calculées numériquement sur l’intervalle [−60 ; 60] au minimum ; la dérivée est calculée formellement.</li>
+<li>Bouton « Générer le PDF » : il apparaît après le tracé et enregistre une fiche A4 (courbe, domaine, parité, zéros et signe, dérivée, tableau de variations, limites, asymptotes, tangente, valeur, intégrale). Réglez d’abord, si besoin, l’abscisse de la tangente, x₀ et les bornes de l’intégrale.</li>
 </ul></details>
 </section>
 <section id="pdfs" class="view hide">
@@ -775,7 +777,7 @@ function renderExos(){
   d.innerHTML="<span class=\"tag\">"+x.c+"</span><p style=\"margin:10px 0 0\"><b>Question "+(i+1)+".</b> "+x.q+"</p><div class=\"opts\"></div><div class=\"expl hide\"></div>";
   var o=d.querySelector(".opts");
   x.o.forEach(function(txt,k){
-   var b=document.createElement("button");b.textContent=txt;
+   var b=document.createElement("button");b.innerHTML=txt;
    b.onclick=function(){
     o.querySelectorAll("button").forEach(function(z,j){z.disabled=true;if(j===x.a)z.classList.add("good")});
     if(k===x.a)score++;else b.classList.add("bad");
@@ -1467,16 +1469,19 @@ function lineEq(a,b){
  return s+ax+(b<0?" − ":" + ")+fmt(Math.abs(b));
 }
 function infoHTML(){
- var out=[];
- function card(t,h){out.push('<div class="gzcard"><h4>'+t+'</h4><div>'+h+'</div></div>')}
+ $("#gzinfo").innerHTML=cardsFor(O).map(function(c){return'<div class="gzcard"><h4>'+c.t+'</h4><div>'+c.h+'</div></div>'}).join("");
+}
+function cardsFor(O){
+ var out=[],cur="";
+ function card(t,h){out.push({id:cur,t:t,h:h})}
  var A=ensureAnalysis(),f=S.f,fp=S.fp;
- if(O.dom)card("Ensemble de définition","D = "+domainText(A)+'<small class="gzn">Estimé numériquement sur [−'+fmt(A.ra,0)+" ; "+fmt(A.ra,0)+"].</small>");
- if(O.par){
+ cur="dom";if(O.dom)card("Ensemble de définition","D = "+domainText(A)+'<small class="gzn">Estimé numériquement sur [−'+fmt(A.ra,0)+" ; "+fmt(A.ra,0)+"].</small>");
+ cur="par";if(O.par){
   var p=A.parity;
   card("Parité",p==="even"?"f est <b>paire</b> : f(−x) = f(x). La courbe est symétrique par rapport à l’axe des ordonnées.":p==="odd"?"f est <b>impaire</b> : f(−x) = −f(x). La courbe est symétrique par rapport à l’origine.":p==="zero"?"f est à la fois paire et impaire (fonction nulle).":"f n’est ni paire ni impaire (ou son ensemble de définition n’est pas symétrique).");
  }
- if(O.y0){var y0=f(0);card("Ordonnée à l’origine",fin(y0)?"f(0) = <b>"+fmt(y0)+"</b> : la courbe coupe l’axe des ordonnées en (0 ; "+fmt(y0)+").":"0 n’appartient pas à l’ensemble de définition : pas d’intersection avec l’axe des ordonnées.")}
- if(O.zeros){
+ cur="y0";if(O.y0){var y0=f(0);card("Ordonnée à l’origine",fin(y0)?"f(0) = <b>"+fmt(y0)+"</b> : la courbe coupe l’axe des ordonnées en (0 ; "+fmt(y0)+").":"0 n’appartient pas à l’ensemble de définition : pas d’intersection avec l’axe des ordonnées.")}
+ cur="zeros";if(O.zeros){
   var z=A.zeros,h=z.length?"f(x) = 0 pour "+z.slice(0,12).map(function(x){return"x = <b>"+fmt(x)+"</b>"}).join(" ; ")+(z.length>12?" …":""):"Aucun zéro repéré : la courbe ne coupe pas l’axe des abscisses.";
   var sl=signLines(A,f),pos=[],neg=[];
   sl.forEach(function(s){if(s.sg>0)pos.push(segText(s));else if(s.sg<0)neg.push(segText(s))});
@@ -1485,8 +1490,8 @@ function infoHTML(){
   if(neg.length)h+='<br><span class="gzm">f(x) &lt; 0</span> sur '+lim(neg);
   card("Zéros et signe",h);
  }
- if(O.der)card("Dérivée","f′(x) = "+code(S.dtext)+'<small class="gzn">Dérivée calculée formellement et simplifiée.</small>');
- if(O.vr){
+ cur="der";if(O.der)card("Dérivée","f′(x) = "+code(S.dtext)+'<small class="gzn">Dérivée calculée formellement et simplifiée.</small>');
+ cur="vr";if(O.vr){
   var vl=variationLines(A,f,fp),h2="";
   var shown=vl.slice(0,12);
   shown.forEach(function(s){
@@ -1500,23 +1505,23 @@ function infoHTML(){
   if(!ex.length)h2+="Aucun extremum local repéré.";
   card("Variations et extremums",h2);
  }
- if(O.asy){
+ cur="asy";if(O.asy){
   var as=[];
   A.vert.forEach(function(x){as.push("Verticale : <b>x = "+fmt(x)+"</b>")});
   A.lines.forEach(function(l){as.push((l.a===0?"Horizontale":"Oblique")+" en "+l.at+" : <b>"+lineEq(l.a,l.b)+"</b>")});
   card("Asymptotes",as.length?as.join("<br>"):"Aucune asymptote repérée.");
  }
- if(O.tan){
+ cur="tan";if(O.tan){
   var a=P.a,ya=f(a),m=fp(a);
   if(fin(ya)&&fin(m))card("Tangente en x = "+fmt(a),"f("+fmt(a)+") = "+fmt(ya)+" et f′("+fmt(a)+") = "+fmt(m)+".<br>Équation : <b>y = f′(a)(x − a) + f(a)</b>, soit <b>"+lineEq(m,ya-m*a)+"</b>.");
   else card("Tangente en x = "+fmt(a),"f n’est pas dérivable en ce point (ou n’y est pas définie) : pas de tangente non verticale.");
  }
- if(O.val){var v=f(P.x0);card("Valeur en x₀ = "+fmt(P.x0),fin(v)?"f("+fmt(P.x0)+") = <b>"+fmt(v,6)+"</b>":"f n’est pas définie en ce point.")}
- if(O.int){
+ cur="val";if(O.val){var v=f(P.x0);card("Valeur en x₀ = "+fmt(P.x0),fin(v)?"f("+fmt(P.x0)+") = <b>"+fmt(v,6)+"</b>":"f n’est pas définie en ce point.")}
+ cur="int";if(O.int){
   var I=integral(P.ia,P.ib);
   card("Intégrale de "+fmt(P.ia)+" à "+fmt(P.ib),I===null?"Calcul impossible : f n’est pas définie (ou pas bornée) sur tout l’intervalle.":"∫ f(x) dx ≈ <b>"+fmt(I,6)+"</b><small class=\"gzn\">Aire algébrique entre la courbe et l’axe des abscisses (méthode de Simpson).</small>");
  }
- $("#gzinfo").innerHTML=out.join("");
+ return out;
 }
 function integral(a,b){
  var f=S.f,n=4000,sign=1;if(a===b)return 0;if(a>b){var t=a;a=b;b=t;sign=-1}
@@ -1536,9 +1541,11 @@ function niceStep(raw){
 function request(){if(!raf)raf=requestAnimationFrame(function(){raf=0;draw()})}
 function draw(){
  if(!S||!cv||!cv.clientWidth)return;
- var W=cv.clientWidth,H=cv.clientHeight;
  ctx.setTransform(dpr,0,0,dpr,0,0);
- var dk=isDark(),ink=getComputedStyle(cv).color,line=css("--line"),muted=css("--muted"),acc=css("--accent"),ok=css("--ok"),ko=css("--ko"),surf=css("--surface");
+ paint(ctx,cv.clientWidth,cv.clientHeight,O,{dk:isDark(),ink:getComputedStyle(cv).color,line:css("--line"),muted:css("--muted"),acc:css("--accent"),ok:css("--ok"),ko:css("--ko"),surf:css("--surface")},hover);
+}
+function paint(ctx,W,H,O,th,hover){
+ var dk=th.dk,ink=th.ink,line=th.line,muted=th.muted,acc=th.acc,ok=th.ok,ko=th.ko,surf=th.surf;
  var org=dk?"#ffb347":"#d97706",pur=dk?"#c4a1ff":"#7c3aed";
  ctx.clearRect(0,0,W,H);
  var dx=V.xmax-V.xmin,dy=V.ymax-V.ymin;
@@ -1753,6 +1760,7 @@ function wire(){
  new MutationObserver(request).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
  if(matchMedia)matchMedia("(prefers-color-scheme:dark)").addListener&&matchMedia("(prefers-color-scheme:dark)").addListener(request);
  $("#gzgo").onclick=trace;
+ $("#gzpdf").onclick=makeGrPdf;
  $("#gzf").addEventListener("keydown",function(e){if(e.key==="Enter")trace()});
  $("#gzzi").onclick=function(){zoom(0.8)};$("#gzzo").onclick=function(){zoom(1.25)};
  $("#gzor").onclick=ortho;$("#gzay").onclick=function(){autoY();syncInputs();request()};
@@ -1774,6 +1782,113 @@ function wire(){
   b.onclick=function(){$("#gzf").value=t;trace()};ex.appendChild(b);
  });
 }
+
+/* ------------------------------------------------------------ PDF report */
+var LT={dk:false,ink:"#0b1e3d",line:"#cfe0f7",muted:"#4a5f82",acc:"#1456d6",ok:"#0d7a4a",ko:"#b3261e",surf:"#ffffff"};
+function gimg(o,W,H){
+ var c=document.createElement("canvas"),k=2;c.width=W*k;c.height=H*k;
+ var g=c.getContext("2d");g.setTransform(k,0,0,k,0,0);g.fillStyle="#ffffff";g.fillRect(0,0,W,H);
+ paint(g,W,H,o,LT,null);return c.toDataURL("image/png");
+}
+function cl(v){
+ var n=v.length,L=v[n-1],p=v[n-2],q=v[n-3];
+ for(var i=0;i<n;i++)if(v[i]!==v[i])return null;
+ if(L===Infinity)return"+∞";if(L===-Infinity)return"−∞";
+ if(!fin(L)||!fin(p)||!fin(q))return null;
+ var d1=Math.abs(L-p),d0=Math.abs(p-q);
+ if(Math.abs(L)>1e6&&Math.abs(L)>=Math.abs(p))return L>0?"+∞":"−∞";
+ if(d1<=1e-3*Math.max(1,Math.abs(L))&&d1<=0.5*d0+1e-12)return fmt(L,4);
+ if(Math.abs(L)>Math.abs(p)&&Math.abs(p)>Math.abs(q)&&d1>=0.5*d0&&Math.abs(L)>20&&(L>0)===(p>0))return L>0?"+∞":"−∞";
+ return null;
+}
+var HS=[1e-3,1e-6,1e-9,1e-12],XS=[1e3,1e5,1e7,1e9];
+function limInf(sg){return cl(XS.map(function(t){return S.f(sg*t)}))}
+function limAt(x0,dir){return cl(HS.map(function(h){return S.f(x0+dir*h)}))}
+function ptX(p,isL){return p.inf?(isL?"−∞":"+∞"):fmt(p.x)}
+function ptF(p,isL){
+ if(p.inf)return limInf(isL?-1:1)||"—";
+ if(p.C||p.mid){var y=S.f(p.x);return fin(y)?fmt(y,4):"—"}
+ return limAt(p.x,isL?1:-1)||"—";
+}
+function limitsHTML(A){
+ var rows=[];
+ function row(lbl,v){rows.push("lim<sub>"+lbl+"</sub> f(x) = <b>"+(v===null?"pas de limite repérée":v)+"</b>")}
+ A.dom.forEach(function(d){
+  if(d.aInf)row("x→−∞",limInf(-1));else if(!d.aC)row("x→"+fmt(d.a)+"⁺",limAt(d.a,1));
+  if(d.bInf)row("x→+∞",limInf(1));else if(!d.bC)row("x→"+fmt(d.b)+"⁻",limAt(d.b,-1));
+ });
+ if(rows.length>12)rows=rows.slice(0,12).concat(["…"]);
+ return rows.length?rows.join("<br>"):"Aucune limite à calculer.";
+}
+function varTable(A){
+ var vl=variationLines(A,S.f,S.fp),cols=[],more=false;
+ if(!vl.length)return"";
+ if(vl.length>9){vl=vl.slice(0,9);more=true}
+ function critAt(x){for(var i=0;i<A.crit.length;i++)if(Math.abs(A.crit[i].x-x)<1e-6)return A.crit[i];return null}
+ vl.forEach(function(s,i){
+  var prev=vl[i-1];
+  if(!prev||prev.R!==s.L){
+   if(prev&&!prev.R.inf&&!s.L.inf&&Math.abs(prev.R.x-s.L.x)<1e-4){cols[cols.length-1]={k:"n",x:fmt(s.L.x),d:"‖",f:ptF(prev.R,false)+" ‖ "+ptF(s.L,true)}}
+   else cols.push({k:"n",x:ptX(s.L,true),d:"",f:ptF(s.L,true)});
+  }
+  cols.push({k:"s",d:s.dir>0?"+":s.dir<0?"−":"0",f:s.dir>0?"↗":s.dir<0?"↘":"→",dir:s.dir});
+  var c=s.R.inf?null:critAt(s.R.x);
+  cols.push({k:"n",x:ptX(s.R,false),d:c?(c.kind?"‖":"0"):"",f:ptF(s.R,false)});
+ });
+ var r1="<th>x</th>",r2="<th>f′(x)</th>",r3="<th>f(x)</th>";
+ cols.forEach(function(c){
+  if(c.k==="n"){r1+="<td class=\"vn\">"+c.x+"</td>";r2+="<td class=\"vn\">"+c.d+"</td>";r3+="<td class=\"vn\"><b>"+c.f+"</b></td>"}
+  else{r1+="<td></td>";r2+="<td class=\""+(c.dir>0?"vp":c.dir<0?"vm":"")+"\">"+c.d+"</td>";r3+="<td class=\"va "+(c.dir>0?"vp":c.dir<0?"vm":"")+"\">"+c.f+"</td>"}
+ });
+ return"<table class=\"gzv\"><tr>"+r1+"</tr><tr>"+r2+"</tr><tr>"+r3+"</tr></table>"+(more?"<small class=\"gzn\">Tableau limité aux 9 premiers intervalles.</small>":"");
+}
+var ALL={dom:true,par:true,y0:true,zeros:true,der:true,dcv:false,vr:true,asy:true,tan:true,val:true,int:true,grid:true};
+var RCSS=".gzr{font-size:15px;line-height:1.5;padding:0 56px 8px!important;color:#0b1e3d}.gzr .blk{margin:0 0 14px}.gzr h1{font-size:25px;margin:2px 0 6px;line-height:1.25}.gzr h3{font-size:16px;margin:0 0 6px;color:#1456d6;border-bottom:2px solid #cfe0f7;padding-bottom:3px}.gzr .brand{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#4a5f82;font-weight:700}.gzr .meta{font-size:13px;color:#4a5f82}.gzr code{background:#e4eeff;border-radius:5px;padding:1px 6px;font-size:.95em}.gzr img{width:100%;display:block;border:1px solid #cfe0f7;border-radius:8px}.gzr .cap{font-size:12.5px;color:#4a5f82;margin-top:4px}.gzr .gzp{color:#0d7a4a;font-weight:700}.gzr .gzm{color:#b3261e;font-weight:700}.gzr .gzn{display:block;color:#4a5f82;font-size:12.5px;margin-top:4px}.gzr table.gzv{border-collapse:collapse;width:100%;margin:6px 0;font-size:14.5px}.gzr table.gzv th,.gzr table.gzv td{border:1px solid #9db4d8;padding:5px 6px;text-align:center}.gzr table.gzv th{background:#e4eeff;width:70px}.gzr .vp{color:#0d7a4a;font-weight:700}.gzr .vm{color:#b3261e;font-weight:700}.gzr .va{font-size:18px}.gzr .lg span{display:inline-block;margin-right:14px}.gzr .lg i{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:5px}";
+function reportHTML(){
+ var A=ensureAnalysis(),B=[];
+ function blk(h){B.push('<div class="blk">'+h+'</div>')}
+ var cards=cardsFor(ALL),by={};cards.forEach(function(c){by[c.id]=c});
+ function sec(id,extra){var c=by[id];if(!c)return;blk("<h3>"+c.t+"</h3><div>"+c.h+(extra||"")+"</div>")}
+ var d=new Date().toLocaleDateString("fr-FR");
+ blk('<div class="brand">Fiche d’étude de fonction</div><h1>f(x) = '+code(S.text)+'</h1><div class="meta">Générée le '+d+' · fenêtre du graphique : x ∈ ['+fmt(V.xmin,3)+' ; '+fmt(V.xmax,3)+'], y ∈ ['+fmt(V.ymin,3)+' ; '+fmt(V.ymax,3)+']</div>');
+ blk('<h3>Courbe représentative</h3><img alt="Courbe de f" src="'+gimg({zeros:true,y0:true,vr:true,asy:true,grid:true},700,330)+'"><div class="cap">Zéros et ordonnée à l’origine, extremums locaux et asymptotes. La couleur de la courbe indique le sens de variation (vert : croissante, rouge : décroissante).</div>');
+ sec("dom");sec("par");sec("y0");sec("zeros");sec("der");
+ sec("vr",varTable(A));
+ blk("<h3>Limites aux bornes de l’ensemble de définition</h3><div>"+limitsHTML(A)+"</div>");
+ sec("asy");sec("tan");sec("val");sec("int");
+ blk('<h3>Tangente, aire et courbe de f′</h3><img alt="Tangente, aire et dérivée" src="'+gimg({asy:true,dcv:true,tan:true,val:true,int:true,grid:true},700,330)+'"><div class="cap lg"><span><i style="background:#1456d6"></i>courbe de f</span><span><i style="background:#d97706"></i>courbe de f′ (pointillés)</span><span><i style="background:#7c3aed"></i>tangente en x = '+fmt(P.a)+'</span><span><i style="background:#9fbcf0"></i>aire de '+fmt(Math.min(P.ia,P.ib))+' à '+fmt(Math.max(P.ia,P.ib))+'</span></div>');
+ blk('<div class="meta">Valeurs calculées numériquement (arrondies à 4 décimales). Les paramètres a, x₀ et les bornes de l’intégrale sont ceux saisis dans l’onglet Fonctions.</div>');
+ return"<style>"+RCSS+"</style>"+B.join("");
+}
+async function makeGrPdf(){
+ var btn=$("#gzpdf"),st=$("#gzpst");
+ if(!S)return;
+ btn.disabled=true;var lab=btn.textContent;btn.textContent="Création du PDF…";st.textContent="";
+ var box=null;
+ try{
+  await loadJS(H2C);await loadJS(JSP);
+  box=document.createElement("div");box.className="pdfdoc gzr";box.innerHTML=reportHTML();document.body.appendChild(box);
+  var imgs=[].slice.call(box.querySelectorAll("img"));
+  await Promise.all(imgs.map(function(im){return im.decode?im.decode().catch(function(){}):0}));
+  var blks=[].slice.call(box.children).filter(function(e){return e.classList.contains("blk")}),PH=1017,pages=[],start=0;
+  blks.forEach(function(b){var top=b.offsetTop,bot=top+b.offsetHeight;if(bot>start+PH&&top>start){pages.push([start,top]);start=top}});
+  pages.push([start,box.scrollHeight]);
+  var cv2=await html2canvas(box,{scale:2,backgroundColor:"#ffffff",logging:false,onclone:function(dd){var e=dd.querySelector(".gzr");e.style.left="0";e.style.top="0"}});
+  var pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4",compress:true}),k=cv2.width/794,mm=cv2.width/210;
+  pages.forEach(function(r,n){
+   if(n)pdf.addPage();
+   var y0=Math.round(r[0]*k),h=Math.min(cv2.height-y0,Math.round((r[1]-r[0])*k));if(h<=0)return;
+   var c=document.createElement("canvas");c.width=cv2.width;c.height=h;var x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,h);x.drawImage(cv2,0,y0,cv2.width,h,0,0,c.width,h);
+   pdf.addImage(c.toDataURL("image/jpeg",0.93),"JPEG",0,12,210,h/mm);
+   pdf.setFontSize(9);pdf.setTextColor(120);pdf.text("Fiche d'etude de fonction - page "+(n+1)+"/"+pages.length,105,291,{align:"center"});
+  });
+  var nm=S.text.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"fonction";
+  await saveFile("fonction-"+nm+".pdf",pdf.output("blob"));
+  st.textContent="PDF prêt.";
+ }catch(e){
+  st.textContent=e&&e.code==="declined"?"Téléchargement annulé.":"Impossible de créer le PDF. Vérifiez votre connexion et réessayez.";
+ }finally{if(box)box.remove();btn.disabled=false;btn.textContent=lab}
+}
 var first=true;
 function trace(){
  var err=$("#gzerr");err.textContent="";
@@ -1785,12 +1900,13 @@ function trace(){
  $("#gzc").setAttribute("aria-label","Graphe de f(x) = "+S.text);
  $("#gzcur").innerHTML="f(x) = "+code(S.text);
  infoHTML();request();readout();
+ var pb=$("#gzpdf");if(pb){pb.classList.remove("hide");$("#gzpst").textContent=""}
 }
 function show(){
  if(first){first=false;wire();$("#gzf").value="x^2+3x+4";trace()}
  else{request()}
 }
-window.GR={show:show,trace:trace,
+window.GR={show:show,trace:trace,report:function(){return reportHTML()},_lim:function(src){setExpr(src);var a=analyze(S,60);return limitsHTML(a)},
  _t:function(src){
   setExpr(src);var a=analyze(S,60);
   return{text:S.text,d:S.dtext,dom:domainText(a),zeros:a.zeros,crit:a.crit.map(function(c){return c.type+"@"+fmt(c.x)+"="+fmt(c.y)}),vert:a.vert,lines:a.lines.map(function(l){return l.at+": "+lineEq(l.a,l.b)}),par:a.parity,

@@ -121,3 +121,15 @@ L'onglet **Exercices** contient : **Exos QCM** (une centaine de questions, un th
 - L’onglet **Cours** comporte deux encadrés : « Cours du programme » et « Hors programme, tombés au concours ». Ce second encadré contient : logarithme (équations, inéquations, croissances comparées), raisonnement par récurrence, comparaison de moyennes, et géométrie dans l’espace en quatre cours.
 - **Exercices** : 15 exercices corrigés ajoutés dans « Exos Usuels » (2 groupes) et 64 QCM supplémentaires (164 au total).
 - L’onglet **Programme** indique désormais « cours disponible » pour presque tous les points. PDF des nouveaux cours : 50 à 64 (et 02 mis à jour).
+
+### Spé Maths A : séries et suites de fonctions
+- **8 cours** dans l’onglet Cours (plus une page d’introduction) : séries numériques (définition et convergence ; critères de comparaison ; séries alternées et convergence absolue), suites et séries de fonctions (modes de convergence ; régularité), séries entières (rayon de convergence ; somme, dérivation, intégration ; développement en série entière). Ils suivent les chapitres 8, 9 et 10 du manuel.
+- **58 QCM** dans « Exos QCM » : les 41 énoncés Vrai/Faux des trois chapitres sont transformés en questions à 4 propositions (avec rappel de la réponse Vrai/Faux d’origine dans la correction), plus 17 questions de cours.
+- « Exos Usuels » reste vide pour l’instant, en attente des exercices du programme A.
+- Correction dans Spé Maths B : les symboles < et > des propositions QCM s’affichent désormais correctement.
+
+## Mise à jour : exercices usuels (Spé A) et onglet Fonctions
+
+- **SpeMathsA.html** : l’onglet Exercices › « Exos Usuels » contient maintenant les 72 exercices des chapitres 8 (séries numériques), 9 (suites et séries de fonctions) et 10 (séries entières), avec une correction proposée dépliable.
+- **Onglet « Fonctions »** désormais présent dans les trois sites (`index.html`, `SpeMathsA.html`, `SpeMathsB.html`).
+- **Bouton « Générer le PDF »** : visible après le tracé d’une fonction. Il crée une fiche A4 complète (courbe, domaine, parité, ordonnée à l’origine, zéros et signe, dérivée, tableau de variations, extremums, limites, asymptotes, tangente, valeur, intégrale, second graphique avec f′), quelles que soient les options cochées. Il utilise html2canvas et jsPDF, chargés à la demande (connexion requise).
