@@ -156,3 +156,50 @@ Deux nouveaux cours : un tableau des figures planes usuelles (contour bleu, aire
 
 ## Contre-exemples et leurres (QCM B)
 Chaque cours du site QCM B se termine par un encadré « Contre-exemples et leurres du QCM » : énoncés qui ressemblent au chapitre sans s'y résoudre (par ex. ouvriers × jours pour le produit en croix) et affirmations tentantes mais fausses, avec le contre-exemple chiffré. L'encadré apparaît aussi dans les PDF des cours.
+
+## Écriture LaTeX des formules (KaTeX)
+
+Les symboles mathématiques (sommes ∑, intégrales ∫, puissances, indices, racines, limites, fractions « a/b », ensembles ℝ, intervalles, unités, etc.) sont désormais composés avec **KaTeX** (moteur de rendu des formules LaTeX), chargé à la demande depuis cdnjs (`KaTeX 0.16.9`).
+
+- Les textes du site restent écrits en Unicode dans le code : un petit convertisseur (bloc `<script>` `/*MATHX*/` en fin de page) repère les expressions mathématiques et les remplace par leur rendu LaTeX. Si KaTeX ne peut pas être chargé (hors ligne), l'ancien affichage Unicode reste visible : rien n'est cassé.
+- Les **graphiques SVG** (tableaux de variations, cercle de convergence, courbes…) gardent leur tracé, mais leurs étiquettes (x, f(x), f′(x), ±∞, « y = x », uₙ…) sont maintenant rendues en LaTeX via `foreignObject`.
+- Non convertis volontairement : les PDF générés, les graphiques tracés sur `<canvas>` (onglets Fonctions / Suites / Su-Se Fonctions), les champs de saisie, les puces de fonctions et la navigation.
+- Pour exclure un bloc de la conversion, lui ajouter la classe `nomx`.
+
+## Spé Maths A : thème « Fonctions et calcul différentiel »
+
+Onze cours ont été ajoutés à l'onglet **Cours** de `SpeMathsA.html` (cours 10 à 20), d'après les chapitres 11, 12, 13 et 15 du livre de référence :
+
+- **Plan de la section** (introduction, notations, mode d'emploi) ;
+- **Chap. 11, Intégration sur un intervalle** : intégrale sur un segment (fonctions continues par morceaux) ; intégrales généralisées (Riemann, logarithme, exponentielle, Chasles, doublement généralisée) ; intégrabilité et convergence absolue (changement de variable, intégration par parties, Cauchy-Schwarz, théorèmes de comparaison) ;
+- **Chap. 12, Interversion limites-intégrales** : convergence dominée et intégration terme à terme ; intégrales à paramètre (continuité, classe C¹ et Cᵏ, exemple de la fonction Γ) ;
+- **Chap. 13, Fonctions vectorielles et courbes paramétrées** : dérivée en un point et opérations (applications bilinéaires) ; classe Cᵏ ; arcs paramétrés (tangente, points singuliers, branches infinies, longueur) ;
+- **Chap. 15, Calcul différentiel** : dérivées partielles, classe C¹, différentielle, règle de la chaîne ; gradient, lignes de niveau, plan tangent, dérivées d'ordre 2 (théorème de Schwarz) et extremums.
+
+Chaque chapitre s'ouvre sur un **point d'histoire** (encadré « Un peu d'histoire ») et chaque cours donne des exemples calculés et des pièges (« Attention »). Cinq graphiques SVG illustrent les cours (encadrement par des fonctions en escalier, intégrale de Riemann, cycloïde, astroïde, lignes de niveau et gradient). La page Programme signale désormais les points couverts.
+
+Sources des points d'histoire : MacTutor (cycloïde : Galilée 1599, Mersenne 1628, Roberval 1634, Huygens 1673, Jean Bernoulli 1696) ; Wikipédia (symétrie des dérivées secondes : Euler et Clairaut 1740, Lagrange 1797, Cauchy 1823, Lindelöf 1867, Schwarz 1873, Peano 1890 ; intégrale de Riemann 1854/1868 ; thèse de Lebesgue 1902) ; ProofWiki (vocabulaire « integral » 1690, *calculus integralis* 1696) ; article d'histoire sur Euler et la fonction Γ (lettre à Goldbach du 13 octobre 1729).
+
+## Spé Maths A : fonctions vectorielles (courbes paramétrées planes)
+
+Dans l'onglet **Fonctions** de `SpeMathsA.html` (uniquement), un interrupteur « f(x) / γ(t) » ouvre un second mode : l'étude d'une fonction vectorielle γ : I → ℝ², t ↦ (x(t) ; y(t)) (cas n = 2 ; le cas n = 3 sera ajouté plus tard).
+
+- **Saisie** : `(x(t) ; y(t))`, variable `t`, mêmes fonctions que le mode f(x) ; l'intervalle I est donné par ses bornes (`0`, `2pi`, `-inf`, `+inf`…), avec a < b. Dix exemples en un clic (folium de Descartes, cycloïde, astroïde, cardioïde, spirales…).
+- **Tracé** : courbe orientée (flèches), repère orthonormé, zoom/déplacement/pincement, lecture de t et M(t) au survol, point mobile M(t₀) (curseur, saisie ou toucher).
+- **Informations** (activables comme dans le mode f(x)) : dérivées x′, y′ ; tableau de variations de x et de y par morceaux ; points où x′ ou y′ s'annule (tangentes horizontales/verticales) ; points stationnaires (γ′ = 0) avec les entiers p et q et leur nature (ordinaire, inflexion, rebroussement de 1re ou 2e espèce) ; points d'inflexion (det(γ′, γ″)) ; branches infinies : asymptotes horizontale, verticale ou oblique avec **position de la courbe** et points d'intersection éventuels, branches paraboliques ; tangente et normale en t₀, courbure, cercle osculateur ; longueur d'un arc entre deux paramètres et longueur totale (reconnaissance de formes simples comme 2π, 8, 6).
+- **PDF** : bouton « Générer le PDF » (fiche A4 avec deux graphiques et toutes les informations).
+- Les dérivées sont calculées formellement, les limites, racines et longueurs numériquement (pour un intervalle non borné, la recherche porte sur 40 unités de t autour de la partie finie de I). Vérifications faites : cercle (longueur 2π), arche de cycloïde (8), astroïde (6), cardioïde (16), asymptote y = −x − 1 du folium, asymptotes de (t ; t + 1/t), rebroussements de (t² ; t³).
+
+## Spé Maths A : partie 4, calcul matriciel et algèbre linéaire
+
+Treize cours ont été ajoutés à l'onglet **Cours** de `SpeMathsA.html` (cours 21 à 33), d'après les chapitres 1 à 4 de la partie « Calcul matriciel – Algèbre linéaire et bilinéaire » du livre de référence :
+
+- **Plan de la partie 4** (introduction, fil conducteur : objet géométrique ↔ matrice dans une base) ;
+- **Espaces vectoriels et applications linéaires** : espaces et sous-espaces, familles libres/génératrices, bases et coordonnées ; dimension, base incomplète, sommes directes, supplémentaires, formule de Grassmann ; applications linéaires, noyau, image, théorème du rang ; endomorphismes, projecteurs, symétries, hyperplans, sous-espaces stables ;
+- **Calcul matriciel** : produit, transposée, trace, matrices usuelles ; matrice d'une application linéaire, changement de base, matrices semblables, rang ; inversibilité, opérations élémentaires, pivot de Gauss, systèmes linéaires ;
+- **Déterminants** : propriétés et calcul (interprétation en aire/volume, orientation) ; développement, comatrice, formules de Cramer, déterminant d'un endomorphisme, Vandermonde ;
+- **Réduction des endomorphismes** : éléments propres, polynôme caractéristique ; diagonalisation et puissances ; trigonalisation, polynômes annulateurs, Cayley-Hamilton, aperçu de la décomposition de Jordan.
+
+Une trentaine de **schémas SVG** (thème clair/sombre, adaptés au mobile) illustrent les notions : libre/liée, plan engendré, coordonnées, somme directe, Grassmann, noyau/image, théorème du rang, projecteurs et symétries, hyperplans, produit matriciel (schéma de Falk), transformation du carré unité, changement de base, systèmes (droites sécantes/parallèles), aire et volume d'un déterminant, orientation, Cramer, vecteurs propres et ellipse, polynôme caractéristique, organigramme de diagonalisation, convergence des puissances. Les figures portent la classe `nomx` (pas de conversion LaTeX dans les textes SVG). Chaque cours s'ouvre sur un encadré « Un peu d'histoire » quand le chapitre en donne un (Grassmann/Peano, Cayley, Gauss/Cauchy, Cayley-Hamilton).
+
+La partie euclidienne du programme (produit scalaire, projections orthogonales, isométries, Gram-Schmidt) n'est pas encore traitée. Dans l'onglet **Programme**, les trois premières puces du point 4° portent la mention « cours disponible ».

@@ -2808,7 +2808,7 @@ function processParent(p){
   if(!run.length)continue;
   var items=run.map(function(x){return x.nodeType===3?{k:"text",s:x.nodeValue}:{k:x.nodeName.toLowerCase(),s:x.textContent}});
   var joined=items.map(function(x){return x.s}).join("");
-  if(!/[0-9²³⁰-⁹₀-₉√∫ΣπΔℝℕ∞≠≤≥×÷±′∈∪∩→⇒⇔αβγθλμσφω=<>+−\-]/.test(joined)&&!items.some(function(x){return x.k!=="text"}))continue;
+  if(!/[^A-Za-zÀ-ÿ\s’'.,;:!?«»()\u2013\u2014…\u00a0\u202f]/.test(joined)&&!items.some(function(x){return x.k!=="text"}))continue;
   var r=window.MXconvert(items);
   if(!r.R.some(function(x){return x.t==="math"}))continue;
   // reconstruit nœuds : on recoupe par jetons -> on se sert des offsets de caractères
