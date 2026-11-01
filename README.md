@@ -203,3 +203,15 @@ Treize cours ont été ajoutés à l'onglet **Cours** de `SpeMathsA.html` (cours
 Une trentaine de **schémas SVG** (thème clair/sombre, adaptés au mobile) illustrent les notions : libre/liée, plan engendré, coordonnées, somme directe, Grassmann, noyau/image, théorème du rang, projecteurs et symétries, hyperplans, produit matriciel (schéma de Falk), transformation du carré unité, changement de base, systèmes (droites sécantes/parallèles), aire et volume d'un déterminant, orientation, Cramer, vecteurs propres et ellipse, polynôme caractéristique, organigramme de diagonalisation, convergence des puissances. Les figures portent la classe `nomx` (pas de conversion LaTeX dans les textes SVG). Chaque cours s'ouvre sur un encadré « Un peu d'histoire » quand le chapitre en donne un (Grassmann/Peano, Cayley, Gauss/Cauchy, Cayley-Hamilton).
 
 La partie euclidienne du programme (produit scalaire, projections orthogonales, isométries, Gram-Schmidt) n'est pas encore traitée. Dans l'onglet **Programme**, les trois premières puces du point 4° portent la mention « cours disponible ».
+
+## Spé Maths A : onglet « Calcul » déplacé, sommes de séries numériques, nouvelles illustrations
+
+**Onglet « Calcul » → sous-onglet d'« Exercices »** (`SpeMathsA.html` uniquement). Le bouton « Calcul » n'apparaît plus dans la barre principale (plus de place pour Cours, Exercices, Fonctions, Su/Se Fonctions, Programme, PDFs) ; la calculatrice est le dernier segment de l'onglet **Exercices**. L'ancien lien `#calcul` ouvre directement ce sous-onglet. Les autres sites gardent leur onglet « Calcul ».
+
+**Su/Se Fonctions : mode « Série numérique ».** Nouveau sélecteur (à côté des modes en x) : on saisit seulement une expression en **n** (ex. `1/(n*(n+1))`, `(-1)^n/n`, `n^2/2^n`, `1/n^2`) et un premier indice. L'outil donne :
+- les premiers termes et la **nature** (comparaison à Riemann, d'Alembert, séries alternées, divergence grossière ou harmonique) avec le critère à rédiger ;
+- la **somme** : valeur numérique (Kahan, Richardson, transformation de Levin selon le cas) et, quand c'est possible, **forme exacte** : télescopage (décomposition en éléments simples), série géométrique-polynomiale (u_n = P(n)·rⁿ), ou identification d'une constante usuelle (rationnel, π², ln 2, e, ζ(3), …) ;
+- le bouton PDF comme pour les autres modes.
+Limites : le diagnostic de nature est numérique (à confirmer par rédaction), et l'identification d'une constante n'est proposée que si elle est sûre.
+
+**Illustrations des cours 1 à 20** (suites et séries numériques, suites et séries de fonctions, séries entières, intégrales, fonctions vectorielles, calcul différentiel) : une trentaine de schémas SVG (thème clair/sombre, mobile, classe `nomx`) : plans des sections, somme partielle et reste, comparaison, d'Alembert, Riemann, convergence absolue, produit de Cauchy, convergence simple/uniforme, dérivation et interversion, rayon de convergence, développement de ln(1+x), sommes de Riemann, théorème fondamental, intégrales impropres, Γ, dérivée vectorielle, rebroussement, asymptotes, surface et dérivées partielles, règle de la chaîne, points critiques.
