@@ -215,3 +215,39 @@ La partie euclidienne du programme (produit scalaire, projections orthogonales, 
 Limites : le diagnostic de nature est numérique (à confirmer par rédaction), et l'identification d'une constante n'est proposée que si elle est sûre.
 
 **Illustrations des cours 1 à 20** (suites et séries numériques, suites et séries de fonctions, séries entières, intégrales, fonctions vectorielles, calcul différentiel) : une trentaine de schémas SVG (thème clair/sombre, mobile, classe `nomx`) : plans des sections, somme partielle et reste, comparaison, d'Alembert, Riemann, convergence absolue, produit de Cauchy, convergence simple/uniforme, dérivation et interversion, rayon de convergence, développement de ln(1+x), sommes de Riemann, théorème fondamental, intégrales impropres, Γ, dérivée vectorielle, rebroussement, asymptotes, surface et dérivées partielles, règle de la chaîne, points critiques.
+
+## Spé Maths A : espaces euclidiens et fonctions d'une variable (14 nouveaux cours)
+
+`SpeMathsA.html` compte désormais **47 cours** (le nombre est affiché « Cours i/47 »). La numérotation a changé : les six cours de fonctions d'une variable s'intercalent après le plan de la section « Fonctions et calcul différentiel » (avant l'intégration), les cours d'algèbre linéaire sont donc décalés de six rangs.
+
+**Fonctions d'une variable (programme 2°, points qui manquaient)** : continuité et valeurs intermédiaires (TVI, bornes atteintes, théorème de la bijection, dichotomie) ; dérivabilité, Rolle, accroissements finis (égalité et inégalité) ; convexité (cordes, tangentes, trois cordes, Jensen, inflexion) ; formules de Taylor (reste intégral, Taylor-Lagrange, Taylor-Young, Leibniz) ; développements limités (notations de Landau, DL usuels, opérations) ; applications des DL (limites, équivalents, tangente et position, extrema, asymptotes, suites). 16 schémas.
+
+**Espaces euclidiens (d'après les chapitres 5 et 6 du livre, photos fournies)** : produit scalaire, norme, Cauchy-Schwarz, polarisation, parallélogramme ; orthogonalité, familles orthonormées, Pythagore, supplémentaire orthogonal ; projection orthogonale, distance, Bessel, matrice d'une projection ; Gram-Schmidt, bases orthonormées, Riesz ; isométries et matrices orthogonales, O(n)/SO(n) ; orientation, produit mixte, produit vectoriel, aire et volume ; symétries orthogonales, isométries du plan, rotations de ℝ³ (méthode axe/angle) ; endomorphismes symétriques et théorème spectral. 16 schémas SVG (thème clair/sombre, mobile).
+
+Dans l'onglet **Programme**, les points « Fonctions d'une variable… », « Développements limités », « Produit scalaire… », « Matrice des projections orthogonales et isométries usuelles » et « Procédé de Gram-Schmidt » portent la mention « cours disponible ». Restent à traiter : le 3° (structures algébriques, polynômes, fractions rationnelles) et le 5° (géométries).
+
+## Spé Maths A : probabilités (22 nouvelles entrées)
+
+`SpeMathsA.html` compte désormais **69 cours** (« Cours i/69 ») : le plan et les 21 cours de probabilités sont ajoutés **à la fin** de la liste (cours 48 à 69), donc la numérotation des cours précédents ne change pas. Le thème B.1° du Programme (« Probabilités ») est traité en entier. **Chaque cours s’ouvre sur une note « Un peu d’histoire »** et contient au moins une figure SVG (31 figures, thème clair/sombre, mobile, classe `nomx`).
+
+**Espaces probabilisés (chap. 16 du livre, photos fournies, complété)** : dénombrement (arrangements, combinaisons, Pascal, binôme, crible, dérangements) ; ensembles dénombrables, argument diagonal de Cantor, familles sommables ; tribus, probabilité σ-additive, continuité monotone, Boole ; conditionnement, probabilités composées/totales, Bayes, Monty Hall ; indépendance (deux à deux contre mutuelle), Méré, Borel-Cantelli.
+
+**Variables aléatoires discrètes (chap. 17)** : loi et fonction de répartition ; couples (loi conjointe, marginales, conditionnelle, convolution) ; espérance (transfert, contre-exemples, Saint-Pétersbourg) ; variance, Huygens-König, Markov, Bienaymé-Tchebychev, Cauchy-Schwarz ; covariance, corrélation, régression ; fonctions génératrices.
+
+**Lois usuelles** : uniforme, Bernoulli, binomiale, hypergéométrique, multinomiale ; géométrique, binomiale négative, Poisson et approximation de la binomiale ; variables à densité ; uniforme et exponentielle ; normale, khi-deux, Student.
+
+**Vecteurs et limites** : couples à densité, convolution, vecteurs aléatoires et gaussiens (lien avec le théorème spectral) ; convergences en probabilité et en loi, Slutsky ; lois faible et forte des grands nombres, Monte-Carlo ; théorème central limite, Moivre-Laplace, correction de continuité, tableau des approximations ; formulaire final (lois, moments, fonctions génératrices) avec carte des liens entre les lois.
+
+**Chapitres complétés** (au-delà des photos) : dénombrement, ensembles dénombrables, couples de VAD, fonctions génératrices, lois discrètes à support fini et infini, variables à densité, lois continues usuelles, vecteurs gaussiens, convergences, LGN, TCL.
+
+Dans l’onglet **Programme**, les huit puces du point 1° (Probabilités) portent la mention « cours disponible ». Restent à traiter : statistiques descriptives (2°) et inductives (3°), structures algébriques et géométries.
+
+## Spé Maths A : structures algébriques et géométries (19 nouvelles entrées)
+
+`SpeMathsA.html` compte désormais **88 cours** (« Cours i/88 ») : deux plans et 17 cours sont ajoutés **à la fin** de la liste (cours 70 à 88), la numérotation précédente ne change pas. Les points **A.3°** et **A.5°** du Programme sont traités. Chaque cours s’ouvre sur une note « Un peu d’histoire » et contient des figures SVG (35 figures, thème clair/sombre, mobile, classe `nomx`).
+
+**Structures algébriques, polynômes et fractions rationnelles (A.3°, 10 entrées)** : plan ; groupes, sous-groupes, théorème de Lagrange (groupe diédral D₃, classes modulo H) ; morphismes, noyau/image, groupes cycliques et ℤ/nℤ, théorème chinois ; anneaux, intégrité, corps, idéaux, inverse dans ℤ/nℤ ; polynômes, division euclidienne, schéma de Horner ; arithmétique de K[X] (pgcd, Euclide, Bézout, Gauss, irréductibles) ; racines, multiplicité, dérivation, relations de Viète, interpolation de Lagrange ; factorisation dans ℂ[X] et ℝ[X] (d’Alembert-Gauss, racines de l’unité) ; fractions rationnelles (degré, pôles, partie entière) ; décomposition en éléments simples (méthodes, exemples, applications). Les espaces vectoriels (A.3°) restent traités par les cours d’algèbre linéaire.
+
+**Géométries (A.5°, 9 entrées)** : plan ; géométrie affine (sous-espaces, barycentres, applications affines) ; euclidienne du plan (produit scalaire, distance à une droite, angle inscrit, puissance d’un point, droite d’Euler) ; euclidienne de l’espace (produits vectoriel et mixte, plans, distances, sphères) ; isométries et similitudes du plan (classification, composition de réflexions, homothéties) ; isométries de l’espace (SO(3), Rodrigues, vissages) ; géométrie et nombres complexes (similitudes, inversion, Möbius) ; coniques (sections de cône, foyers, directrices, propriétés optiques) ; géométrie sphérique (longitude/latitude, grands cercles, distance sphérique, triangles, formule de Girard).
+
+Restent à traiter dans le Programme A : les statistiques descriptives et inductives.
