@@ -251,3 +251,14 @@ Dans l’onglet **Programme**, les huit puces du point 1° (Probabilités) porte
 **Géométries (A.5°, 9 entrées)** : plan ; géométrie affine (sous-espaces, barycentres, applications affines) ; euclidienne du plan (produit scalaire, distance à une droite, angle inscrit, puissance d’un point, droite d’Euler) ; euclidienne de l’espace (produits vectoriel et mixte, plans, distances, sphères) ; isométries et similitudes du plan (classification, composition de réflexions, homothéties) ; isométries de l’espace (SO(3), Rodrigues, vissages) ; géométrie et nombres complexes (similitudes, inversion, Möbius) ; coniques (sections de cône, foyers, directrices, propriétés optiques) ; géométrie sphérique (longitude/latitude, grands cercles, distance sphérique, triangles, formule de Girard).
 
 Restent à traiter dans le Programme A : les statistiques descriptives et inductives.
+
+## Nouveau site : Info.html (Réviser l’informatique par les maths)
+
+`Info.html` est un quatrième site, accessible par un encadré « Réviser l’informatique (langage) par les maths » dans `index.html`, au même titre que les encadrés Spé Maths A et B. La connexion unique (même identifiant, même mot de passe) donne accès aux quatre sites ; depuis `Info.html`, un bandeau permet de revenir au site QCM B ou d’aller aux sites Spé Maths B et A.
+
+- **Cours** (8 cours illustrés, schémas SVG, code Python coloré) : présentation et objectifs du chapitre « Les maths avec Python » (note historique sur Turing), modules et sous-modules, attributs, variables/print/return/assert/booléens, nombres et fonctions prédéfinies, listes, boucles-fonctions-récursivité, arithmétique (crible, primalité).
+- **Exercices** : 6 Vrai/Faux du livre et 6 QCM de cours (correction immédiate), puis les 18 exercices 18.1 à 18.18 avec corrections Python commentées (programmes testés).
+- **PDFs** : masqué ; visible en mode administrateur, ou en mode normal après 10 minutes de présence (même compteur que les autres sites).
+- **Codage** : onglet réservé, à implémenter (éditeur Python).
+
+Remarque : dans l’exercice 18.12, le crible tel qu’imprimé oublie les bornes ⌊√n⌋ et n ; la correction donne la version corrigée.
