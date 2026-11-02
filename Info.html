@@ -479,7 +479,10 @@ function patchNet(){
  try{var f=window.fetch;if(f)window.fetch=function(a,b){
   if(typeof URL!=="undefined"&&a instanceof URL)a=a.href;
   return f.call(window,a,b)}}catch(e){}
- try{if(window.WebAssembly&&WebAssembly.instantiateStreaming)WebAssembly.instantiateStreaming=undefined}catch(e){}
+ try{if(window.WebAssembly){var oi=WebAssembly.instantiateStreaming;WebAssembly.instantiateStreaming=async function(src,imp){
+  var r=await src,c=null;try{c=r.clone()}catch(e){}
+  if(oi&&c){try{return await oi.call(WebAssembly,r,imp)}catch(e){}}
+  var buf=await (c||r).arrayBuffer();return WebAssembly.instantiate(buf,imp)}}}catch(e){}
 }
 function tryBase(base,n){
  return new Promise(function(ok,ko){
