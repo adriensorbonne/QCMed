@@ -262,3 +262,19 @@ Restent à traiter dans le Programme A : les statistiques descriptives et induct
 - **Codage** : onglet réservé, à implémenter (éditeur Python).
 
 Remarque : dans l’exercice 18.12, le crible tel qu’imprimé oublie les bornes ⌊√n⌋ et n ; la correction donne la version corrigée.
+
+## Mise à jour : 169 questions Vrai/Faux (Spé maths A) et onglet Codage (Info)
+
+- **SpeMathsA.html** : 169 énoncés « Vrai/Faux » du livre importés dans l’onglet Exercices → QCM (227 questions au total). Chaque question se répond par *Vrai* ou *Faux* ; la correction (avec justification, contre-exemple ou calcul) s’affiche après le choix, comme pour les autres QCM. Nouveaux chapitres dans les filtres : isométries et endomorphismes symétriques, espaces préhilbertiens, déterminants, espaces probabilisés, réduction, fonctions vectorielles et courbes, calcul matriciel, variables aléatoires discrètes, intégrales à paramètre et suites de fonctions, calcul différentiel, intégrales généralisées, espaces vectoriels.
+- **Info.html** : l’onglet **Codage** est actif, avec deux sous-onglets :
+  - **Shell** : console Python (`>>>`, lignes `...` pour les blocs, historique ↑/↓, erreurs et figures matplotlib affichées).
+  - **Éditeur** : zone de code (fonctions, variables…), bouton *Exécuter* ; les définitions sont ensuite appelables dans le Shell (même interpréteur). Le code est conservé dans le navigateur.
+  - Python tourne dans le navigateur grâce à Pyodide 0.26.4 (chargé depuis jsDelivr à la première ouverture de l’onglet, environ 10 Mo) : une connexion est nécessaire la première fois.
+
+## Mise à jour : « Méthodes en Python » (Info)
+
+- **Info.html › Cours › Méthodes en Python** : sous-onglet dédié reprenant les **24 méthodes du chapitre 18** (18.1 à 18.24), regroupées en 4 familles (entiers ; réels, complexes et fonctions ; tracés ; analyse numérique ; matrices ; géométrie ; équations différentielles ; plusieurs variables et probabilités).
+- Chaque méthode comporte un rappel, un code commenté, la **sortie réellement calculée**, et souvent un **schéma SVG** (plan complexe, astroïde, rectangles/trapèzes, dichotomie, Newton, Gram-Schmidt, Euler, surface, lignes de niveau…).
+- Bouton **« ▶ Essayer dans l’Éditeur »** : envoie le code dans l’onglet Codage pour l’exécuter et le modifier.
+- **Exercices** : 36 QCM, catégorie « Méthodes Python », avec correction.
+- Le code utilise des fonctions compatibles Pyodide (numpy 1.26, scipy, matplotlib).
