@@ -278,3 +278,17 @@ Remarque : dans l’exercice 18.12, le crible tel qu’imprimé oublie les borne
 - Bouton **« ▶ Essayer dans l’Éditeur »** : envoie le code dans l’onglet Codage pour l’exécuter et le modifier.
 - **Exercices** : 36 QCM, catégorie « Méthodes Python », avec correction.
 - Le code utilise des fonctions compatibles Pyodide (numpy 1.26, scipy, matplotlib).
+
+## Mise à jour : repérage du « hors programme » dans les exercices (QCM B et Spé maths B)
+
+- **Exercices** : chaque question hors programme porte une pastille orange (« Hors programme » ou « Complément »), comme dans l’onglet Cours.
+- Les filtres sont séparés en deux rangées : **Au programme** (en haut) et **Hors programme et compléments** (en dessous, puces en pointillés). Dans « Tous », les questions du programme viennent d’abord.
+- **QCM B** : fonctions, dérivée, intégrales (QRC) et second degré sont signalés ; les mêmes chapitres sont aussi repérés dans le sommaire du Cours, avec un bandeau.
+- **Spé maths B** : intégrales, division euclidienne et proportionnalité/TVA = « Complément » ; les 7 séries « Concours · … » et deux questions sur ln = « Hors programme ».
+
+## Mise à jour : sous-onglet « Test QCM » (QCM B, Spé maths A et B)
+
+- **Exercices › Test QCM** : test en conditions réelles de **40 questions** tirées des Exos QCM du site, avec un **chrono de 20 minutes**. Le tirage est équilibré entre les thèmes et favorise les questions que le candidat a le moins vues. Dans le QCM B et la Spé maths B, les questions hors programme sont exclues.
+- Pendant le test : navigation libre entre les questions, marquage « à revoir », changement de réponse possible, pas de correction. Le chrono continue si l’on quitte la page ou recharge ; à 0, le test se termine seul.
+- **Notation** : +1 par bonne réponse, 0 sinon ; note sur 20 = score ÷ 2. Résultat par thème (barres), thèmes à travailler en priorité (bouton « s’entraîner » vers les Exos QCM filtrés) et correction détaillée (toutes les questions ou erreurs seulement).
+- **Historique distinct par identifiant** (et par site) : courbe des notes avec moyenne, meilleure note, tendance, détail par thème et correction de chaque test passé. Stocké dans le navigateur (localStorage), bouton « Effacer mon historique ».

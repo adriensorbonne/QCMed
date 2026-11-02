@@ -182,6 +182,38 @@ svg .mxorig{opacity:1}
 .tx[data-done="1"]{font-family:inherit}
 @media print{.tx .katex{font-size:1em}}
 foreignObject .tx .katex,foreignObject .tx .katex-html{white-space:nowrap}
+
+/*hp*/.tag.hp{background:#fff0d1;color:#8a5200}.hplab{margin:14px 0 4px;font-size:.9rem;font-weight:700;color:#8a5200}.hpnote{font-size:.85rem;color:var(--muted);margin:0 0 6px}.hpban{border:1px solid #e6b24f;background:#fff7e3;color:#6b4200;border-radius:12px;padding:8px 14px;margin:0 0 14px;font-size:.92rem}.chip.hpc{border-style:dashed}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tag.hp{background:#2b1f06;color:#ffc766}:root:not([data-theme="light"]) .hplab{color:#ffc766}:root:not([data-theme="light"]) .hpban{background:#2b1f06;border-color:#6b4a10;color:#ffc766}}
+:root[data-theme="dark"] .tag.hp{background:#2b1f06;color:#ffc766}:root[data-theme="dark"] .hplab{color:#ffc766}:root[data-theme="dark"] .hpban{background:#2b1f06;border-color:#6b4a10;color:#ffc766}
+/*tq*/.seg{overflow-x:auto;scrollbar-width:none}.seg::-webkit-scrollbar{display:none}.seg button{white-space:nowrap}
+@media (max-width:760px){.seg button{padding:10px 8px;font-size:.88rem}}
+.tqhome .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:14px 0}
+.tqstat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;min-width:0}.tqstat b{display:block;font-size:1.5rem;line-height:1.2}.tqstat span{font-size:.82rem;color:var(--muted)}
+.tqrules{margin:0 0 14px;padding-left:20px}.tqrules li{margin:2px 0}
+.tqbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 66px);z-index:5;display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--hd);padding:8px 0;margin-bottom:10px;border-bottom:1px solid var(--line)}
+.tqt{font-variant-numeric:tabular-nums;font-weight:800;font-size:1.35rem;letter-spacing:.02em}.tqt.low{color:var(--ko)}
+.tqbar .cta{margin:0}
+.tqq .opts button.sel{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,var(--bg));font-weight:600}
+.tqq .opts button{width:100%}
+.tqnav{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}.tqnav .cta{flex:1 1 120px;margin:0}
+.tqflag{font:inherit;font-size:.88rem;background:none;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:4px 12px;cursor:pointer;margin-left:6px}.tqflag[aria-pressed="true"]{border-color:#e6b24f;background:#fff0d1;color:#8a5200;font-weight:600}
+.tqgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px;margin-top:16px}
+.tqgrid button{font:inherit;font-size:.85rem;min-height:40px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;cursor:pointer;padding:0}
+.tqgrid button.a{background:var(--soft);border-color:var(--accent)}.tqgrid button.f{box-shadow:inset 0 -4px 0 #e6b24f}.tqgrid button.c{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+.tqmsg{margin:12px 0;padding:12px 14px;border:1px solid #e6b24f;background:#fff7e3;color:#6b4200;border-radius:12px}.tqmsg .cta{margin:8px 8px 0 0}
+.tqbig{font-size:2.6rem;font-weight:800;line-height:1.1;letter-spacing:-.02em}.tqbig small{font-size:1.1rem;font-weight:600;color:var(--muted)}
+.tqres{display:flex;gap:16px;flex-wrap:wrap;align-items:center}.tqres>div{min-width:0}
+.tqbars{display:grid;gap:10px;margin:8px 0 18px}.tqb{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;font-size:.92rem}.tqb i{grid-column:1/-1;display:block;height:9px;border-radius:99px;background:var(--soft);overflow:hidden}.tqb i u{display:block;height:100%;border-radius:99px;background:var(--ok)}
+.tqb.w i u{background:#e09a1a}.tqb.k i u{background:var(--ko)}.tqb b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tqrow{border:1px solid var(--line);background:var(--surface);border-radius:12px;margin:8px 0}.tqrow summary{cursor:pointer;display:grid;grid-template-columns:1fr auto auto;gap:4px 12px;padding:10px 14px;align-items:center}.tqrow>div{padding:0 14px 12px}
+.tqrow summary small{color:var(--muted)}
+.tqch{width:100%;height:auto;max-width:560px;display:block}.tqch text{fill:var(--muted);font-size:9px}.tqch .g{stroke:var(--line);stroke-width:1}.tqch .ln{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round}.tqch .dt{fill:var(--accent)}.tqch .av{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 3}
+.tqrv .tag.ok{background:color-mix(in srgb,var(--ok) 18%,var(--bg));color:var(--ok)}.tqrv .tag.ko{background:color-mix(in srgb,var(--ko) 16%,var(--bg));color:var(--ko)}
+.tqrv .opts button{cursor:default;width:100%}.tqrv .opts button.me:not(.good){border-color:var(--ko);background:color-mix(in srgb,var(--ko) 15%,var(--bg))}
+.tqfilters{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tqmsg{background:#2b1f06;border-color:#6b4a10;color:#ffc766}:root:not([data-theme="light"]) .tqflag[aria-pressed="true"]{background:#2b1f06;color:#ffc766}}
+:root[data-theme="dark"] .tqmsg{background:#2b1f06;border-color:#6b4a10;color:#ffc766}:root[data-theme="dark"] .tqflag[aria-pressed="true"]{background:#2b1f06;color:#ffc766}
 </style>
 </head>
 <body class="locked">
@@ -235,7 +267,7 @@ foreignObject .tx .katex,foreignObject .tx .katex-html{white-space:nowrap}
 
 <section id="exercices" class="view hide">
 <h1>Exercices</h1>
-<div class="seg" role="tablist" aria-label="Type d’exercices"><button type="button" role="tab" data-sub="qcm" aria-selected="true">Exos QCM</button><button type="button" role="tab" data-sub="usu" aria-selected="false">Exos Usuels</button></div>
+<div class="seg" role="tablist" aria-label="Type d’exercices"><button type="button" role="tab" data-sub="qcm" aria-selected="true">Exos QCM</button><button type="button" role="tab" data-sub="usu" aria-selected="false">Exos Usuels</button><button type="button" role="tab" data-sub="test" aria-selected="false">Test QCM</button></div>
 <div id="exQcm">
 <p class="lead">Choisissez une réponse : la correction s’affiche tout de suite, avec la méthode. Besoin d’un calcul ? La calculatrice conserve votre progression.</p><div class="chips" id="chips" role="group" aria-label="Filtrer par cours"></div>
 <div class="score"><span>Score : <b id="sc">0</b> / <span id="tot">0</span></span><span><button class="cta alt" data-tab="calculatrice" style="margin:0 6px 0 0">Calculatrice</button><button class="cta alt" id="reset" style="margin:0">Recommencer</button></span></div>
@@ -245,6 +277,7 @@ foreignObject .tx .katex,foreignObject .tx .katex-html{white-space:nowrap}
 <p class="lead">Des exercices rédigés, issus de vos fiches. Cherchez d’abord sur papier, puis ouvrez la correction détaillée.</p>
 <div class="usu" id="usuList"></div>
 </div>
+<div id="exTest" class="hide"></div>
 </section>
 
 <section id="calculatrice" class="view hide">
@@ -695,10 +728,10 @@ var EXOS=[
 {c:"Critères de divisibilité",q:"Lequel de ces nombres est divisible par 7 ?",o:["113", "119", "121", "125"],a:1,e:"119 : 11 − 2 × 9 = −7, multiple de 7. Pour 113 : 11 − 6 = 5 ; 121 : 12 − 2 = 10 ; 125 : 12 − 10 = 2."},
 {c:"Critères de divisibilité",q:"Lequel de ces nombres est divisible par 8 ?",o:["2012", "2016", "2020", "2018"],a:1,e:"On regarde les trois derniers chiffres : 016 = 16 = 2 × 8. Les autres donnent 12, 20 et 18."},
 {c:"Critères de divisibilité",q:"Lequel de ces nombres est divisible par 9 ?",o:["721", "729", "731", "743"],a:1,e:"7 + 2 + 9 = 18, divisible par 9. Les autres sommes valent 10, 11 et 14."},
-{c:"Second degré (hors programme)",q:"Quel est le discriminant Δ de X² − X − 1 = 0 ?",o:["5", "3", "−3", "1"],a:0,e:"Δ = b² − 4ac = (−1)² − 4 × 1 × (−1) = 1 + 4 = 5."},
-{c:"Second degré (hors programme)",q:"Δ = 5 pour X² − X − 1 = 0. Combien de solutions réelles ?",o:["Aucune", "Une", "Deux", "Une infinité"],a:2,e:"Δ > 0 : l’équation a deux solutions réelles."},
-{c:"Second degré (hors programme)",q:"Laquelle des solutions de X² − X − 1 = 0 est le nombre d’or (≈ 1,618) ?",o:["(1 + √5) / 2", "(1 − √5) / 2", "√5", "1 + √5"],a:0,e:"X₁ = (1 + √5) / 2 ≈ 1,618. L’autre solution, (1 − √5) / 2, est négative."},
-{c:"Second degré (hors programme)",q:"Combien de solutions réelles a X² + 1 = 0 ?",o:["Aucune", "Une", "Deux", "Trois"],a:0,e:"Δ = 0 − 4 × 1 × 1 = −4 < 0 : pas de solution réelle."},
+{c:"Second degré",q:"Quel est le discriminant Δ de X² − X − 1 = 0 ?",o:["5", "3", "−3", "1"],a:0,e:"Δ = b² − 4ac = (−1)² − 4 × 1 × (−1) = 1 + 4 = 5."},
+{c:"Second degré",q:"Δ = 5 pour X² − X − 1 = 0. Combien de solutions réelles ?",o:["Aucune", "Une", "Deux", "Une infinité"],a:2,e:"Δ > 0 : l’équation a deux solutions réelles."},
+{c:"Second degré",q:"Laquelle des solutions de X² − X − 1 = 0 est le nombre d’or (≈ 1,618) ?",o:["(1 + √5) / 2", "(1 − √5) / 2", "√5", "1 + √5"],a:0,e:"X₁ = (1 + √5) / 2 ≈ 1,618. L’autre solution, (1 − √5) / 2, est négative."},
+{c:"Second degré",q:"Combien de solutions réelles a X² + 1 = 0 ?",o:["Aucune", "Une", "Deux", "Trois"],a:0,e:"Δ = 0 − 4 × 1 × 1 = −4 < 0 : pas de solution réelle."},
 {c:"Systèmes",q:"Quelle est la méthode par substitution ?",o:["On isole une inconnue dans une équation, puis on reporte sa valeur dans l’autre", "On additionne les deux équations", "On multiplie les deux équations entre elles", "On supprime une des deux équations"],a:0,e:"Par substitution, on isole par exemple x dans la 1ʳᵉ équation et on le reporte dans la 2ᵉ."},
 {c:"Systèmes",q:"x + 2y = 7 et 3x − y = 7. Quelle est la solution (x ; y) ?",o:["(1 ; 3)", "(3 ; 2)", "(5 ; 1)", "(7 ; 0)"],a:1,e:"x = 7 − 2y, puis 3(7 − 2y) − y = 7 donne y = 2 et x = 3. Vérification : 3 + 4 = 7 et 9 − 2 = 7."},
 {c:"Systèmes",q:"En additionnant ax + by = c et dx − by = f, on obtient…",o:["(a + d)x = c + f", "(a − d)x = c − f", "(a + d)y = c + f", "ax + dx = c − f"],a:0,e:"Les termes en y s’annulent (by − by = 0) : (a + d)x = c + f."},
@@ -752,9 +785,10 @@ document.addEventListener("click",function(e){
 });
 window.addEventListener("hashchange",function(){setTab(location.hash.slice(1),false)});
 var cur=0;
+function isHP(c){return /^(Fonctions|Dérivée|Intégrales)/.test(c.s)}
 function showCourse(i,noScroll){
  cur=i;var c=COURSES[i];
- $("#lesson").innerHTML=c.h+trapHTML(i)+"<div class=\"pager\"><button class=\"cta alt\" "+(i?"":"disabled style=\"opacity:.4\"")+" id=\"prev\">Cours précédent</button><button class=\"cta\" id=\"next\">"+(i<COURSES.length-1?"Cours suivant":"Aller aux exercices")+"</button></div>";
+ $("#lesson").innerHTML=(isHP(c)?"<div class=\"hpban\"><b>Hors programme du QCM B.</b> Ce chapitre relève du programme du QRC (matière au choix) : apprenez d’abord les nombres, le calcul littéral, les équations et les systèmes.</div>":"")+c.h+trapHTML(i)+"<div class=\"pager\"><button class=\"cta alt\" "+(i?"":"disabled style=\"opacity:.4\"")+" id=\"prev\">Cours précédent</button><button class=\"cta\" id=\"next\">"+(i<COURSES.length-1?"Cours suivant":"Aller aux exercices")+"</button></div>";
  $("#prev").onclick=function(){if(cur>0)showCourse(cur-1)};
  $("#next").onclick=function(){if(cur<COURSES.length-1)showCourse(cur+1);else setTab("exercices",true)};
  document.querySelectorAll("#toc button").forEach(function(b,k){if(k===i)b.setAttribute("aria-current","true");else b.removeAttribute("aria-current")});
@@ -763,7 +797,7 @@ function showCourse(i,noScroll){
 }
 (function(){
  var t=$("#toc");
- COURSES.forEach(function(c,i){var b=document.createElement("button");b.innerHTML=c.t+"<small>"+c.s+"</small>";b.onclick=function(){showCourse(i)};t.appendChild(b)});
+ COURSES.forEach(function(c,i){var b=document.createElement("button");b.innerHTML=c.t+"<small>"+c.s+(isHP(c)?" · Hors programme du QCM":"")+"</small>";b.onclick=function(){showCourse(i)};t.appendChild(b)});
  UPCOMING.forEach(function(u){var b=document.createElement("button");b.disabled=true;b.style.opacity=".55";b.innerHTML=u+"<small>Bientôt</small>";t.appendChild(b)});
  showCourse(0,true);
 })();
@@ -775,12 +809,14 @@ function machine(){
 }
 $("#mx").addEventListener("input",machine);machine();
 var score=0,done=0,filt="";
+var HPX={"Fonctions": "Hors programme", "Dérivée": "Hors programme", "Intégrales": "Hors programme", "Second degré": "Hors programme"};
+function hpl(x){return x.h||HPX[x.c]||""}
 function renderExos(){
- var L=EXOS.filter(function(x){return !filt||x.c===filt});score=0;done=0;$("#sc").textContent=0;$("#tot").textContent=L.length;
+ var L=EXOS.map(function(x,i){return [x,i]}).filter(function(p){var x=p[0],h=hpl(x);return !filt||(filt==="__prog"?!h:filt==="__hp"?!!h:x.c===filt)}).sort(function(a,b){return filt?a[1]-b[1]:((hpl(a[0])?1:0)-(hpl(b[0])?1:0))||a[1]-b[1]}).map(function(p){return p[0]});score=0;done=0;$("#sc").textContent=0;$("#tot").textContent=L.length;
  var box=$("#exos");box.innerHTML="";
  L.forEach(function(x,i){
   var d=document.createElement("div");d.className="card";
-  d.innerHTML="<span class=\"tag\">"+x.c+"</span><p style=\"margin:10px 0 0\"><b>Question "+(i+1)+".</b> "+x.q+"</p><div class=\"opts\"></div><div class=\"expl hide\"></div>";
+  d.innerHTML="<span class=\"tag\">"+x.c+"</span>"+(hpl(x)?" <span class=\"tag hp\">"+hpl(x)+"</span>":"")+"<p style=\"margin:10px 0 0\"><b>Question "+(i+1)+".</b> "+x.q+"</p><div class=\"opts\"></div><div class=\"expl hide\"></div>";
   var o=d.querySelector(".opts");
   x.o.forEach(function(txt,k){
    var b=document.createElement("button");b.textContent=txt;
@@ -798,8 +834,15 @@ function renderExos(){
  });
 }
 $("#reset").onclick=function(){renderExos();window.scrollTo(0,0)};
-var cats=["Tous"].concat(EXOS.map(function(x){return x.c}).filter(function(c,i,a){return a.indexOf(c)===i}));
-cats.forEach(function(c){var b=document.createElement("button");b.className="chip";b.textContent=c;b.setAttribute("aria-pressed",c==="Tous"?"true":"false");b.onclick=function(){filt=c==="Tous"?"":c;document.querySelectorAll(".chip[aria-pressed]").forEach(function(z){z.setAttribute("aria-pressed",z===b?"true":"false")});renderExos()};$("#chips").appendChild(b)});
+var cats=EXOS.map(function(x){return x.c}).filter(function(c,i,a){return a.indexOf(c)===i});
+function mkChip(host,t,v,cls){var b=document.createElement("button");b.className="chip"+(cls?" "+cls:"");b.textContent=t;b.setAttribute("aria-pressed",v===""?"true":"false");b.onclick=function(){filt=v;document.querySelectorAll("#exercices .chip[aria-pressed]").forEach(function(z){z.setAttribute("aria-pressed",z===b?"true":"false")});renderExos()};host.appendChild(b)}
+(function(){var ch=$("#chips");mkChip(ch,"Tous","");mkChip(ch,"Au programme","__prog");
+ var hasHp=EXOS.some(function(x){return hpl(x)});
+ cats.filter(function(c){return !HPX[c]}).forEach(function(c){mkChip(ch,c,c)});
+ if(hasHp){var lab=document.createElement("p");lab.className="hplab";lab.textContent="Hors programme et compléments";var nt=document.createElement("p");nt.className="hpnote";nt.textContent="Fonctions, dérivées et intégrales relèvent du QRC, et le second degré n’est pas listé pour le QCM B : à réviser après l’essentiel.";var h2=document.createElement("div");h2.className="chips";h2.setAttribute("role","group");h2.setAttribute("aria-label","Exercices hors programme");
+  ch.parentNode.insertBefore(lab,ch.nextSibling);lab.parentNode.insertBefore(nt,lab.nextSibling);nt.parentNode.insertBefore(h2,nt.nextSibling);
+  mkChip(h2,"Tout le hors programme","__hp","hpc");cats.filter(function(c){return HPX[c]}).forEach(function(c){mkChip(h2,c,c,"hpc")});}
+})();
 renderExos();
 var H2C="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",JSP="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",libs={},DL=null;
 try{if(window.claude&&claude.use)claude.use("downloads").then(function(d){DL=d}).catch(function(){})}catch(x){}
@@ -843,9 +886,8 @@ var USU=[{"g": "Factorisation", "items": [{"t": "Exercice 1", "q": "Quelle expre
   g.items.forEach(function(x){var d=document.createElement("div");d.className="card";
    d.innerHTML="<span class=\"tag\">"+g.g+"</span><p style=\"margin:10px 0 0\"><b>"+x.t+".</b> "+x.q+"</p>"+(x.a?"<details class=\"corr\"><summary>Voir la correction</summary><div class=\"expl\">"+x.a+"</div></details>":"");
    b.appendChild(d)})});
- document.querySelectorAll(".seg button").forEach(function(t){t.onclick=function(){
-  document.querySelectorAll(".seg button").forEach(function(z){z.setAttribute("aria-selected",z===t?"true":"false")});
-  $("#exQcm").classList.toggle("hide",t.dataset.sub!=="qcm");$("#exUsu").classList.toggle("hide",t.dataset.sub!=="usu");window.scrollTo(0,0)}})})();
+ window.exSub=function(n){document.querySelectorAll("#exercices .seg button").forEach(function(z){z.setAttribute("aria-selected",z.dataset.sub===n?"true":"false")});$("#exQcm").classList.toggle("hide",n!=="qcm");$("#exUsu").classList.toggle("hide",n!=="usu");$("#exTest").classList.toggle("hide",n!=="test");if(n==="test"&&window.TQ)TQ.show()};
+ document.querySelectorAll("#exercices .seg button").forEach(function(t){t.onclick=function(){window.exSub(t.dataset.sub);window.scrollTo(0,0)}})})();
 var ans=0,deg=true;
 function rz(r){return Math.abs(r)<1e-12?0:r}
 var F={sqrt:Math.sqrt,ln:Math.log,log:Math.log10,exp:Math.exp,abs:Math.abs,
@@ -929,6 +971,144 @@ $("#lb").onclick=login;
 ["#lu","#lp"].forEach(function(s){$(s).addEventListener("keydown",function(e){if(e.key==="Enter")login()})});
 $("#logout").onclick=function(){try{SKclr()}catch(x){}lock()};
 try{var su=SKget();if(su){SKset(su.u,su.a);unlock(su.u,su.a)}else $("#lu").focus()}catch(x){$("#lu").focus()}
+/*tq-module*/
+(function(){
+var SITE="qcmb",N=40,DUR=1200,OPTH=false,root=$("#exTest"),iv=null,resIdx=-1,onlyErr=false,confirmEnd=false,confirmClr=false;
+if(!root)return;
+function pad(n){return(n<10?"0":"")+n}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function user(){var r=null;try{r=SKget()}catch(e){}return r&&r.u?r.u:"Invité"}
+function ukey(){return"qcmed-tq|"+SITE+"|"+norm(user())}
+function load(){var d=lg(ukey(),null);if(!d||typeof d!=="object")d={};if(!Array.isArray(d.h))d.h=[];if(!d.seen||typeof d.seen!=="object")d.seen={};if(!d.run)d.run=null;return d}
+function save(d){ls(ukey(),d)}
+function hsh(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return(h>>>0).toString(36)}
+function qid(x){return hsh(x.q+"|"+x.o.join("|"))}
+function ishp(x){return typeof hpl==="function"&&!!hpl(x)}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function byId(){var m={};EXOS.forEach(function(x){m[qid(x)]=x});return m}
+function pick(seen){
+ var by={};EXOS.filter(function(x){return!ishp(x)}).forEach(function(x){(by[x.c]=by[x.c]||[]).push(x)});
+ var cats=shuffle(Object.keys(by));
+ cats.forEach(function(c){by[c]=shuffle(by[c]).sort(function(a,b){return(seen[qid(a)]||0)-(seen[qid(b)]||0)})});
+ var out=[];while(out.length<N){var any=false;for(var i=0;i<cats.length&&out.length<N;i++){if(by[cats[i]].length){out.push(by[cats[i]].shift());any=true}}if(!any)break}
+ return shuffle(out)}
+function fmt(s){s=Math.max(0,Math.ceil(s));return pad(Math.floor(s/60))+":"+pad(s%60)}
+function dur(s){return Math.floor(s/60)+" min "+pad(s%60)+" s"}
+function nt(sc,n){return(Math.round(sc/n*200)/10).toString().replace(".",",")}
+function pct(sc,n){return n?Math.round(sc/n*100):0}
+function mention(p){return p>=85?"Excellent":p>=70?"Solide":p>=50?"À consolider":"À retravailler"}
+function dt(ts){var d=new Date(ts);return pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear()+" "+pad(d.getHours())+"h"+pad(d.getMinutes())}
+function opt(b,t){if(OPTH)b.innerHTML=t;else b.textContent=t}
+function optHtml(t){return OPTH?t:esc(t)}
+function stopIv(){if(iv){clearInterval(iv);iv=null}}
+function hd(){var h=document.querySelector("header");return h?h.offsetHeight:58}
+/* ---------- accueil */
+function chart(h){
+ if(!h.length)return"";
+ var L=h.slice(-15),W=340,H=150,l=30,r=12,t=10,b=22,w=W-l-r,hh=H-t-b,s="";
+ [0,5,10,15,20].forEach(function(v){var y=t+hh-(v/20)*hh;s+='<line class="g" x1="'+l+'" x2="'+(W-r)+'" y1="'+y+'" y2="'+y+'"/><text x="'+(l-5)+'" y="'+(y+3)+'" text-anchor="end">'+v+'</text>'});
+ var pts=L.map(function(x,i){var v=x.n?x.s/x.n*20:0;return[l+(L.length>1?i*w/(L.length-1):w/2),t+hh-(v/20)*hh,v]});
+ var avg=L.reduce(function(a,x){return a+(x.n?x.s/x.n*20:0)},0)/L.length,ya=t+hh-(avg/20)*hh;
+ s+='<line class="av" x1="'+l+'" x2="'+(W-r)+'" y1="'+ya+'" y2="'+ya+'"/><text x="'+(W-r)+'" y="'+(ya-3)+'" text-anchor="end">moyenne '+(Math.round(avg*10)/10).toString().replace(".",",")+'</text>';
+ if(pts.length>1)s+='<polyline class="ln" points="'+pts.map(function(p){return p[0].toFixed(1)+","+p[1].toFixed(1)}).join(" ")+'"/>';
+ pts.forEach(function(p,i){s+='<circle class="dt" cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.5"/>';if(i===pts.length-1||pts.length<=6)s+='<text x="'+p[0].toFixed(1)+'" y="'+(p[1]-7).toFixed(1)+'" text-anchor="middle">'+(Math.round(p[2]*10)/10).toString().replace(".",",")+'</text>'});
+ return'<svg class="tqch graph nomx" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Évolution des notes sur 20">'+s+'<text x="'+l+'" y="'+(H-4)+'">Note sur 20, du plus ancien (gauche) au plus récent (droite)</text></svg>'}
+function breakdown(c){
+ var rows=Object.keys(c).map(function(k){return{k:k,o:c[k][0],t:c[k][1],p:c[k][1]?c[k][0]/c[k][1]:0}}).sort(function(a,b){return a.p-b.p||b.t-a.t});
+ return'<div class="tqbars">'+rows.map(function(x){var cl=x.p<.5?"k":x.p<.75?"w":"";return'<div class="tqb '+cl+'"><span>'+esc(x.k)+'</span><b>'+x.o+" / "+x.t+'</b><i><u style="width:'+Math.round(x.p*100)+'%"></u></i></div>'}).join("")+'</div>'}
+function home(d){
+ var h=d.h,n=h.length,best=0,avg=0;
+ h.forEach(function(x){var v=x.n?x.s/x.n*20:0;if(v>best)best=v;avg+=v});avg=n?avg/n:0;
+ var last=h[n-1],trend="";
+ if(n>=2){var f=h[0],dl=(last.s/last.n-f.s/f.n)*20;trend=dl>0.05?"En progrès : "+(Math.round(dl*10)/10).toString().replace(".",",")+" point(s) sur 20 de plus que le premier test.":dl<-0.05?"Note en retrait de "+(Math.round(-dl*10)/10).toString().replace(".",",")+" point(s) sur 20 par rapport au premier test : refaites les thèmes en rouge.":"Notes stables depuis le premier test."}
+ var f=function(v){return(Math.round(v*10)/10).toString().replace(".",",")};
+ var s='<div class="tqhome"><p class="lead">Entraînez-vous en conditions réelles : <b>'+N+' questions</b> tirées des Exos QCM de ce site, <b>20 minutes</b> chrono.</p>'+
+ '<ul class="tqrules"><li>+1 point par bonne réponse, 0 sinon (pas de pénalité) ; note sur 20 = score ÷ 2.</li><li>La correction n’apparaît qu’à la fin, avec une analyse par thème.</li><li>Vous pouvez revenir sur une question, la marquer pour la revoir et changer de réponse avant de terminer.</li><li>Le chrono continue si vous quittez la page ; à 0, le test se termine tout seul.</li></ul>'+
+ '<button class="cta" data-act="start" style="margin:0">Commencer un test</button>'+
+ '<h2 style="margin-top:26px">Historique des notes · '+esc(user())+'</h2>';
+ if(!n)s+='<p style="color:var(--muted)">Aucun test passé pour l’instant. Vos notes s’afficheront ici pour suivre votre progression.</p>';
+ else{
+  s+='<div class="cards"><div class="tqstat"><b>'+n+'</b><span>test'+(n>1?"s":"")+' passé'+(n>1?"s":"")+'</span></div><div class="tqstat"><b>'+f(best)+' / 20</b><span>meilleure note</span></div><div class="tqstat"><b>'+f(avg)+' / 20</b><span>moyenne</span></div><div class="tqstat"><b>'+nt(last.s,last.n)+' / 20</b><span>dernier test</span></div></div>'+(trend?'<p>'+trend+'</p>':"")+chart(h)+
+  '<div>'+h.slice().reverse().map(function(x,i){var idx=n-1-i;return'<details class="tqrow"><summary><span>'+dt(x.d)+'</span><b>'+x.s+" / "+x.n+' · '+nt(x.s,x.n)+'/20</b><small>'+dur(x.t)+(x.a?" · chrono":"")+'</small></summary><div>'+breakdown(x.c)+(x.r?'<button class="cta alt" data-act="rev" data-i="'+idx+'" style="margin:0">Revoir la correction</button>':"")+'</div></details>'}).join("")+'</div>'+
+  '<p style="margin-top:14px"><button class="cta alt" data-act="'+(confirmClr?"clear2":"clear")+'" style="margin:0">'+(confirmClr?"Confirmer l’effacement de l’historique":"Effacer mon historique")+'</button></p>'}
+ return s+'</div>'}
+/* ---------- test en cours */
+function runView(d){
+ var r=d.run,M=byId(),Q=r.qs.map(function(id){return M[id]});
+ if(Q.some(function(x){return!x})){d.run=null;save(d);return null}
+ var i=r.cur,x=Q[i],ans=r.a.filter(function(v){return v>=0}).length,left=Math.max(0,(r.end-Date.now())/1000);
+ var s='<div class="tqbar"><span class="tqt'+(left<=300?" low":"")+'" id="tqT" aria-label="Temps restant">'+fmt(left)+'</span><span id="tqP" style="color:var(--muted);font-size:.9rem">'+ans+" / "+Q.length+' répondues</span><button class="cta" data-act="end">Terminer</button></div>';
+ if(confirmEnd){var miss=Q.length-ans;s+='<div class="tqmsg" role="alert">'+(miss?"Il reste <b>"+miss+"</b> question"+(miss>1?"s":"")+" sans réponse. ":"")+'Terminer et voir la note ?<br><button class="cta" data-act="end2">Oui, terminer</button><button class="cta alt" data-act="cancel">Continuer le test</button></div>'}
+ s+='<div class="card tqq" id="tqQ"><span class="tag">Question '+(i+1)+" / "+Q.length+'</span><button class="tqflag" data-act="flag" aria-pressed="'+(r.f[i]?"true":"false")+'">'+(r.f[i]?"⚑ Marquée":"⚐ Marquer")+'</button><p style="margin:10px 0 0"><b>'+x.q+'</b></p><div class="opts">'+x.o.map(function(t,k){return'<button data-act="opt" data-k="'+k+'" class="'+(r.a[i]===k?"sel":"")+'" aria-pressed="'+(r.a[i]===k?"true":"false")+'">'+optHtml(t)+'</button>'}).join("")+'</div></div>'+
+ '<div class="tqnav"><button class="cta alt" data-act="prev"'+(i?"":" disabled style=\"opacity:.4\"")+'>Précédente</button><button class="cta" data-act="next"'+(i<Q.length-1?"":" disabled style=\"opacity:.4\"")+'>Suivante</button></div>'+
+ '<div class="tqgrid" role="group" aria-label="Navigation entre les questions">'+Q.map(function(_,k){return'<button data-act="go" data-i="'+k+'" class="'+(k===i?"c ":"")+(r.a[k]>=0?"a ":"")+(r.f[k]?"f":"")+'" aria-label="Question '+(k+1)+(r.a[k]>=0?", répondue":"")+(r.f[k]?", marquée":"")+'">'+(k+1)+'</button>'}).join("")+'</div>'+
+ '<p style="font-size:.85rem;color:var(--muted);margin-top:10px">Bleu clair : répondue · trait orange : marquée pour revoir.</p>';
+ return s}
+function tick(){
+ var d=load();if(!d.run){stopIv();return}
+ var left=(d.run.end-Date.now())/1000,el=$("#tqT");
+ if(left<=0){finish(true);return}
+ if(el){el.textContent=fmt(left);el.classList.toggle("low",left<=300)}}
+function start(){
+ var d=load(),Q=pick(d.seen);if(!Q.length)return;
+ var now=Date.now();d.run={t0:now,end:now+DUR*1000,qs:Q.map(qid),a:Q.map(function(){return-1}),f:Q.map(function(){return 0}),cur:0};
+ save(d);confirmEnd=false;render();window.scrollTo(0,0)}
+function finish(auto){
+ var d=load(),r=d.run;if(!r)return;stopIv();
+ var M=byId(),c={},sc=0,n=0,now=Math.min(Date.now(),r.end);
+ r.qs.forEach(function(id,i){var x=M[id];if(!x)return;n++;(c[x.c]=c[x.c]||[0,0])[1]++;if(r.a[i]===x.a){sc++;c[x.c][0]++}d.seen[id]=(d.seen[id]||0)+1});
+ d.run=null;
+ if(n){d.h.push({d:Date.now(),s:sc,n:n,t:Math.max(1,Math.round((now-r.t0)/1000)),c:c,a:auto?1:0,r:r.qs.map(function(id,i){return[id,r.a[i]]})});if(d.h.length>60)d.h.shift();resIdx=d.h.length-1}
+ save(d);confirmEnd=false;onlyErr=false;render();window.scrollTo(0,0)}
+/* ---------- résultats */
+function result(d){
+ var x=d.h[resIdx];if(!x){resIdx=-1;return home(d)}
+ var p=pct(x.s,x.n),prev=resIdx>0?d.h[resIdx-1]:null,M=byId();
+ var s='<div class="tqrv"><p><button class="cta alt" data-act="home" style="margin:0">← Historique</button></p><div class="card"><div class="tqres"><div><div class="tqbig">'+x.s+' <small>/ '+x.n+'</small></div><div><b>Note : '+nt(x.s,x.n)+' / 20</b> · '+mention(p)+'</div></div><div style="color:var(--muted);font-size:.92rem">'+dt(x.d)+'<br>Durée : '+dur(x.t)+(x.a?" (temps écoulé)":"")+(prev?'<br>'+(x.s/x.n>prev.s/prev.n?"▲ ":x.s/x.n<prev.s/prev.n?"▼ ":"= ")+'précédent : '+nt(prev.s,prev.n)+' / 20':"")+'</div></div></div>';
+ var weak=Object.keys(x.c).map(function(k){return{k:k,o:x.c[k][0],t:x.c[k][1],p:x.c[k][1]?x.c[k][0]/x.c[k][1]:1}}).filter(function(z){return z.p<.75}).sort(function(a,b){return a.p-b.p||b.t-a.t}).slice(0,4);
+ s+='<h2 style="margin-top:22px">À travailler en priorité</h2>';
+ if(weak.length)s+='<div style="display:flex;gap:8px;flex-wrap:wrap">'+weak.map(function(z){return'<button class="cta alt" data-act="train" data-c="'+esc(z.k)+'" style="margin:0">'+esc(z.k)+' ('+z.o+'/'+z.t+') · s’entraîner</button>'}).join("")+'</div>';
+ else s+='<p>Aucun thème en dessous de 75 % : continuez ainsi et refaites un test pour confirmer.</p>';
+ s+='<h2 style="margin-top:22px">Résultat par thème</h2>'+breakdown(x.c);
+ if(x.r){
+  var rows=x.r.map(function(e,i){return{i:i,q:M[e[0]],a:e[1]}}).filter(function(e){return e.q});
+  var bad=rows.filter(function(e){return e.a!==e.q.a}).length;
+  s+='<h2 style="margin-top:22px">Correction</h2><div class="tqfilters"><button class="chip" data-act="filt" aria-pressed="'+(onlyErr?"false":"true")+'" data-v="0">Toutes ('+rows.length+')</button><button class="chip" data-act="filt" aria-pressed="'+(onlyErr?"true":"false")+'" data-v="1">Erreurs et non-réponses ('+bad+')</button></div><div style="display:grid;gap:16px">';
+  rows.forEach(function(e){var q=e.q,ok=e.a===q.a;if(onlyErr&&ok)return;
+   s+='<div class="card"><span class="tag">Question '+(e.i+1)+'</span> <span class="tag '+(ok?"ok":"ko")+'">'+(ok?"Correct":e.a<0?"Sans réponse":"Incorrect")+'</span> <span class="tag">'+esc(q.c)+'</span><p style="margin:10px 0 0"><b>'+q.q+'</b></p><div class="opts">'+q.o.map(function(t,k){return'<button disabled class="'+(k===q.a?"good ":"")+(k===e.a?"me":"")+'">'+optHtml(t)+'</button>'}).join("")+'</div><div class="expl">'+q.e+'</div></div>'});
+  s+='</div>'}
+ s+='<p style="margin-top:18px"><button class="cta" data-act="start" style="margin:0 8px 0 0">Nouveau test</button><button class="cta alt" data-act="home" style="margin:0">Historique</button></p></div>';
+ return s}
+function render(){
+ document.documentElement.style.setProperty("--hdh",hd()+"px");
+ var d=load(),s;
+ if(d.run){if(Date.now()>=d.run.end){finish(true);return}s=runView(d);if(s===null){render();return}if(!iv)iv=setInterval(tick,500)}
+ else{stopIv();s=resIdx>=0?result(d):home(d)}
+ root.innerHTML=s}
+root.addEventListener("click",function(e){
+ var b=e.target.closest("[data-act]");if(!b||!root.contains(b))return;
+ var a=b.dataset.act,d,r;
+ if(a==="start"){resIdx=-1;start();return}
+ if(a==="home"){resIdx=-1;render();window.scrollTo(0,0);return}
+ if(a==="rev"){resIdx=+b.dataset.i;onlyErr=false;render();window.scrollTo(0,0);return}
+ if(a==="filt"){onlyErr=b.dataset.v==="1";render();return}
+ if(a==="clear"){confirmClr=true;render();setTimeout(function(){if(confirmClr){confirmClr=false;if(!load().run&&resIdx<0)render()}},5000);return}
+ if(a==="clear2"){var z=load();z.h=[];z.seen={};save(z);confirmClr=false;render();return}
+ if(a==="train"){var c=b.dataset.c;window.exSub&&window.exSub("qcm");var chips=document.querySelectorAll("#chips .chip,#chipsHp .chip,#exQcm .chip");for(var i=0;i<chips.length;i++){if(chips[i].textContent===c){chips[i].click();break}}window.scrollTo(0,0);return}
+ d=load();r=d.run;if(!r)return;
+ if(a==="opt"){var k=+b.dataset.k;r.a[r.cur]=r.a[r.cur]===k?-1:k;save(d);render();return}
+ if(a==="flag"){r.f[r.cur]=r.f[r.cur]?0:1;save(d);render();return}
+ if(a==="prev"||a==="next"||a==="go"){r.cur=a==="go"?+b.dataset.i:Math.max(0,Math.min(r.qs.length-1,r.cur+(a==="next"?1:-1)));save(d);render();var q=$("#tqQ");if(q)q.scrollIntoView({block:"start"});return}
+ if(a==="end"){confirmEnd=true;render();return}
+ if(a==="cancel"){confirmEnd=false;render();return}
+ if(a==="end2"){finish(false);return}
+});
+var _lock=lock;lock=function(){stopIv();resIdx=-1;confirmEnd=false;root.innerHTML="";_lock()};
+var _ul=unlock;unlock=function(n,a){_ul(n,a);resIdx=-1;if(!root.classList.contains("hide"))render()};
+window.TQ={show:function(){resIdx=resIdx;render()},stop:stopIv};
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible"&&iv)tick()});
+})();
+
 var root=document.documentElement,tb=$("#theme");
 function dark(){var t=root.dataset.theme;return t?t==="dark":matchMedia("(prefers-color-scheme:dark)").matches}
 function label(){tb.textContent=dark()?"Mode clair":"Mode sombre"}
