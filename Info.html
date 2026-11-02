@@ -472,14 +472,45 @@ function line(t,c){var d=document.createElement("div");d.className="l "+c;d.text
 function imgs(list,host){list.forEach(function(b){var i=document.createElement("img");i.alt="Figure matplotlib";i.src="data:image/png;base64,"+b;host.appendChild(i)});if(host===out)term.scrollTop=term.scrollHeight}
 function setStat(c,t,r){stat.className="pystat card "+c;msg.textContent=t;retry.hidden=!r}
 var BOOT="import sys,io,os,code,traceback,contextlib,base64\nos.environ['MPLBACKEND']='AGG'\nimport js\nNS={'__name__':'__main__'}\ndef _inp(p=''):\n    r=js.window.prompt(str(p))\n    if r is None: raise EOFError('saisie annulée')\n    return r\nimport builtins\nbuiltins.input=_inp\nclass _C(code.InteractiveConsole):\n    def __init__(s):\n        super().__init__(NS);s.err=io.StringIO()\n    def write(s,d): s.err.write(d)\n_con=_C()\ndef _figs():\n    r=[]\n    if 'matplotlib.pyplot' in sys.modules:\n        plt=sys.modules['matplotlib.pyplot']\n        for n in plt.get_fignums():\n            b=io.BytesIO();plt.figure(n).savefig(b,format='png',dpi=90,bbox_inches='tight');r.append(base64.b64encode(b.getvalue()).decode())\n        plt.close('all')\n    return r\ndef shell(l):\n    o=io.StringIO();_con.err=io.StringIO()\n    with contextlib.redirect_stdout(o),contextlib.redirect_stderr(o):\n        m=_con.push(l)\n    return [bool(m),o.getvalue(),_con.err.getvalue()]\ndef shell_reset():\n    NS.clear();NS['__name__']='__main__';_con.resetbuffer()\ndef run_code(src):\n    o=io.StringIO();e=''\n    with contextlib.redirect_stdout(o),contextlib.redirect_stderr(o):\n        try:\n            exec(compile(src,'<éditeur>','exec'),NS)\n        except SystemExit:\n            pass\n        except BaseException:\n            t=traceback.format_exc().split('\\n')\n            e='\\n'.join([t[0]]+[x for x in t[1:] if '<éditeur>' in x or not x.startswith('  File')][:60])\n    return [o.getvalue(),e]\n";
+var BASES=["https://cdn.jsdelivr.net/pyodide/v"+PYV+"/full/","https://cdn.jsdelivr.net/npm/pyodide@"+PYV+"/full/","https://fastly.jsdelivr.net/npm/pyodide@"+PYV+"/full/","https://gcore.jsdelivr.net/npm/pyodide@"+PYV+"/full/","https://unpkg.com/pyodide@"+PYV+"/full/"];
+var _patched=false;
+function patchNet(){
+ if(_patched)return;_patched=true;
+ try{var f=window.fetch;if(f)window.fetch=function(a,b){
+  if(typeof URL!=="undefined"&&a instanceof URL)a=a.href;
+  return f.call(window,a,b)}}catch(e){}
+ try{if(window.WebAssembly&&WebAssembly.instantiateStreaming)WebAssembly.instantiateStreaming=undefined}catch(e){}
+}
+function tryBase(base,n){
+ return new Promise(function(ok,ko){
+  var old=document.getElementById("pyScript");if(old)old.remove();
+  try{delete window.loadPyodide}catch(e){window.loadPyodide=undefined}
+  var s=document.createElement("script"),done=false;s.id="pyScript";
+  var tm=setTimeout(function(){if(!done){done=true;s.remove();ko(new Error("délai dépassé"))}},45000);
+  s.onload=function(){if(done)return;done=true;clearTimeout(tm);ok()};
+  s.onerror=function(){if(done)return;done=true;clearTimeout(tm);s.remove();ko(new Error("serveur injoignable"))};
+  s.src=base+"pyodide.js"+(n?"?r="+Date.now():"");document.head.appendChild(s)
+ }).then(function(){
+  if(typeof window.loadPyodide!=="function")throw new Error("pyodide.js invalide");
+  patchNet();return window.loadPyodide({indexURL:base})
+ })}
 function load(){
  if(pyP)return pyP;
  setStat("","Chargement de Python (environ 10 Mo, une seule fois)…",false);
- pyP=new Promise(function(ok,ko){var s=document.createElement("script");s.src=PYURL+"pyodide.js";s.onload=ok;s.onerror=function(){ko(new Error("réseau"))};document.head.appendChild(s)})
- .then(function(){return window.loadPyodide({indexURL:PYURL})})
- .then(function(p){py=p;py.runPython(BOOT);setStat("ok","Python "+py.version+" prêt.",false);line("Python "+py.version+" — tapez une commande à l’invite.","s");inp.focus();return p})
- .catch(function(e){pyP=null;setStat("ko","Impossible de charger Python (connexion requise la première fois). "+(e&&e.message?"["+e.message+"]":""),true);throw e});
+ var i=0,last=null;
+ function next(){
+  if(i>=BASES.length)return Promise.reject(last||new Error("réseau"));
+  var b=BASES[i++];
+  setStat("","Chargement de Python… (serveur "+i+"/"+BASES.length+")",false);
+  return tryBase(b,i>1||tried).catch(function(e){last=e;return next()})
+ }
+ tried=tried||false;
+ pyP=next()
+ .then(function(p){py=p;py.runPython(BOOT);tried=true;setStat("ok","Python "+py.version+" prêt.",false);line("Python "+py.version+" — tapez une commande à l’invite.","s");inp.focus();return p})
+ .catch(function(e){pyP=null;py=null;tried=true;setStat("ko","Impossible de charger Python. Vérifiez la connexion (nécessaire la première fois), puis réessayez. "+(e&&e.message?"["+e.message+"]":""),true);throw e});
  return pyP}
+var tried=false;
+window.addEventListener("online",function(){if(!py&&!pyP&&document.getElementById("codage")&&!document.getElementById("codage").classList.contains("hide"))load().catch(function(){})});
 retry.onclick=function(){load().catch(function(){})};
 window.__initPy=function(){if(!py&&!pyP)load().catch(function(){})};
 function need(){return py?Promise.resolve(py):load()}
