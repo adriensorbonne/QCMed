@@ -215,6 +215,11 @@ foreignObject .tx .katex,foreignObject .tx .katex-html{white-space:nowrap}
 /*usu*/.usec{display:grid;gap:16px}.ush{font-size:1.2rem!important;margin:26px 0 0!important;padding:8px 14px;border-radius:12px;background:var(--soft);color:var(--accent)}.ush small{font-weight:400;font-size:.8em}.ush.hp{background:#fff0d1;color:#8a5200}.usec>.hpnote{margin:0}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ush.hp{background:#2b1f06;color:#ffc766}}:root[data-theme="dark"] .ush.hp{background:#2b1f06;color:#ffc766}
 /*dev*/.pw{position:relative}.pw .ci{padding-right:52px}.eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:44px;height:44px;border:0;background:none;color:var(--muted);cursor:pointer;border-radius:10px;display:grid;place-items:center;padding:0}.eye:hover,.eye[aria-pressed="true"]{color:var(--accent)}.eye:focus-visible{outline:2px solid var(--accent)}.eye svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.rem{display:flex;align-items:center;gap:10px;margin:16px 0 0!important;font-size:.95rem!important;font-weight:500!important;cursor:pointer}.rem input{width:20px;height:20px;accent-color:var(--accent);margin:0}
+.sections{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));margin:0 0 24px}
+.sec{display:block;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:18px 20px;min-height:44px}
+.sec:hover{border-color:var(--accent)}
+.sec b{display:block;font-size:1.1rem;color:var(--accent);margin-bottom:4px}
+.sec span{color:var(--muted);font-size:.95rem}
 </style>
 </head>
 <body class="locked">
@@ -239,7 +244,11 @@ foreignObject .tx .katex,foreignObject .tx .katex-html{white-space:nowrap}
 </div></header>
 
 <main>
-<a class="back" href="index.html">← Retour au site QCM B</a>
+<div class="sections">
+<a class="sec" href="index.html"><b>Réviser le QCM de maths du B →</b><span>Cours, QCM corrigés et PDF du concours.</span></a>
+<a class="sec" href="SpeMathsA.html"><b>Réviser la spé maths du A →</b><span>Programme de spécialité, cours, exercices et PDF.</span></a>
+<a class="sec" href="Info.html"><b>Réviser l’informatique (langage) par les maths →</b><span>Python par les maths : cours, exercices corrigés et PDF.</span></a>
+</div>
 <section id="cours" class="view hide">
 <div class="hero">
 <div>

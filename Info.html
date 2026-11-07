@@ -222,6 +222,11 @@ pre.out{background:var(--surface);border:1px solid var(--line);border-left:4px s
 .tsec{margin:12px 0 4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 .toc .tsec{padding:0 6px}
 /*dev*/.pw{position:relative}.pw .ci{padding-right:52px}.eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:44px;height:44px;border:0;background:none;color:var(--muted);cursor:pointer;border-radius:10px;display:grid;place-items:center;padding:0}.eye:hover,.eye[aria-pressed="true"]{color:var(--accent)}.eye:focus-visible{outline:2px solid var(--accent)}.eye svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.rem{display:flex;align-items:center;gap:10px;margin:16px 0 0!important;font-size:.95rem!important;font-weight:500!important;cursor:pointer}.rem input{width:20px;height:20px;accent-color:var(--accent);margin:0}
+.sections{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));margin:0 0 24px}
+.sec{display:block;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:18px 20px;min-height:44px}
+.sec:hover{border-color:var(--accent)}
+.sec b{display:block;font-size:1.1rem;color:var(--accent);margin-bottom:4px}
+.sec span{color:var(--muted);font-size:.95rem}
 </style>
 </head>
 <body class="locked">
@@ -235,7 +240,6 @@ pre.out{background:var(--surface);border:1px solid var(--line);border-left:4px s
 <label class="rem" for="lm"><input type="checkbox" id="lm" checked> Mémoriser cet appareil</label>
 <p id="le" role="alert" style="color:var(--ko);min-height:1.5em;margin:10px 0"></p>
 <button class="cta" type="button" id="lb" style="width:100%;margin:0">Se connecter</button>
-<p style="margin:14px 0 0"><a class="back" style="margin:0" href="index.html">← Retour au site QCM B</a></p>
 </div></div>
 <header><div class="bar">
 <div class="logo">Info <span>Python</span></div>
@@ -247,7 +251,11 @@ pre.out{background:var(--surface);border:1px solid var(--line);border-left:4px s
 </div></header>
 
 <main>
-<div class="sitelinks"><a class="back" href="index.html">← Retour au site QCM B</a><a class="sl" href="SpeMathsB.html">Spé maths B</a><a class="sl" href="SpeMathsA.html">Spé maths A</a></div>
+<div class="sections">
+<a class="sec" href="index.html"><b>Réviser le QCM de maths du B →</b><span>Cours, QCM corrigés et PDF du concours.</span></a>
+<a class="sec" href="SpeMathsB.html"><b>Réviser la spé maths du B →</b><span>Programme de spécialité, cours, exercices et PDF.</span></a>
+<a class="sec" href="SpeMathsA.html"><b>Réviser la spé maths du A →</b><span>Programme de spécialité, cours, exercices et PDF.</span></a>
+</div>
 <section id="cours" class="view hide">
 <div class="seg" role="tablist" aria-label="Type de cours"><button type="button" role="tab" data-csec="cours" aria-selected="true">Cours</button><button type="button" role="tab" data-csec="meth" aria-selected="false">Méthodes en Python</button></div>
 <div id="coursMain">

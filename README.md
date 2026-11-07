@@ -30,8 +30,12 @@ Chaque site est organisé en onglets, avec mode clair/sombre, affichage adapté 
 
 - **QCM B** : 37 cours (dont aires et volumes), environ 140 QCM, exercices usuels classés *Au programme / Compléments / Hors programme*.
 - **Spé maths B** : 64 cours (statistiques, probabilités, suites, hors programme tombés au concours : logarithme, récurrence, géométrie dans l'espace), 164 QCM, sujets 2023, 2024 et 2026 corrigés.
-- **Spé maths A** : 88 cours (séries, intégration, calcul différentiel, algèbre linéaire et euclidienne, probabilités, structures algébriques, géométries), 227 QCM dont 169 Vrai/Faux du livre, et les exercices décrits ci-dessous. Reste à traiter : statistiques descriptives et inductives.
+- **Spé maths A** : 100 cours (séries, intégration, calcul différentiel, algèbre linéaire et euclidienne, probabilités, structures algébriques, géométries, **statistiques descriptives et inductives**), 286 QCM dont 169 Vrai/Faux du livre, et les exercices décrits ci-dessous. Tous les points du programme de mathématiques (A) sont couverts.
 - **Informatique** : 8 cours, « Méthodes en Python » (24 méthodes avec sortie calculée et bouton « Essayer dans l'Éditeur »), 18 exercices corrigés, 36 + 12 QCM.
+
+### Navigation entre les sites
+
+Chaque site affiche en haut des encadrés cliquables (même présentation que sur le site du QCM B) vers **tous les autres sites**, sauf celui sur lequel on se trouve : le QCM B propose Spé B, Spé A et Informatique ; Spé A propose QCM B, Spé B et Informatique ; et ainsi de suite. Le lien « Retour au site QCM B » a été supprimé.
 
 ### Spé maths A › Exercices › Exos Usuels
 
@@ -39,7 +43,11 @@ Les exercices sont regroupés en trois sections, avec des filtres :
 
 - **Annales de concours** : 15 exercices des sujets Inspecteur 2024, 2025, sujet zéro 2026 et 2026 (série et dilogarithme, hauteurs et cercles, carrés modulo 7, endomorphisme non diagonalisable, intégrales de Wallis, homothétie, groupe (ℤ/64ℤ)*, polynôme à racines multiples, éléments propres, intervalle de confiance, intégrale impropre, série de fonctions, loi de Poisson, matrice I + J, parabole). Corrections rédigées, vérifiées numériquement et **illustrées par 18 schémas** (courbes, figures géométriques, diagrammes) adaptés au thème clair/sombre et au mobile.
 - **Entraînement** : 8 variantes dans l'esprit des sujets (mêmes méthodes, autres données).
-- **Exercices par chapitre** : 72 exercices des chapitres 8, 9 et 10 (séries numériques, suites et séries de fonctions, séries entières).
+- **Exercices par chapitre** : 237 exercices corrigés, classés par chapitre du livre : ch. 1 espaces vectoriels et applications linéaires (23), ch. 2 calcul matriciel (25), ch. 3 déterminants (17), ch. 4 réduction (31), ch. 5 espaces préhilbertiens (25), ch. 6 isométries et endomorphismes symétriques (32), ch. 8 séries numériques (26), ch. 9 suites et séries de fonctions (22), ch. 10 séries entières (24) et statistiques (12). Les corrections sont illustrées de schémas (plans et droites de ℝ³, vecteurs propres, spectres dans ℂ, suites, projections, symétries, rotations, polynômes de Tchebychev, moindres carrés, etc.). Les énoncés des ch. 1 à 3 et 4.1–4.18 ont été retranscrits à partir de photos : à comparer au livre en cas de doute.
+
+**Tri des exercices** : deux rangées de filtres. La première choisit la *nature* (Tous, Annales de concours, Entraînement, Exercices par chapitre) ; la seconde, qui apparaît pour les annales et les exercices par chapitre, choisit le *sujet* (2024, 2025, sujet zéro 2026, 2026) ou le *chapitre*. Un compteur indique le nombre d’exercices affichés, et chaque fiche porte une pastille de sous-thème.
+
+**Statistiques (programme B.2° et B.3°)** : un plan et 11 cours illustrés de 17 schémas (séries statistiques et histogramme, position, dispersion et concentration, corrélation et régression, estimateurs, maximum de vraisemblance, intervalles de confiance, tests d'hypothèses, tests usuels et khi-deux, synthèse) et 58 QCM répartis en cinq thèmes.
 
 Dans l'exercice 2 de 2025, l'énoncé de l'homothétie est ambigu ; la correction donne le centre I = (8 ; 0) avec une remarque.
 
