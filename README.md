@@ -33,6 +33,10 @@ Chaque site est organisé en onglets, avec mode clair/sombre, affichage adapté 
 - **Spé maths A** : 100 cours (séries, intégration, calcul différentiel, algèbre linéaire et euclidienne, probabilités, structures algébriques, géométries, **statistiques descriptives et inductives**), 286 QCM dont 169 Vrai/Faux du livre, et les exercices décrits ci-dessous. Tous les points du programme de mathématiques (A) sont couverts.
 - **Informatique** : 8 cours, « Méthodes en Python » (24 méthodes avec sortie calculée et bouton « Essayer dans l'Éditeur »), 18 exercices corrigés, 36 + 12 QCM.
 
+### Vidéo d’ambiance
+
+Un bandeau vidéo (formules sur fond matriciel, tiré du GIF fourni, converti en `fond.mp4` de 0,4 Mo avec l’image fixe `fond.jpg`) s’affiche dans l’onglet Cours de chaque site, entre les encadrés de navigation et le titre. Il est muet, en boucle, décoratif, et remplacé par l’image fixe si l’utilisateur a réduit les animations. **Les fichiers `fond.mp4` et `fond.jpg` doivent être placés à côté des pages HTML dans le dépôt.**
+
 ### Navigation entre les sites
 
 Chaque site affiche en haut des encadrés cliquables (même présentation que sur le site du QCM B) vers **tous les autres sites**, sauf celui sur lequel on se trouve : le QCM B propose Spé B, Spé A et Informatique ; Spé A propose QCM B, Spé B et Informatique ; et ainsi de suite. Le lien « Retour au site QCM B » a été supprimé.

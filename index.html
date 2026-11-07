@@ -217,6 +217,7 @@ foreignObject .tx .katex,foreignObject .tx .katex-html{white-space:nowrap}
 /*usu*/.usec{display:grid;gap:16px}.ush{font-size:1.2rem!important;margin:26px 0 0!important;padding:8px 14px;border-radius:12px;background:var(--soft);color:var(--accent)}.ush small{font-weight:400;font-size:.8em}.ush.hp{background:#fff0d1;color:#8a5200}.usec>.hpnote{margin:0}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ush.hp{background:#2b1f06;color:#ffc766}}:root[data-theme="dark"] .ush.hp{background:#2b1f06;color:#ffc766}
 /*dev*/.pw{position:relative}.pw .ci{padding-right:52px}.eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:44px;height:44px;border:0;background:none;color:var(--muted);cursor:pointer;border-radius:10px;display:grid;place-items:center;padding:0}.eye:hover,.eye[aria-pressed="true"]{color:var(--accent)}.eye:focus-visible{outline:2px solid var(--accent)}.eye svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.rem{display:flex;align-items:center;gap:10px;margin:16px 0 0!important;font-size:.95rem!important;font-weight:500!important;cursor:pointer}.rem input{width:20px;height:20px;accent-color:var(--accent);margin:0}
+.vbanner{position:relative;margin:0 0 22px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000;aspect-ratio:16/5;max-height:230px}.vbanner video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}.vbanner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.05) 40%,rgba(0,0,0,.35));pointer-events:none}@media (prefers-reduced-motion:reduce){.vbanner video{display:none}.vbanner{background:#000 url(fond.jpg) center/cover}}
 </style>
 </head>
 <body class="locked">
@@ -242,6 +243,12 @@ foreignObject .tx .katex,foreignObject .tx .katex-html{white-space:nowrap}
 
 <main>
 <section id="cours" class="view hide">
+<div class="sections">
+<a class="sec" href="SpeMathsB.html"><b>Réviser la spé maths du B →</b><span>Programme de spécialité, cours, exercices et PDF.</span></a>
+<a class="sec" href="SpeMathsA.html"><b>Réviser la spé maths du A →</b><span>Programme de spécialité, cours, exercices et PDF.</span></a>
+<a class="sec" href="Info.html"><b>Réviser l’informatique (langage) par les maths →</b><span>Python par les maths : cours, exercices corrigés et PDF.</span></a>
+</div>
+<div class="vbanner" aria-hidden="true"><video autoplay muted loop playsinline preload="metadata" poster="fond.jpg" tabindex="-1"><source src="fond.mp4" type="video/mp4"></video></div>
 <div class="hero">
 <div>
 <h1>Les maths du QCM, sans la chute.</h1>
@@ -256,11 +263,6 @@ foreignObject .tx .katex,foreignObject .tx .katex-html{white-space:nowrap}
 <input id="mx" type="range" min="0" max="5" value="1">
 <small style="color:var(--muted)">Glissez pour voir la machine doubler les baguettes.</small>
 </div>
-</div>
-<div class="sections">
-<a class="sec" href="SpeMathsB.html"><b>Réviser la spé maths du B →</b><span>Programme de spécialité, cours, exercices et PDF.</span></a>
-<a class="sec" href="SpeMathsA.html"><b>Réviser la spé maths du A →</b><span>Programme de spécialité, cours, exercices et PDF.</span></a>
-<a class="sec" href="Info.html"><b>Réviser l’informatique (langage) par les maths →</b><span>Python par les maths : cours, exercices corrigés et PDF.</span></a>
 </div>
 <div class="layout">
 <button type="button" class="tocbtn" id="tocBtn" aria-expanded="false" aria-controls="toc"><span id="tocLbl"></span><span aria-hidden="true">▾</span></button>

@@ -227,6 +227,7 @@ pre.out{background:var(--surface);border:1px solid var(--line);border-left:4px s
 .sec:hover{border-color:var(--accent)}
 .sec b{display:block;font-size:1.1rem;color:var(--accent);margin-bottom:4px}
 .sec span{color:var(--muted);font-size:.95rem}
+.vbanner{position:relative;margin:0 0 22px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000;aspect-ratio:16/5;max-height:230px}.vbanner video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}.vbanner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.05) 40%,rgba(0,0,0,.35));pointer-events:none}@media (prefers-reduced-motion:reduce){.vbanner video{display:none}.vbanner{background:#000 url(fond.jpg) center/cover}}
 </style>
 </head>
 <body class="locked">
@@ -259,6 +260,7 @@ pre.out{background:var(--surface);border:1px solid var(--line);border-left:4px s
 <section id="cours" class="view hide">
 <div class="seg" role="tablist" aria-label="Type de cours"><button type="button" role="tab" data-csec="cours" aria-selected="true">Cours</button><button type="button" role="tab" data-csec="meth" aria-selected="false">Méthodes en Python</button></div>
 <div id="coursMain">
+<div class="vbanner" aria-hidden="true"><video autoplay muted loop playsinline preload="metadata" poster="fond.jpg" tabindex="-1"><source src="fond.mp4" type="video/mp4"></video></div>
 <div class="hero">
 <div>
 <h1>Réviser l’informatique (langage) par les maths</h1>
