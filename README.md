@@ -292,3 +292,17 @@ Remarque : dans l’exercice 18.12, le crible tel qu’imprimé oublie les borne
 - Pendant le test : navigation libre entre les questions, marquage « à revoir », changement de réponse possible, pas de correction. Le chrono continue si l’on quitte la page ou recharge ; à 0, le test se termine seul.
 - **Notation** : +1 par bonne réponse, 0 sinon ; note sur 20 = score ÷ 2. Résultat par thème (barres), thèmes à travailler en priorité (bouton « s’entraîner » vers les Exos QCM filtrés) et correction détaillée (toutes les questions ou erreurs seulement).
 - **Historique distinct par identifiant** (et par site) : courbe des notes avec moyenne, meilleure note, tendance, détail par thème et correction de chaque test passé. Stocké dans le navigateur (localStorage), bouton « Effacer mon historique ».
+
+## Mise à jour : Exos usuels séparés par statut, et 9 nouveaux cours pour le QCM B
+
+- **Exos usuels (QCM B et Spé maths B)** : les exercices sont regroupés par section, avec des filtres : **Au programme** (en premier), **Annales de concours** (Spé maths B), **Compléments** et **Hors programme** (pastille orange sur chaque exercice).
+- **QCM B : 9 nouveaux cours** pour couvrir tout le programme listé : les quatre opérations et priorités ; fractions ; racines carrées et π ; PGCD et PPCM ; pourcentages, taux d’évolution, moyennes et intérêts simples ; prix d’achat, de vente, de revient, bénéfice et perte ; masses, densité et masse volumique ; monômes et polynômes ; problèmes du 1er degré à une ou deux inconnues. Chacun a des exemples, une figure, des leurres/contre-exemples du QCM.
+- **49 nouveaux QCM** (Exos QCM), repris dans le Test QCM. L’onglet Programme indique désormais « cours disponible » pour tous les points.
+
+## Mise à jour : mémorisation de l’appareil et affichage du mot de passe
+
+- **Connexion** : case « Mémoriser cet appareil » (cochée par défaut). Une fois connecté sur l’un des sites, l’appareil est reconnu sur les quatre sites (QCM B, Spé maths B, Spé maths A, Informatique) sans ressaisir l’identifiant ni le mot de passe.
+- La mémorisation dure jusqu’au **prochain changement de mot de passe** (le jeton est lié à l’empreinte du mot de passe) : l’utilisateur doit alors se reconnecter une fois sur son appareil. Le bouton de déconnexion oublie aussi l’appareil. Décocher la case sur un ordinateur partagé évite la mémorisation.
+- Le jeton est stocké dans le navigateur de l’appareil (`localStorage`, clé `qcmed-device`) ; il ne contient que l’identifiant et un préfixe d’empreinte déjà présent dans le code de la page, jamais le mot de passe.
+- **Icône œil** à droite du champ du mot de passe pour l’afficher ou le masquer.
+- Pour changer le mot de passe : remplacer `PH` (et `AH` pour l’administrateur) dans les quatre fichiers ; tous les appareils mémorisés devront alors se reconnecter.

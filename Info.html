@@ -221,6 +221,7 @@ pre.out{background:var(--surface);border:1px solid var(--line);border-left:4px s
 #mlesson svg{display:block;margin:12px auto}
 .tsec{margin:12px 0 4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 .toc .tsec{padding:0 6px}
+/*dev*/.pw{position:relative}.pw .ci{padding-right:52px}.eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:44px;height:44px;border:0;background:none;color:var(--muted);cursor:pointer;border-radius:10px;display:grid;place-items:center;padding:0}.eye:hover,.eye[aria-pressed="true"]{color:var(--accent)}.eye:focus-visible{outline:2px solid var(--accent)}.eye svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.rem{display:flex;align-items:center;gap:10px;margin:16px 0 0!important;font-size:.95rem!important;font-weight:500!important;cursor:pointer}.rem input{width:20px;height:20px;accent-color:var(--accent);margin:0}
 </style>
 </head>
 <body class="locked">
@@ -230,7 +231,8 @@ pre.out{background:var(--surface);border:1px solid var(--line);border-left:4px s
 <label for="lu">Identifiant (votre prénom)</label>
 <input id="lu" class="ci" type="text" name="username" autocomplete="username" autocapitalize="words" spellcheck="false">
 <label for="lp" style="margin-top:12px">Mot de passe</label>
-<input id="lp" class="ci" type="password" name="password" autocomplete="current-password">
+<div class="pw"><input id="lp" class="ci" type="password" name="password" autocomplete="current-password"><button type="button" id="pe" class="eye" aria-label="Afficher le mot de passe" aria-pressed="false" title="Afficher ou masquer le mot de passe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+<label class="rem" for="lm"><input type="checkbox" id="lm" checked> Mémoriser cet appareil</label>
 <p id="le" role="alert" style="color:var(--ko);min-height:1.5em;margin:10px 0"></p>
 <button class="cta" type="button" id="lb" style="width:100%;margin:0">Se connecter</button>
 <p style="margin:14px 0 0"><a class="back" style="margin:0" href="index.html">← Retour au site QCM B</a></p>
@@ -607,8 +609,17 @@ function lock(){pstop();ADM=false;pupdate(lg(KP,P0));document.body.classList.add
 function SKset(u,a){SK.forEach(function(k){try{sessionStorage.setItem(k,u);if(a)sessionStorage.setItem(k+"-adm","1");else sessionStorage.removeItem(k+"-adm")}catch(x){}})}
 function SKclr(){SK.forEach(function(k){try{sessionStorage.removeItem(k);sessionStorage.removeItem(k+"-adm")}catch(x){}})}
 function SKget(){var r=null;SK.forEach(function(k){try{var v=sessionStorage.getItem(k);if(v){var a=sessionStorage.getItem(k+"-adm")==="1";if(!r||a)r={u:v,a:a}}}catch(x){}});return r}
+/*dev*/
+var DEVK="qcmed-device",EYE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>',EYEOFF='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.9 17.9A10.6 10.6 0 0 1 12 19C5.5 19 1.5 12 1.5 12a18.5 18.5 0 0 1 4.6-5.4M9.9 5.2A9.7 9.7 0 0 1 12 5c6.5 0 10.5 7 10.5 7a18.6 18.6 0 0 1-2.2 3.2M14.1 14.1a3 3 0 1 1-4.2-4.2"/><path d="M2 2l20 20"/></svg>';
+function devTag(a){return(a?AH:PH).slice(0,40)}
+function devSave(u,a){try{localStorage.setItem(DEVK,JSON.stringify({u:u,a:a?1:0,v:devTag(a)}))}catch(x){}}
+function devClr(){try{localStorage.removeItem(DEVK)}catch(x){}}
+function devGet(){try{var d=JSON.parse(localStorage.getItem(DEVK)||"null");if(d&&typeof d.u==="string"&&d.u&&d.v===devTag(!!d.a))return{u:d.u,a:!!d.a};if(d)devClr()}catch(x){}return null}
+function devRem(u,a){var m=$("#lm");if(m&&m.checked)devSave(u,a);else devClr()}
+function pwShow(on){var p=$("#lp"),b=$("#pe");p.type=on?"text":"password";b.setAttribute("aria-pressed",on?"true":"false");b.setAttribute("aria-label",on?"Masquer le mot de passe":"Afficher le mot de passe");b.innerHTML=on?EYEOFF:EYE}
+$("#pe").onclick=function(){pwShow($("#lp").type==="password");$("#lp").focus()};
 async function login(){var u=$("#lu").value.trim(),p=$("#lp").value,e=$("#le");
- try{if((await sha("qcmed-admin|"+p))===AH){e.textContent="";$("#lp").value="";try{SKset("Administrateur",true)}catch(x){}unlock("Administrateur",true);return}}catch(x){}
+ try{if((await sha("qcmed-admin|"+p))===AH){e.textContent="";$("#lp").value="";try{SKset("Administrateur",true)}catch(x){}devRem("Administrateur",true);pwShow(false);unlock("Administrateur",true);return}}catch(x){}
  if(!/^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,40}$/.test(u)){e.textContent="Entrez votre prénom comme identifiant.";return}
  try{var ok=(await sha("qcmb|"+p))===PH;
   if(ok&&ALLOWED.length){ok=ALLOWED.indexOf(await sha("qcmb-id|"+norm(u)))>=0}
@@ -616,11 +627,11 @@ async function login(){var u=$("#lu").value.trim(),p=$("#lp").value,e=$("#le");
  }catch(x){e.textContent="Connexion impossible sur ce navigateur.";return}
  e.textContent="";$("#lp").value="";
  try{SKset(u,false)}catch(x){}
- unlock(u)}
+ devRem(u,false);pwShow(false);unlock(u)}
 $("#lb").onclick=login;
 ["#lu","#lp"].forEach(function(s){$(s).addEventListener("keydown",function(e){if(e.key==="Enter")login()})});
-$("#logout").onclick=function(){try{SKclr()}catch(x){}lock()};
-try{var su=SKget();if(su){SKset(su.u,su.a);unlock(su.u,su.a)}else $("#lu").focus()}catch(x){$("#lu").focus()}
+$("#logout").onclick=function(){try{SKclr()}catch(x){}devClr();lock()};
+try{var su=SKget()||devGet();if(su){SKset(su.u,su.a);unlock(su.u,su.a)}else $("#lu").focus()}catch(x){$("#lu").focus()}
 var root=document.documentElement,tb=$("#theme");
 function dark(){var t=root.dataset.theme;return t?t==="dark":matchMedia("(prefers-color-scheme:dark)").matches}
 function label(){tb.textContent=dark()?"Mode clair":"Mode sombre"}
