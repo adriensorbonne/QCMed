@@ -228,6 +228,13 @@ pre.out{background:var(--surface);border:1px solid var(--line);border-left:4px s
 .sec b{display:block;font-size:1.1rem;color:var(--accent);margin-bottom:4px}
 .sec span{color:var(--muted);font-size:.95rem}
 .vbanner{position:relative;margin:0 0 22px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000;aspect-ratio:16/5;max-height:230px}.vbanner video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}.vbanner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.05) 40%,rgba(0,0,0,.35));pointer-events:none}@media (prefers-reduced-motion:reduce){.vbanner video{display:none}.vbanner{background:#000 url(fond.jpg) center/cover}}
+
+.cnav{display:grid;grid-template-columns:1fr 1.4fr;gap:10px 14px;margin:0 0 16px;align-items:end}
+.cnav label{display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin:0 0 4px}
+.cnav select{width:100%;min-height:46px;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:10px 12px;cursor:pointer;text-overflow:ellipsis}
+@media (max-width:760px){.cnav{grid-template-columns:1fr}}
+@media (min-width:761px){.toc{max-height:calc(100vh - 96px);overflow-y:auto}
+.vbanner{width:min(calc(100vw - 48px),1800px);margin-left:calc(50% - min(calc(100vw - 48px),1800px)/2);aspect-ratio:21/9;max-height:60vh}}
 </style>
 </head>
 <body class="locked">
@@ -276,6 +283,7 @@ pre.out{background:var(--surface);border:1px solid var(--line);border-left:4px s
 <small style="color:var(--muted)">Les calculs sont faits par l’ordinateur : à vous d’écrire la méthode.</small>
 </div>
 </div>
+<div class="cnav" id="cnav"><div><label for="pgSel">Point du programme</label><select id="pgSel"></select></div><div><label for="crSel">Cours</label><select id="crSel"></select></div></div>
 <div class="layout">
 <button type="button" class="tocbtn" id="tocBtn" aria-expanded="false" aria-controls="toc"><span id="tocLbl"></span><span aria-hidden="true">▾</span></button>
 <div class="toc" id="toc" aria-label="Liste des cours"></div>
@@ -649,6 +657,30 @@ try{var s=localStorage.getItem("info-theme");if(s)root.dataset.theme=s}catch(e){
 label();
 tb.onclick=function(){var n=dark()?"light":"dark";root.dataset.theme=n;try{localStorage.setItem("info-theme",n)}catch(e){}label()};
 setTab(location.hash.slice(1),false);
+</script>
+<script>
+(function(){
+var G=[["Présentation", [[1, 1]]], ["Bases de Python", [[2, 6]]], ["Boucles, fonctions et arithmétique", [[7, 8]]]];
+var toc=document.getElementById("toc");if(!toc||!window.COURSES)return;
+var btns=[].slice.call(toc.querySelectorAll("button")),real=btns.filter(function(b){return !b.disabled});
+real.forEach(function(b,k){if(b.dataset.i===undefined)b.dataset.i=k});
+var N=COURSES.length,grp=[];
+G.forEach(function(g,gi){g[1].forEach(function(r){for(var i=r[0];i<=r[1]&&i<=N;i++)grp[i-1]=gi})});
+var ps=document.getElementById("pgSel"),cs=document.getElementById("crSel");
+function members(gi){var a=[];for(var i=0;i<N;i++)if(gi<0||grp[i]===gi)a.push(i);return a}
+ps.innerHTML='<option value="-1">Tous les points du programme ('+N+' cours)</option>'+G.map(function(g,gi){return '<option value="'+gi+'">'+g[0]+' ('+members(gi).length+')</option>'}).join("");
+function curIdx(){var b=toc.querySelector('button[aria-current="true"]');return b?+b.dataset.i:0}
+function fill(){var gi=+ps.value,m=members(gi);cs.innerHTML=m.map(function(i){return '<option value="'+i+'">'+(i+1)+'. '+COURSES[i].t+'</option>'}).join("");
+ btns.forEach(function(b){var vis=b.disabled?gi<0:(gi<0||grp[+b.dataset.i]===gi);b.style.display=vis?"":"none"});
+ [].slice.call(toc.querySelectorAll(".tocbox")).forEach(function(d){var any=[].some.call(d.querySelectorAll("button"),function(b){return b.style.display!=="none"});d.style.display=any?"":"none"});
+ cs.value=String(curIdx());if(cs.value!==String(curIdx())&&m.length)cs.selectedIndex=0}
+function go(i){var b=toc.querySelector('button[data-i="'+i+'"]');if(b)b.click()}
+ps.onchange=function(){fill();var m=members(+ps.value);if(m.length&&m.indexOf(curIdx())<0){go(m[0])}else cs.value=String(curIdx())};
+cs.onchange=function(){go(+cs.value)};
+function sync(){var i=curIdx(),gi=+ps.value;if(gi>=0&&grp[i]!==gi&&grp[i]!==undefined){ps.value=String(grp[i]);fill()}cs.value=String(i)}
+new MutationObserver(sync).observe(toc,{attributes:true,subtree:true,attributeFilter:["aria-current"]});
+fill();sync();
+})();
 </script>
 </body>
 </html>

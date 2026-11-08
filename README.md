@@ -28,7 +28,7 @@ Chaque site est organisé en onglets, avec mode clair/sombre, affichage adapté 
 
 ### Particularités par site
 
-- **QCM B** : 37 cours (dont aires et volumes), environ 140 QCM, exercices usuels classés *Au programme / Compléments / Hors programme*.
+- **QCM B** : 37 cours (dont aires et volumes), 551 QCM (dont 410 issus du livre « Thème 3 Mathématiques », voir ci-dessous), exercices usuels classés *Au programme / Compléments / Hors programme*.
 - **Spé maths B** : 64 cours (statistiques, probabilités, suites, hors programme tombés au concours : logarithme, récurrence, géométrie dans l'espace), 164 QCM, sujets 2023, 2024 et 2026 corrigés.
 - **Spé maths A** : 100 cours (séries, intégration, calcul différentiel, algèbre linéaire et euclidienne, probabilités, structures algébriques, géométries, **statistiques descriptives et inductives**), 286 QCM dont 169 Vrai/Faux du livre, et les exercices décrits ci-dessous. Tous les points du programme de mathématiques (A) sont couverts.
 - **Informatique** : 8 cours, « Méthodes en Python » (24 méthodes avec sortie calculée et bouton « Essayer dans l'Éditeur »), 18 exercices corrigés, 36 + 12 QCM.
@@ -36,6 +36,10 @@ Chaque site est organisé en onglets, avec mode clair/sombre, affichage adapté 
 ### Vidéo d’ambiance
 
 Un bandeau vidéo (formules sur fond matriciel, tiré du GIF fourni, converti en `fond.mp4` de 0,4 Mo avec l’image fixe `fond.jpg`) s’affiche dans l’onglet Cours de chaque site, entre les encadrés de navigation et le titre. Il est muet, en boucle, décoratif, et remplacé par l’image fixe si l’utilisateur a réduit les animations. **Les fichiers `fond.mp4` et `fond.jpg` doivent être placés à côté des pages HTML dans le dépôt.**
+
+### Liste déroulante des cours
+
+Dans l’onglet Cours de chaque site, deux listes déroulantes permettent d’atteindre un cours sans défiler : « Point du programme » (regroupement des cours selon le programme : par exemple, sur Spé A, A.1° séries et suites de fonctions, A.2° fonctions et calcul différentiel, A.3° structures algébriques, A.4° algèbre linéaire et euclidienne, A.5° géométries, B.1° probabilités, B.2°/3° statistiques) puis « Cours », qui ne liste que les cours du point choisi. Le choix filtre aussi la liste latérale ; les deux listes restent synchronisées avec le cours affiché. Sur ordinateur, la vidéo d’ambiance est élargie presque à la largeur de la fenêtre.
 
 ### Navigation entre les sites
 
@@ -54,6 +58,10 @@ Les exercices sont regroupés en trois sections, avec des filtres :
 **Statistiques (programme B.2° et B.3°)** : un plan et 11 cours illustrés de 17 schémas (séries statistiques et histogramme, position, dispersion et concentration, corrélation et régression, estimateurs, maximum de vraisemblance, intervalles de confiance, tests d'hypothèses, tests usuels et khi-deux, synthèse) et 58 QCM répartis en cinq thèmes.
 
 Dans l'exercice 2 de 2025, l'énoncé de l'homothétie est ambigu ; la correction donne le centre I = (8 ; 0) avec une remarque.
+
+### QCM B › Exercices › Exos QCM : séries du livre « Thème 3 Mathématiques »
+
+410 questions du livre (Nombres et opérations 110, Grandeurs et mesures 60, Algèbre 90, Géométrie 90, Statistiques et probabilités 60) sont intégrées aux Exos QCM, avec les trois niveaux du livre. Le livre ne donne que les lettres du corrigé : chaque réponse a été recalculée et comparée au corrigé (aucun écart), et une explication a été rédigée pour chaque question. Les figures de géométrie sont décrites en texte, les tableaux sont reproduits. Filtres : « Tout le Thème 3 », par niveau et par thème. Les questions alimentent aussi le Test QCM. Deux questions où le corrigé est discutable sont signalées dans leur explication (probabilité de Sophie, latitude).
 
 ### Test QCM
 
@@ -92,7 +100,7 @@ Tout se trouve dans la balise `<script>` du fichier.
 // Cours : tableau COURSES
 {t:"Titre", s:"Sous-titre", h:"<h2>Titre</h2><p>Texte…</p><div class=\"formula\">Formule</div>"},
 
-// QCM : tableau EXOS (c = catégorie du filtre, o = choix, a = indice de la bonne réponse, e = explication)
+// QCM : tableau EXOS (c = catégorie du filtre, s = niveau (optionnel), t = tableau HTML (optionnel), o = choix, a = indice de la bonne réponse, e = explication)
 {c:"Thème", q:"Question ?", o:["A","B","C","D"], a:1, e:"Explication."},
 
 // Exercice usuel : objet {t, q, a} (titre, énoncé, correction) dans un groupe de USU
