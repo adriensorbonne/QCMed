@@ -114,3 +114,8 @@ Les formules sont écrites en Unicode (`<sub>`, `<sup>`) et converties en LaTeX 
 - Les analyses des onglets Fonctions, Suites et Su/Se Fonctions sont numériques : les conclusions sont à justifier sur la copie.
 - Certains énoncés issus de fiches ou du livre peuvent contenir des coquilles (par ex. le crible de l'exercice 18.12) : en cas de doute, se reporter à l'original.
 - Les sites ne couvrent que les mathématiques (et l'informatique par les maths), pas la culture générale, le français ni le raisonnement logique.
+
+## Tableaux de conversion (masses, capacités, volumes)
+- **QCM B** – cours « Masses, densité et masse volumique » : tableau des masses (t → mg), des capacités (kL → mL), des volumes m³/dm³/cm³ alignés avec les litres, équivalences eau (1 cm³ = 1 g, 1 dm³ = 1 kg, 1 m³ = 1 t) et tableau des masses volumiques (g/cm³ = kg/dm³ = kg/L = t/m³ ; ×1 000 pour kg/m³).
+- **Spé Maths B** – cours « Unités de mesure et conversions » : mêmes tableaux + longueurs et aires (2 chiffres par colonne, ha/a).
+- Tableaux défilables horizontalement sur mobile, compatibles thème clair/sombre.
